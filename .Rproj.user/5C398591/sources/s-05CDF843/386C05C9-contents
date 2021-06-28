@@ -1,0 +1,254 @@
+box::use(rvest[read_html, html_nodes, html_attr, html_text],
+         dplyr[...],
+         ggplot2[...],
+         stringr[word],
+         magrittr[extract],
+         readr[read_csv],
+         forcats[fct_reorder])
+
+my_theme <- theme_minimal() +
+  theme(legend.position = "top",
+        axis.line.x = element_line(), axis.ticks.x = element_line(),
+        plot.caption = element_text(hjust = 0),
+        axis.title.x = element_blank(), legend.title = element_blank())
+
+theme_set(my_theme)
+
+get_owid_datasets <- function() {
+  
+  github_datasets <- read_html("https://github.com/owid/owid-datasets/tree/master/datasets")
+  
+  data_titles <- github_datasets %>% 
+    html_nodes(".js-navigation-open") %>% 
+    html_text()
+  data_urls <- github_datasets %>% 
+    html_nodes(".js-navigation-open") %>% 
+    html_attr("href")
+  
+  data_titles[1:10]
+  data_urls[1:10] %>% 
+    word(4, -1, sep = "/")
+  
+  df_aval <- tibble(title = data_titles[-1:-5], url = data_urls[-1:-5]) %>% 
+    mutate(id = row_number()) %>% 
+    relocate(id)
+  
+  # return(df_aval)
+  # if(!length(owid::datasets) == 3) {
+  #   owid <- namespace::makeNamespace("owid")
+  # }
+  # owid <- namespace::makeNamespace("owid")
+  # assign("datasets", df_aval, envir = owid)
+  # namespaceExport(owid, ls(owid))
+  # owid_datasets <<- df_aval
+  
+  
+  data <- df_aval[, -3]
+  # class(data) <- c(class(data), "owid_ds")
+  attributes(data)$with_urls <- df_aval
+  return(data)
+}
+owid_search <- function(object, term) {
+  if (!length(names(attributes(object))) > 3) {
+    stop ("Tibble must be an object returned by 'get_owid_datasets'")
+  }
+  if (!names(attributes(object))[4] == "with_urls") {
+    stop ("Tibble must be an object returned by 'get_owid_datasets'")
+  }
+  object %>% 
+    filter(grepl(term, title, ignore.case = TRUE))
+}
+get_owid_data <- function(object, id = NULL, ...) {
+  
+  if (is.null(id)) {
+    .id <- sample(1:nrow(object), size = 1)
+  } else {
+    .id <- id
+  }
+  
+  url <- attr(object, "with_urls") %>% 
+    filter(id == .id) %>% 
+    pull(url)
+  
+  title <- attr(object, "with_urls") %>% 
+    filter(id == .id) %>% 
+    pull(title) 
+  cat(title)
+  
+  data_links <- url %>% 
+    paste0("https://github.com", .) %>% 
+    read_html() %>% 
+    html_nodes(".Details-content--hidden-not-important") %>% 
+    html_nodes(".js-navigation-open") %>% 
+    # extract(2) %>% 
+    html_attr("href") %>% 
+    word(6, -1, sep = "/")
+  
+  data_link <- grep(".csv", data_links, value = TRUE) %>% 
+    paste0("https://raw.github.com/owid/owid-datasets/master/", .)
+  md_link <- grep("README", data_links, value = TRUE) %>% 
+    paste0("https://raw.github.com/owid/owid-datasets/master/", .)
+  
+  data <- read_csv(data_link, ...)
+  
+  pasteReadme <- function(fileName){
+    
+    breakFun <- function(x){
+      #function to replace empty lines with newline. 
+      if(nchar(x) == 0){
+        return("\n\n") #double newline to give same space as in the .md-file
+      } else {
+        return(x)
+      }
+    }
+    
+    storeLines <- readLines(fileName)
+    
+    out <- (paste0(lapply(storeLines, FUN=function(x) breakFun(x)), collapse=""))
+    return(out)
+  }
+  
+  readme <- suppressWarnings(pasteReadme(md_link)) 
+  # readme <- readLines(md_link)
+  
+  attributes(data)$url <- paste0("https://github.com", url)
+  attributes(data)$readme <- readme
+  # object$data <- data
+  class(data) <- c("owid", class(data))
+  return(data)
+  
+}
+plot_owid <- function(data = NULL, val = 1, summarise = TRUE, filter = NULL, years = NULL) {
+  
+  if ("owid" %in% class(data)) {
+    owid_readme(data)
+  }
+  
+  
+  val_name <- colnames(data)[val + 2]
+  colnames(data)[val + 2] <- "value"
+  
+  if (!is.null(filter)) {
+    data <- data %>% 
+      filter(Entity %in% filter)
+  }
+  if (!is.null(years)) {
+    data <- data %>% 
+      filter(Year %in% years)
+  }
+  
+  data$value <- as.numeric(data$value)
+  
+  if (colnames(data)[2] == "Year") {
+    
+    if (length(unique(data$Year)) > 1) {
+      if (summarise) {
+        plot <- data %>% 
+          group_by(Year) %>% 
+          summarise(value = mean(value, na.rm = TRUE)) %>% 
+          ggplot(aes(Year, value)) +
+          geom_line() +
+          labs(title = val_name, x = "", y = "")
+      } else {
+        plot <- data %>% 
+          ggplot(aes(Year, value, colour = Entity)) +
+          geom_line() +
+          labs(title = val_name, x = "", y = "")
+      }
+    } else {
+      plot <- data %>% 
+        ggplot(aes(fct_reorder(factor(Entity), value), value)) +
+        geom_col() +
+        labs(title = val_name, x = "", y = "") +
+        theme(axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1))
+    }
+  }
+  return(plot)
+}
+owid_get_url <- function(data) {
+  if (!class(data)[1] == "owid") {
+    stop("Data must be of class owid")
+  }
+  url <- attributes(data)$url
+  return (url)
+}
+owid_readme <- function(data) {
+  if (!class(data)[1] == "owid") {
+    stop("Data must be of class owid")
+  }
+  readme <- attributes(data)$readme
+  cat(readme)
+  # return(readme)
+}
+as_tibble.owid <- function(data) {
+  class(data) <- class(data)[-1]
+  return(data)
+}
+plot.owid <- plot_owid
+
+owid <- get_owid_datasets()
+
+owid_search(owid, "trust")
+
+id_meat <- owid_search(owid, "Meat consumption in EU28") %>% pull(id)
+id_conflict <- owid_search(owid, "Conflict deaths – UCDP Georeferenced Event Data") %>% pull(id)
+id_terror <- owid_search(owid, "Conflict and Terrorism deaths - OWID based on IHME") %>% pull(id)
+id_patents <- owid_search(owid, "Patents awarded in England, Scotland and Wales") %>% pull(id)
+id_trust <- owid_search(owid, "Trust – World Value Survey") %>% pull(id)
+
+meat <- get_owid_data(owid, id_meat)
+conflict <- get_owid_data(owid, id_conflict)
+owid_data <- get_owid_data(owid, owid_id) 
+patents <- get_owid_data(owid, id_patents)
+terror <- get_owid_data(owid, id_terror)
+trust <- get_owid_data(owid, id_trust)
+
+test <- get_owid_data(owid)
+
+plot(test)
+
+
+owid_get_url(meat)
+owid_readme(meat)
+
+
+plot(meat)
+plot(conflict, 2)
+plot(patents)
+plot(terror, 1, filter = c("United Kingdom", "France", "Spain"), summarise = FALSE)
+plot(owid_data, 3)
+
+
+data
+
+test %>% colnames()
+test$Entity %>% unique()
+test$Year %>% unique()
+attributes(test)
+plot(
+  test,
+  filter = c("United Kingdom", "United States", "Denmark", "Sweden"),
+  summarise = FALSE
+)
+
+plot(
+  trust, 
+  filter = c("United States", "United Kingdom", "Sweden", "Egypt", "Colombia"),
+  summarise = FALSE
+)
+
+trust %>% 
+  group_by(Entity) %>% 
+  filter(Year == max(Year)) %>% 
+  mutate(Year = 2014) %>% 
+  arrange(desc(`Trust in others (World Values Survey (2014))`) )%>% 
+  head(30) %>% 
+  plot_owid()
+
+
+
+last_plot()
+
+
+
+
