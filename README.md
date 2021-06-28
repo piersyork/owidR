@@ -11,7 +11,7 @@ devtools::install_github("piersyork/owidR")
 ## Using the package
 There are three core functions in the `owidR` package. `owid_get_datasets()` returns a tibble of all available Our World in Data datasets alongside a generated id. `owid_search()` makes it easy to search through the available datasets. `owid()` takes an id and returns the corresponding dataset.
 
-# Example
+### Example
 Get Covid-19 policy stringency data.
 ``` r
 library(owidR)
