@@ -16,12 +16,15 @@
 #' # then pull the id from that search.
 #' id <- owid_search(ds, "Meat consumption in EU28") %>% pull(id)
 #' meat <- owid(ds, id)
-owid_search <- function(datasets, term) {
+owid_search <- function(datasets, term = NULL) {
   if (!length(names(attributes(datasets))) > 3) {
     stop ("datasets must be an object returned by 'get_owid_datasets'")
   }
   if (!names(attributes(datasets))[4] == "with_urls") {
     stop ("datasets must be an object returned by 'get_owid_datasets'")
+  }
+  if (is.null(term)) {
+    stop ("a search term must be given")
   }
   out <- datasets %>%
     filter(grepl(term, title, ignore.case = TRUE))
