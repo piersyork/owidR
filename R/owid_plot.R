@@ -30,7 +30,7 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
     stop("col value cannot point to Entity or Year")
   }
 
-  if (!is.numeric(pull(data[, 3]))) {
+  if (!is.numeric(pull(data[, col]))) {
     stop("value column of data must be numeric")
   }
 

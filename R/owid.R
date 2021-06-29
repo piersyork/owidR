@@ -26,6 +26,8 @@ owid <- function(datasets, id = NULL, ...) {
 
   if (is.null(id)) {
     .id <- sample(1:nrow(datasets), size = 1)
+  } else if (length(id) > 1) {
+    .id <- sample(id, 1)
   } else {
     .id <- id
   }
