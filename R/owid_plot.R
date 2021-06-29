@@ -19,7 +19,8 @@
 #' meat <- owid(ds, id)
 #'
 #' owid_plot(meat)
-owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL, years = NULL) {
+owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
+                      years = NULL, show.all = FALSE) {
 
   if ("owid" %in% class(data)) {
     owid_readme(data)
@@ -61,8 +62,15 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL, yea
   ggplot2::theme_set(owid_theme)
 
   if (colnames(data)[2] == "Year") {
+    entities <- unique(data$Entity)
 
-    if (length(unique(data$Year)) > 1) {
+    n_entries <- data %>%
+      group_by(Entity) %>%
+      count() %>%
+      magrittr::use_series(n) %>%
+      max()
+
+    if (n_entries > 1) {
       if (summarise) {
         plot <- data %>%
           group_by(Year) %>%
@@ -73,19 +81,40 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL, yea
           ggplot2::coord_cartesian(expand = FALSE)
 
       } else {
+        if (length(entities) > 10) {
+          if (show.all) {
+            warning("show.all is true but the number of entities may be too large to show in a graph. Consider using `show.all = FALSE`")
+
+          } else {
+            warning(paste0("Too many entities to plot, plotting a sample of 9 out of ", length(entities),
+                           ". Use the filter argument to select which entities are shown."))
+            # set.seed(20) # show same countries on repeated calls?
+            entities <- sample(entities, 9)
+
+          }
+
+        }
         plot <- data %>%
+          filter(Entity %in% entities) %>%
           ggplot2::ggplot(ggplot2::aes(Year, value, colour = Entity)) +
           ggplot2::geom_line() +
           ggplot2::labs(title = val_name, x = "", y = "") +
-          ggplot2::scale_colour_brewer(palette="Set1") +
           ggplot2::coord_cartesian(expand = FALSE)
+        if (length(entities) <= 9){
+          plot <- plot + ggplot2::scale_colour_brewer(palette="Set1")
+        }
+
       }
     } else {
-      entities <- unique(data$Entity)
+
       if (length(entities) > 20) {
-        warning(paste("Too many entities to plot, plotting a sample of 20 out of", length(entities)))
-        set.seed(20)
-        entities <- sample(entities, 20)
+        if (show.all) {
+          warning("show.all is true but the number of entities may be too large to show in a graph. Consider using `show.all = FALSE`")
+        } else {
+          warning(paste("Too many entities to plot, plotting a sample of 20 out of", length(entities)))
+          # set.seed(20) # show same countries on repeated calls?
+          entities <- sample(entities, 20)
+        }
       }
 
       plot <- data %>%
