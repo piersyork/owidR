@@ -22,26 +22,30 @@ devtools::install_github("piersyork/owidR")
 ```
 
 ## Using the package
-There are three core functions in the `owidR` package. `owid_get_datasets()` returns a tibble of all available Our World in Data datasets alongside a generated id. `owid_search()` makes it easy to search through the available datasets. `owid()` takes an id and returns the corresponding dataset.
+There are three core functions in the `owidR` package. `owid_get_datasets()` returns a tibble of all available Our World in Data datasets alongside a generated id. `owid_search()` makes it easy to search through the available datasets, using either a keyword or a regular expression. `owid()` takes an id and returns the corresponding dataset.
 
 ### Example
-Get Covid-19 policy stringency data using the three core commands
+Lets use the core functions to get data on how human rights have changed over time.
 ``` {r example, eval = TRUE, message = FALSE}
 
 ds <- owid_get_datasets()
 
-id <- owid_search(ds, "COVID Government Response ")$id
+id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
-covid_policy <- owid(ds, id)
+rights <- owid(ds, id)
 
-covid_policy
+rights
 
 ```
 
-Easily plot the first value column of the dataset using `owid_plot()`.
+`owid_plot()` makes it easy to visualise a dataset, plotting the first value column of an owid dataset. By default the mean score across all countries is plotted.
 ```{r owid_plot, eval = TRUE, results='hide'}
-owid_plot(covid_policy)
+owid_plot(rights)
 ```
 
+Use `summarise = FALSE` to show individual countries instead of the mean score. Unless a vector of entities is specified using the `filter` argument, `owid_plot()` will pick 9 random entities
+```{r owid_plot2, eval = TRUE, results='hide'}
+owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))
+```
 
 

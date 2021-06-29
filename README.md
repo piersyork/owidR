@@ -19,50 +19,56 @@ devtools::install_github("piersyork/owidR")
 There are three core functions in the `owidR` package.
 `owid_get_datasets()` returns a tibble of all available Our World in
 Data datasets alongside a generated id. `owid_search()` makes it easy to
-search through the available datasets. `owid()` takes an id and returns
-the corresponding dataset.
+search through the available datasets, using either a keyword or a
+regular expression. `owid()` takes an id and returns the corresponding
+dataset.
 
 ### Example
 
-Get Covid-19 policy stringency data using the three core commands
+Lets use the core functions to get data on how human rights have changed
+over time.
 
 ``` r
 ds <- owid_get_datasets()
 
-id <- owid_search(ds, "COVID Government Response ")$id
+id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
-covid_policy <- owid(ds, id)
-## COVID Government Response (OxBSG)
+rights <- owid(ds, id)
+## Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
 
-covid_policy
-## # A tibble: 82,442 x 23
-##    Entity       Year school_closures workplace_closures cancel_public_events
-##  * <chr>       <dbl>           <dbl>              <dbl>                <dbl>
-##  1 Afghanistan     0               0                  0                    0
-##  2 Afghanistan     1               0                  0                    0
-##  3 Afghanistan     2               0                  0                    0
-##  4 Afghanistan     3               0                  0                    0
-##  5 Afghanistan     4               0                  0                    0
-##  6 Afghanistan     5               0                  0                    0
-##  7 Afghanistan     6               0                  0                    0
-##  8 Afghanistan     7               0                  0                    0
-##  9 Afghanistan     8               0                  0                    0
-## 10 Afghanistan     9               0                  0                    0
-## # … with 82,432 more rows, and 18 more variables: close_public_transport <dbl>,
-## #   public_information_campaigns <dbl>, restrictions_internal_movements <dbl>,
-## #   international_travel_controls <dbl>, fiscal_measures <dbl>,
-## #   emergency_investment_healthcare <dbl>, investment_vaccines <dbl>,
-## #   contact_tracing <dbl>, stringency_index <dbl>,
-## #   restriction_gatherings <dbl>, stay_home_requirements <dbl>,
-## #   income_support <dbl>, debt_relief <dbl>, international_support <dbl>,
-## #   testing_policy <dbl>, containment_index <dbl>, facial_coverings <dbl>,
-## #   vaccination_policy <dbl>
+rights
+## # A tibble: 11,717 x 3
+##    Entity       Year `Human Rights Scores`
+##  * <chr>       <dbl>                 <dbl>
+##  1 Afghanistan  1946                 0.690
+##  2 Afghanistan  1947                 0.740
+##  3 Afghanistan  1948                 0.787
+##  4 Afghanistan  1949                 0.817
+##  5 Afghanistan  1950                 0.851
+##  6 Afghanistan  1951                 0.909
+##  7 Afghanistan  1952                 0.938
+##  8 Afghanistan  1953                 0.988
+##  9 Afghanistan  1954                 1.01 
+## 10 Afghanistan  1955                 1.01 
+## # … with 11,707 more rows
 ```
 
-Easily plot the first value column of the dataset using `owid_plot()`.
+`owid_plot()` makes it easy to visualise a dataset, plotting the first
+value column of an owid dataset. By default the mean score across all
+countries is plotted.
 
 ``` r
-owid_plot(covid_policy)
+owid_plot(rights)
 ```
 
 ![](images/owid_plot-1.png)<!-- -->
+
+Use `summarise = FALSE` to show individual countries instead of the mean
+score. Unless a vector of entities is specified using the `filter`
+argument, `owid_plot()` will pick 9 random entities
+
+``` r
+owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))
+```
+
+![](images/owid_plot2-1.png)<!-- -->
