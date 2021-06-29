@@ -29,6 +29,10 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL, yea
     stop("col value cannot point to Entity or Year")
   }
 
+  if (!is.numeric(pull(data[, 3]))) {
+    stop("value column of data must be numeric")
+  }
+
 
   val_name <- colnames(data)[col]
   colnames(data)[col] <- "value"
