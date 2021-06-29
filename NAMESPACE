@@ -2,6 +2,7 @@
 
 export(owid)
 export(owid_get_datasets)
+export(owid_get_url)
 export(owid_readme)
 export(owid_search)
 import(dplyr)
