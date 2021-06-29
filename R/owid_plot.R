@@ -79,6 +79,7 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL, yea
     } else {
       entities <- unique(data$Entity)
       if (length(entities) > 20) {
+        warning(paste("Too many entities to plot, plotting a sample of 20 out of", length(entities)))
         set.seed(20)
         entities <- sample(entities, 20)
       }
