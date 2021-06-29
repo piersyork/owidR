@@ -1,0 +1,47 @@
+---
+title: "owidR"
+author: Piers York
+output: github_document
+---
+
+```{r, echo = FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+library(owidR)
+```
+
+This package acts as an interface to the [Our World in Data](https://ourworldindata.org/) datasets [GitHub repository](https://github.com/owid/owid-datasets), allowing for easy way to search from a list of almost 1,000 datasets and load them into the R environment.
+
+## Installation
+
+``` {r eval = FALSE}
+devtools::install_github("piersyork/owidR")
+```
+
+## Using the package
+There are three core functions in the `owidR` package. `owid_get_datasets()` returns a tibble of all available Our World in Data datasets alongside a generated id. `owid_search()` makes it easy to search through the available datasets. `owid()` takes an id and returns the corresponding dataset.
+
+### Example
+Get Covid-19 policy stringency data using the three core commands
+``` {r example, eval = TRUE, message = FALSE}
+
+ds <- owid_get_datasets()
+
+id <- owid_search(ds, "COVID Government Response ")$id
+
+covid_policy <- owid(ds, id)
+
+covid_policy
+
+```
+
+Easily plot the first value column of the dataset using `owid_plot()`.
+```{r owid_plot, eval = TRUE, results='hide'}
+owid_plot(covid_policy)
+```
+
+
+
