@@ -89,7 +89,8 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL, yea
         ggplot2::ggplot(ggplot2::aes(forcats::fct_reorder(factor(Entity), value), value)) +
         ggplot2::geom_col(fill = "#377EB8") +
         ggplot2::labs(title = val_name, x = "", y = "") +
-        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 35, hjust = 1, vjust = 1))
+        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 35, hjust = 1, vjust = 1)) +
+        ggplot2::coord_cartesian(expand = FALSE)
     }
   }
   return(plot)
