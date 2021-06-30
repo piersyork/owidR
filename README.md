@@ -28,9 +28,27 @@ dataset.
 Lets use the core functions to get data on how human rights have changed
 over time.
 
+First loading the tibble of datasets.
+
 ``` r
 ds <- owid_get_datasets()
+```
 
+Then searching for datesets about human rights.
+
+``` r
+owid_search(ds, "human rights")
+## # A tibble: 3 x 2
+##      id title                                                                   
+##   <int> <chr>                                                                   
+## 1   308 Fund for Peace – Fragile States Index (Human Rights Dimension)          
+## 2   435 Human Rights Protection Score – Christopher Farris (2014) and Keith Sch…
+## 3   436 Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
+```
+
+Let’s use the Schnakenberg and Fariss dataset.
+
+``` r
 id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
 rights <- owid(ds, id)
@@ -63,9 +81,7 @@ owid_plot(rights)
 
 ![](images/owid_plot-1.png)<!-- -->
 
-Use `summarise = FALSE` to show individual countries instead of the mean
-score. Unless a vector of entities is specified using the `filter`
-argument, `owid_plot()` will pick 9 random entities
+Use `summarise = FALSE` to show individual countries instead of the mean score. Unless a vector of entities is specified using the `filter` argument 9 random entities will be plotted. If the data is not a time-series then a bar chart of the entities values will be plotted.
 
 ``` r
 owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))

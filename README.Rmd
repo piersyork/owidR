@@ -25,10 +25,26 @@ devtools::install_github("piersyork/owidR")
 There are three core functions in the `owidR` package. `owid_get_datasets()` returns a tibble of all available Our World in Data datasets alongside a generated id. `owid_search()` makes it easy to search through the available datasets, using either a keyword or a regular expression. `owid()` takes an id and returns the corresponding dataset.
 
 ### Example
-Lets use the core functions to get data on how human rights have changed over time.
+Lets use the core functions to get data on how human rights have changed over time.   
+   
+First loading the tibble of datasets.
+  
 ``` {r example, eval = TRUE, message = FALSE}
 
 ds <- owid_get_datasets()
+
+```
+
+Then searching for datesets about human rights.
+
+``` {r example2, eval = TRUE, message = FALSE}
+
+owid_search(ds, "human rights")
+```
+
+Let's use the Schnakenberg and Fariss dataset.
+
+``` {r, example3, eval = TRUE, message = FALSE}
 
 id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
@@ -38,12 +54,12 @@ rights
 
 ```
 
-`owid_plot()` makes it easy to visualise a dataset, plotting the first value column of an owid dataset. By default the mean score across all countries is plotted.
+`owid_plot()` makes it easy to visualise an owid dataset, plotting the first value column of an owid dataset. By default the mean score across all countries is plotted.
 ```{r owid_plot, eval = TRUE, results='hide'}
 owid_plot(rights)
 ```
 
-Use `summarise = FALSE` to show individual countries instead of the mean score. Unless a vector of entities is specified using the `filter` argument, `owid_plot()` will pick 9 random entities
+Use `summarise = FALSE` to show individual countries instead of the mean score. Unless a vector of entities is specified using the `filter` argument 9 random entities will be plotted. If the data is not a time-series then a bar chart of the entities values will be plotted.
 ```{r owid_plot2, eval = TRUE, results='hide'}
 owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))
 ```
