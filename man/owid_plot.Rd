@@ -4,7 +4,14 @@
 \alias{owid_plot}
 \title{Plot an owid dataset}
 \usage{
-owid_plot(data = NULL, col = 3, summarise = TRUE, filter = NULL, years = NULL)
+owid_plot(
+  data = NULL,
+  col = 3,
+  summarise = TRUE,
+  filter = NULL,
+  years = NULL,
+  show.all = FALSE
+)
 }
 \arguments{
 \item{data}{A tibble returned from `owid()`}

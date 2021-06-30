@@ -4,7 +4,7 @@
 \alias{owid_search}
 \title{Search for terms in dataframe of OWID datasets}
 \usage{
-owid_search(datasets, term)
+owid_search(datasets, term = NULL)
 }
 \arguments{
 \item{datasets}{A dataframe returned by owid_get_datasets().}

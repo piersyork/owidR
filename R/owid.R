@@ -10,6 +10,8 @@
 #' @return A tibble of an owid dataset with the added class 'owid'.
 #' @export
 #'
+#' @import dplyr rvest stringr readr
+#'
 #' @examples
 #' ds <- owid_get_datasets()
 #' owid_search(ds, "meat")
@@ -72,7 +74,7 @@ owid <- function(datasets, id = NULL, ...) {
 
     storeLines <- readLines(fileName)
 
-    out <- (paste0(lapply(storeLines, FUN=function(x) breakFun(x)), collapse=""))
+    out <- (paste0(paste0(lapply(storeLines, FUN=function(x) breakFun(x)), collapse=""), "\n"))
     return(out)
   }
 
