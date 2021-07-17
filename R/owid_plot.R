@@ -12,6 +12,7 @@
 #' @return A ggplot object.
 #' @export
 #'
+#'
 #' @examples
 #' ds <- owid_get_datasets()
 #' owid_search(ds, "meat")

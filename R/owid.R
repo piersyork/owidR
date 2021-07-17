@@ -10,7 +10,7 @@
 #' @return A tibble of an owid dataset with the added class 'owid'.
 #' @export
 #'
-#' @import dplyr rvest stringr readr
+#' @import dplyr
 #'
 #' @examples
 #' ds <- owid_get_datasets()

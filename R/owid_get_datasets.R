@@ -2,7 +2,6 @@
 #'
 #' @description This function web scrapes the OWID datasets github repo to create a dataframe that lists all of the available datasets and gives each one a unique value.
 #'
-#' @import dplyr
 #' @return
 #' @export
 #'

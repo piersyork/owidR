@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Piers York
 Maintainer: Piers York <piersyork+owidr@gmail.com>
 Description: Scrapes data from the Our World in Data github repo to offer easy to use functions for searching for datasets and downloading them into R.
-Imports: dplyr, readr, rvest
+Imports: dplyr, rvest, readr, tmap, stringr, ggplot2
 License: Creative Commons
 Encoding: UTF-8
 LazyData: true
