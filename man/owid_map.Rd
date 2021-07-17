@@ -13,9 +13,11 @@ owid_map(data, col = 3, palette = "Reds", mode = "plot")
 \item{col}{The column number to be treated as the value.}
 
 \item{palette}{The `RColorBrewer` palette to be used.}
+
+\item{mode}{If `"plot"`, the output will be a ggplot2 map. If `"view"`, the output will be a leaflet interactive map.}
 }
 \value{
-Either a ggplot
+Either a ggplot2
 }
 \description{
 A function to easily create a world map chloropleth of owid data.
