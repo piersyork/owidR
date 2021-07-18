@@ -6,6 +6,7 @@ Author: Piers York
 Maintainer: Piers York <piersyork+owidr@gmail.com>
 Description: Scrapes data from the Our World in Data github repo to offer easy to use functions for searching for datasets and downloading them into R.
 Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf
+Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
