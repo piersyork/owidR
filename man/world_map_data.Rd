@@ -10,5 +10,5 @@ world_map_data()
 An object of class sf.
 }
 \description{
-Get world map data.
+Function that returns a simple feature collection of class sf. Map data is from naturalearthdata.com. Designed to be used internally.
 }
