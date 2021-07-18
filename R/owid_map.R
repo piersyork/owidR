@@ -21,7 +21,7 @@
 #' # interavtive map with blue palette
 #' owid_map(mental, mode = "view", palette = "Blues")
 #'
-owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
+owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot") {
 
   owid_readme(data)
 
@@ -31,45 +31,7 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
   value <- colnames(data)[col]
   colnames(data)[col] <- "value"
 
-
-
-
-  world <- readRDS(system.file("extdata", "world_map_sf.rds", package = "owidR")) %>%
-    mutate(owid_name = recode(NAME_LONG,
-                              "Democratic Republic of the Congo" = "Democratic Republic of Congo",
-                              "Republic of the Congo" = "Congo",
-                              "Côte d'Ivoire" = "Cote d'Ivoire",
-                              "Russian Federation" = "Russia",
-                              "Lao PDR" = "Laos",
-                              "Dem. Rep. Korea" = "North Korea",
-                              "Republic of Korea" = "South Korea",
-                              "The Gambia" = "Gambia",
-                              "Brunei Darussalam" = "Brunei"))
-
-  somalia <- world[world$owid_name %in% c("Somalia", "Somaliland"), ] %>%
-    sf::st_union()
-
-  world[world$owid_name == "Somalia",]$geometry <- somalia
-  world <- world[!world$owid_name == "Somaliland",]
-
-  grep("Timor", world$NAME_LONG, value = TRUE)
-  grep("Timor", data$Entity, value = TRUE)
-
-
-  # test <- ggplot2::ggplot(world) +
-  #   ggplot2::geom_sf()
-  # world <- map_data("world") %>%
-  #   select(lon = long, lat, group, region) %>%
-  #   filter(region != "Antarctica")
-
-
-  # world$region <- recode(world$region,
-  #                        "USA" = "United States",
-  #                        "UK" = "United Kingdom",
-  #                        "Republic of Congo" = "Congo",
-  #                        "Democratic Republic of the Congo" = "Democratic Republic of Congo",
-  #                        "Ivory Coast" = "Cote d'Ivoire")
-
+  world <- world_map_data()
 
   map_data <- world %>%
     left_join(data, by = c("owid_name" = "Entity"))
@@ -133,6 +95,19 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
       leaflet::addControl(paste0("<b>", value, "<b/>"), position = "topright") %>%
       leaflet::addTiles("", attribution = "<a href = 'https://ourworldindata.org/' title = 'Research and data to make progress against the world’s largest problems'>Our World In Data | <a/><a href = 'https://www.naturalearthdata.com/' title = 'Made with Natural Earth. Free vector and raster map data'>Natural Earth Data<a/>")
   }
-
-
 }
+
+
+#' Get world map data.
+#'
+#' @return An object of class sf.
+#' @export
+#'
+world_map_data <- function() {
+  world <- readRDS(system.file("extdata", "world_map_sf.rds", package = "owidR"))
+  return(world)
+}
+
+
+
+
