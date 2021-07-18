@@ -15,11 +15,23 @@
 #'
 #' @examples
 #' ds <- owid_get_datasets()
-#' owid_search(ds, "meat")
-#' id <- owid_search(ds, "Meat consumption in EU28") %>% pull(id)
+#' id <- owid_search(ds, "meat")
+#' id <- owid_search(ds, "Meat consumption in EU28")$id
 #' meat <- owid(ds, id)
 #'
 #' owid_plot(meat)
+#'
+#' hr_id <- owid_search(ds, "Human Rights Scores")$id
+#' human_rights <- owid(ds, hr_id)
+#'
+#' # Plot average score over time
+#' owid_plot(human_rights)
+#'
+#' # Plot score for a selection of countries
+#' owid_plot(human_rights, summarise = FALSE,
+#'           filter = c("United Kingdom", "Sweden", "North Korea", "South Korea"))
+#'
+#'
 owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
                       years = NULL, show.all = FALSE) {
 

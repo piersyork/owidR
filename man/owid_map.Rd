@@ -4,7 +4,7 @@
 \alias{owid_map}
 \title{Create a choropleth world map using data from Our World in Data.}
 \usage{
-owid_map(data, col = 3, palette = "Reds", mode = "plot")
+owid_map(data = dataframe(), col = 3, palette = "Reds", mode = "plot")
 }
 \arguments{
 \item{data}{A dataframe returned by owid(). This dataframe must have country names in the Entity column, not all data returned by owid() will be like this.}

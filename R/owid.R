@@ -15,7 +15,7 @@
 #' @examples
 #' ds <- owid_get_datasets()
 #' owid_search(ds, "meat")
-#' id <- owid_search(ds, "Meat consumption in EU28") %>% pull(id)
+#' id <- owid_search(ds, "Meat consumption in EU28")$id
 #' meat <- owid(ds, id)
 owid <- function(datasets, id = NULL, ...) {
 

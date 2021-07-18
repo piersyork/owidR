@@ -5,6 +5,9 @@
 #' @return
 #' @export
 #'
+#' @example
+#' ds <- owid_get_datasets()
+#'
 
 owid_get_datasets <- function() {
 
