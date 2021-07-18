@@ -16,7 +16,7 @@ owid_map(data = dataframe(), col = 3, palette = "Reds", mode = "plot")
 \item{mode}{If "plot", the output will be a ggplot2 map. If "view", the output will be a leaflet interactive map.}
 }
 \value{
-Either a ggplot2
+Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 }
 \description{
 A function to easily create a choropleth world map using data from Our World in Data.

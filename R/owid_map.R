@@ -10,6 +10,8 @@
 #' @return Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 #' @export
 #'
+#' @import sf
+#'
 #' @examples
 #' ds <- owid_get_datasets()
 #' id <- owid_search(ds, "Mental and substance use disorder")$id
@@ -35,6 +37,8 @@ owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot
 
   map_data <- world %>%
     left_join(data, by = c("owid_name" = "Entity"))
+
+
 
   # map_data$NAME_LONG
 
@@ -99,6 +103,8 @@ owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot
 
 
 #' Get world map data.
+#'
+#' @description Function that returns a simple feature collection of class sf. Map data is from naturalearthdata.com. Designed to be used internally.
 #'
 #' @return An object of class sf.
 #' @export
