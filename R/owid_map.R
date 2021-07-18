@@ -34,11 +34,17 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
                               "Russian Federation" = "Russia",
                               "Lao PDR" = "Laos",
                               "Dem. Rep. Korea" = "North Korea",
-                              "Republic of Korea" = "South Korea",
-                              "Somaliland" = "Somalia"))
+                              "Republic of Korea" = "South Korea"))
 
-  test <- ggplot2::ggplot(world) +
-    ggplot2::geom_sf()
+  somalia <- world[world$owid_name %in% c("Somalia", "Somaliland"), ] %>%
+    st_union()
+
+  world[world$owid_name == "Somalia",]$geometry <- somalia
+  world <- world[!world$owid_name == "Somaliland",]
+
+
+  # test <- ggplot2::ggplot(world) +
+  #   ggplot2::geom_sf()
   # world <- map_data("world") %>%
   #   select(lon = long, lat, group, region) %>%
   #   filter(region != "Antarctica")
