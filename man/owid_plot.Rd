@@ -18,11 +18,13 @@ owid_plot(
 
 \item{col}{Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.}
 
-\item{summarise}{If TRUE, plot takes the mean value. If FALSE, each Entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many Entity's being plotted.}
+\item{summarise}{A logical value. If TRUE, plot takes the mean value. If FALSE, each Entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many Entity's being plotted.}
 
 \item{filter}{The Entity's to include in the plot.}
 
 \item{years}{The Years to be included in the plot.}
+
+\item{show.all}{A logical value indicating wether all Entities should be included in the plot.}
 }
 \value{
 A ggplot object.

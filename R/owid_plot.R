@@ -5,9 +5,10 @@
 #'
 #' @param data A tibble returned from `owid()`
 #' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
-#' @param summarise If TRUE, plot takes the mean value. If FALSE, each Entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many Entity's being plotted.
+#' @param summarise A logical value. If TRUE, plot takes the mean value. If FALSE, each Entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many Entity's being plotted.
 #' @param filter The Entity's to include in the plot.
 #' @param years The Years to be included in the plot.
+#' @param show.all A logical value indicating wether all Entities should be included in the plot.
 #'
 #' @return A ggplot object.
 #' @export

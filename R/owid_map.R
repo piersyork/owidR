@@ -104,7 +104,7 @@ owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot
       leaflet::addLegend(pal = pal_leg, values = ~value, opacity = 0.7, title = NULL,
                          position = "bottomleft", labFormat = leaflet::labelFormat()) %>%
       leaflet::addControl(paste0("<b>", value, "<b/>"), position = "topright") %>%
-      leaflet::addTiles("", attribution = "<a href = 'https://ourworldindata.org/' title = 'Research and data to make progress against the world’s largest problems'>Our World In Data | <a/><a href = 'https://www.naturalearthdata.com/' title = 'Made with Natural Earth. Free vector and raster map data'>Natural Earth Data<a/>")
+      leaflet::addTiles("", attribution = "<a href = 'https://ourworldindata.org/' title = 'Research and data to make progress against the world\u2019s largest problems'>Our World In Data | <a/><a href = 'https://www.naturalearthdata.com/' title = 'Made with Natural Earth. Free vector and raster map data'>Natural Earth Data<a/>")
   }
 }
 
