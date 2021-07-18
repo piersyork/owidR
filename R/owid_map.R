@@ -34,7 +34,9 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
                               "Russian Federation" = "Russia",
                               "Lao PDR" = "Laos",
                               "Dem. Rep. Korea" = "North Korea",
-                              "Republic of Korea" = "South Korea"))
+                              "Republic of Korea" = "South Korea",
+                              "The Gambia" = "Gambia",
+                              "Brunei Darussalam" = "Brunei"))
 
   somalia <- world[world$owid_name %in% c("Somalia", "Somaliland"), ] %>%
     st_union()
@@ -42,8 +44,11 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
   world[world$owid_name == "Somalia",]$geometry <- somalia
   world <- world[!world$owid_name == "Somaliland",]
 
+  grep("Timor", world$NAME_LONG, value = TRUE)
+  grep("Timor", data$Entity, value = TRUE)
 
-  # test <- ggplot2::ggplot(world) +
+
+    # test <- ggplot2::ggplot(world) +
   #   ggplot2::geom_sf()
   # world <- map_data("world") %>%
   #   select(lon = long, lat, group, region) %>%
