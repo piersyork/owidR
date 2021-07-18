@@ -16,7 +16,7 @@ owid_plot(
 \arguments{
 \item{data}{A tibble returned from `owid()`}
 
-\item{col}{The column number of the value to be plotted. Defaults to 3, and must be at least 3.}
+\item{col}{Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.}
 
 \item{summarise}{If TRUE, plot takes the mean value. If FALSE, each Entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many Entity's being plotted.}
 
@@ -34,12 +34,12 @@ A wrapper around ggplot to provide an quick visualisation of owid data.
 ds <- owid_get_datasets()
 id <- owid_search(ds, "meat")
 id <- owid_search(ds, "Meat consumption in EU28")$id
-meat <- owid(ds, id)
+meat <- owid(id, ds)
 
 owid_plot(meat)
 
 hr_id <- owid_search(ds, "Human Rights Scores")$id
-human_rights <- owid(ds, hr_id)
+human_rights <- owid(hr_id, ds)
 
 # Plot average score over time
 owid_plot(human_rights)

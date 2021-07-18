@@ -15,7 +15,7 @@
 #' @examples
 #' ds <- owid_get_datasets()
 #' id <- owid_search(ds, "Mental and substance use disorder")$id
-#' mental <- owid(ds, id)
+#' mental <- owid(id, ds)
 #'
 #' # simple ggplot2 map
 #' owid_map(mental)

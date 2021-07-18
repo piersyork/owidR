@@ -15,7 +15,7 @@
 #' # data uploads will change the id. It is recommended to full specify the name of the dataset and
 #' # then pull the id from that search.
 #' id <- owid_search(ds, "Meat consumption in EU28")$id
-#' meat <- owid(ds, id)
+#' meat <- owid(id, ds)
 owid_search <- function(datasets, term = NULL) {
   if (!length(names(attributes(datasets))) > 3) {
     stop ("datasets must be an object returned by 'get_owid_datasets'")

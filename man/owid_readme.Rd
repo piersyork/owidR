@@ -19,6 +19,6 @@ Prints the readme for OWID data as found on the OWID datasets github repo.
 ds <- owid_get_datasets()
 id <- owid_search(ds, "YouGov-Imperial COVID-19 Behavior Tracker")$id
 
-covid_behav <- owid(ds, id)
+covid_behav <- owid(id, ds)
 owid_readme(covid_behav)
 }

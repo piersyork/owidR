@@ -11,7 +11,7 @@
 #' ds <- owid_get_datasets()
 #' id <- owid_search(ds, "YouGov-Imperial COVID-19 Behavior Tracker")$id
 #'
-#' covid_behav <- owid(ds, id)
+#' covid_behav <- owid(id, ds)
 #' owid_readme(covid_behav)
 owid_readme <- function(data) {
   if (!class(data)[1] == "owid") {

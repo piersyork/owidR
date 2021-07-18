@@ -17,12 +17,12 @@
 #' ds <- owid_get_datasets()
 #' id <- owid_search(ds, "meat")
 #' id <- owid_search(ds, "Meat consumption in EU28")$id
-#' meat <- owid(ds, id)
+#' meat <- owid(id, ds)
 #'
 #' owid_plot(meat)
 #'
 #' hr_id <- owid_search(ds, "Human Rights Scores")$id
-#' human_rights <- owid(ds, hr_id)
+#' human_rights <- owid(hr_id, ds)
 #'
 #' # Plot average score over time
 #' owid_plot(human_rights)
