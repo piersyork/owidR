@@ -12,7 +12,16 @@
 #' @export
 #'
 #' @examples
-#' `owid_map()`
+#' `ds <- owid_get_datasets()`
+#' `id <- owid_search(ds, "Mental and substance use disorder")$id`
+#' `mental <- owid(ds, id)`
+#'
+#' # simple ggplot2 map
+#' `owid_map(mental)`
+#'
+#' # interavtive map with blue palette
+#' `owid_map(mental, mode = "view", palette = "Blues")`
+#'
 owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
 
   owid_readme(data)
@@ -39,7 +48,7 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
                               "Brunei Darussalam" = "Brunei"))
 
   somalia <- world[world$owid_name %in% c("Somalia", "Somaliland"), ] %>%
-    st_union()
+    sf::st_union()
 
   world[world$owid_name == "Somalia",]$geometry <- somalia
   world <- world[!world$owid_name == "Somaliland",]

@@ -23,5 +23,14 @@ Either a ggplot2
 A function to easily create a world map chloropleth of owid data.
 }
 \examples{
-`owid_map()`
+`ds <- owid_get_datasets()`
+`id <- owid_search(ds, "Mental and substance use disorder")$id`
+`mental <- owid(ds, id)`
+
+# simple ggplot2 map
+`owid_map(mental)`
+
+# interavtive map with blue palette
+`owid_map(mental, mode = "view", palette = "Blues")`
+
 }
