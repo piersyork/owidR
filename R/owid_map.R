@@ -57,7 +57,7 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
   grep("Timor", data$Entity, value = TRUE)
 
 
-    # test <- ggplot2::ggplot(world) +
+  # test <- ggplot2::ggplot(world) +
   #   ggplot2::geom_sf()
   # world <- map_data("world") %>%
   #   select(lon = long, lat, group, region) %>%
@@ -131,7 +131,8 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
       ) %>%
       leaflet::addLegend(pal = pal_leg, values = ~value, opacity = 0.7, title = NULL,
                          position = "bottomright", na.label = "") %>%
-      leaflet::addControl(paste0("<b>", value, "<b/>"), position = "topright")
+      leaflet::addControl(paste0("<b>", value, "<b/>"), position = "topright") %>%
+      leaflet::addTiles("", attribution = "<a href = 'https://ourworldindata.org/' title = 'Research and data to make progress against the world’s largest problems'>Our World In Data | <a/><a href = 'https://www.naturalearthdata.com/' title = 'Made with Natural Earth. Free vector and raster map data'>Natural Earth Data<a/>")
   }
 
 
