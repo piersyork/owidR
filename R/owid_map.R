@@ -7,7 +7,7 @@
 #' @param palette The RColorBrewer palette to be used.
 #' @param mode If "plot", the output will be a ggplot2 map. If "view", the output will be a leaflet interactive map.
 #'
-#' @return Either a ggplot2
+#' @return Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 #' @export
 #'
 #' @examples
