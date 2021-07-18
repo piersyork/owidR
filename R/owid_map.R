@@ -1,26 +1,25 @@
-#' Title
-#' Create a world map chloropleth of owid data.
+#' Create a choropleth world map using data from Our World in Data.
 #'
-#' @description A function to easily create a world map chloropleth of owid data.
+#' @description A function to easily create a choropleth world map using data from Our World in Data.
 #'
-#' @param data A tibble returned by `owid()`. This tibble must have country names as the Entity, not all data returned by `owid()` will be like this.
-#' @param col The column number to be treated as the value.
-#' @param palette The `RColorBrewer` palette to be used.
-#' @param mode If `"plot"`, the output will be a ggplot2 map. If `"view"`, the output will be a leaflet interactive map.
+#' @param data A dataframe returned by owid(). This dataframe must have country names in the Entity column, not all data returned by owid() will be like this.
+#' @param col The column number to be treated as the value. Defaults to 3.
+#' @param palette The RColorBrewer palette to be used.
+#' @param mode If "plot", the output will be a ggplot2 map. If "view", the output will be a leaflet interactive map.
 #'
 #' @return Either a ggplot2
 #' @export
 #'
 #' @examples
-#' `ds <- owid_get_datasets()`
-#' `id <- owid_search(ds, "Mental and substance use disorder")$id`
-#' `mental <- owid(ds, id)`
+#' ds <- owid_get_datasets()
+#' id <- owid_search(ds, "Mental and substance use disorder")$id
+#' mental <- owid(ds, id)
 #'
 #' # simple ggplot2 map
-#' `owid_map(mental)`
+#' owid_map(mental)
 #'
 #' # interavtive map with blue palette
-#' `owid_map(mental, mode = "view", palette = "Blues")`
+#' owid_map(mental, mode = "view", palette = "Blues")
 #'
 owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
 
