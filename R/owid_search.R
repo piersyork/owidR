@@ -12,9 +12,9 @@
 #' ds <- owid_get_datasets()
 #' owid_search(ds, "meat")
 #' # Currently id is generated from the rownumber, as such id's are not fixed and future
-#' # data uploads will change the id. It is recommended to have a specific search and
+#' # data uploads will change the id. It is recommended to full specify the name of the dataset and
 #' # then pull the id from that search.
-#' id <- owid_search(ds, "Meat consumption in EU28") %>% pull(id)
+#' id <- owid_search(ds, "Meat consumption in EU28")$id
 #' meat <- owid(ds, id)
 owid_search <- function(datasets, term = NULL) {
   if (!length(names(attributes(datasets))) > 3) {

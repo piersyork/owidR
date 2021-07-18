@@ -2,7 +2,7 @@
 #'
 #' @param data A tibble returned from `owid()`
 #'
-#' @return The GitHub url as a character string.
+#' @return The GitHub URL of the dataset.
 #' @export
 #'
 

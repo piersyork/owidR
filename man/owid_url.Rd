@@ -10,7 +10,7 @@ owid_url(data)
 \item{data}{A tibble returned from `owid()`}
 }
 \value{
-The GitHub url as a character string.
+The GitHub URL of the dataset.
 }
 \description{
 Get the GitHub url for the data

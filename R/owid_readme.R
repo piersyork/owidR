@@ -9,8 +9,8 @@
 #'
 #' @examples
 #' ds <- owid_get_datasets()
-#' owid_search(ds, "Trust – Eurostat")
-#' id <- owid_search(ds, "YouGov-Imperial COVID-19 Behavior Tracker") %>% pull(id)
+#' id <- owid_search(ds, "YouGov-Imperial COVID-19 Behavior Tracker")$id
+#'
 #' covid_behav <- owid(ds, id)
 #' owid_readme(covid_behav)
 owid_readme <- function(data) {
