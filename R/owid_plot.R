@@ -4,7 +4,7 @@
 #'
 #'
 #' @param data A tibble returned from `owid()`
-#' @param col The column number of the value to be plotted. Defaults to 3, and must be at least 3.
+#' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
 #' @param summarise If TRUE, plot takes the mean value. If FALSE, each Entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many Entity's being plotted.
 #' @param filter The Entity's to include in the plot.
 #' @param years The Years to be included in the plot.
@@ -47,9 +47,13 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
     stop("value column of data must be numeric")
   }
 
-
-  val_name <- colnames(data)[col]
-  colnames(data)[col] <- "value"
+  if (is.numeric(col)) {
+    val_name <- colnames(data)[col]
+    colnames(data)[col] <- "value"
+  } else {
+    val_name <- col
+    colnames(data)[colnames(data) == val_name] <- "value"
+  }
 
   if (!is.null(filter)) {
     data <- data %>%

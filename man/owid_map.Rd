@@ -9,7 +9,7 @@ owid_map(data = dataframe(), col = 3, palette = "Reds", mode = "plot")
 \arguments{
 \item{data}{A dataframe returned by owid(). This dataframe must have country names in the Entity column, not all data returned by owid() will be like this.}
 
-\item{col}{The column number to be treated as the value. Defaults to 3.}
+\item{col}{Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.}
 
 \item{palette}{The RColorBrewer palette to be used.}
 

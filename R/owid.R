@@ -2,9 +2,8 @@
 #'
 #' @description Get OWID datasets from the OWID datasets github repo.
 #'
-#'
-#' @param datasets A dataframe returned by get_owid_datasets().
 #' @param id The id of a dataset.
+#' @param datasets A dataframe returned by get_owid_datasets().
 #' @param ... Further arguments passed on to read_csv.
 #'
 #' @return A tibble of an owid dataset with the added class 'owid'.
@@ -17,7 +16,7 @@
 #' owid_search(ds, "meat")
 #' id <- owid_search(ds, "Meat consumption in EU28")$id
 #' meat <- owid(ds, id)
-owid <- function(datasets, id = NULL, ...) {
+owid <- function(id = NULL, datasets, ...) {
 
   if (!length(names(attributes(datasets))) > 3) {
     stop ("datasets must be an object returned by 'get_owid_datasets'")

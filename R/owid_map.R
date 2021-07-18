@@ -3,7 +3,7 @@
 #' @description A function to easily create a choropleth world map using data from Our World in Data.
 #'
 #' @param data A dataframe returned by owid(). This dataframe must have country names in the Entity column, not all data returned by owid() will be like this.
-#' @param col The column number to be treated as the value. Defaults to 3.
+#' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
 #' @param palette The RColorBrewer palette to be used.
 #' @param mode If "plot", the output will be a ggplot2 map. If "view", the output will be a leaflet interactive map.
 #'
@@ -30,8 +30,15 @@ owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot
   data <- data %>%
     # group_by(Entity) %>%
     filter(Year == max(Year))
-  value <- colnames(data)[col]
-  colnames(data)[col] <- "value"
+
+  if (is.numeric(col)) {
+    value <- colnames(data)[col]
+    colnames(data)[col] <- "value"
+  } else {
+    value <- col
+    colnames(data)[colnames(data) == value] <- "value"
+  }
+
 
   world <- world_map_data()
 

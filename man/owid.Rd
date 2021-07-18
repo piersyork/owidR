@@ -4,12 +4,12 @@
 \alias{owid}
 \title{Get data from Our World in Data}
 \usage{
-owid(datasets, id = NULL, ...)
+owid(id = NULL, datasets, ...)
 }
 \arguments{
-\item{datasets}{A dataframe returned by get_owid_datasets().}
-
 \item{id}{The id of a dataset.}
+
+\item{datasets}{A dataframe returned by get_owid_datasets().}
 
 \item{...}{Further arguments passed on to read_csv.}
 }
