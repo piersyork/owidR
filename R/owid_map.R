@@ -35,9 +35,7 @@ owid_map <- function(data, col = 3, palette = "Reds", mode = "plot") {
                               "Lao PDR" = "Laos",
                               "Dem. Rep. Korea" = "North Korea",
                               "Republic of Korea" = "South Korea",
-                              "Somaliland" = "Somalia")) %>%
-    group_by(owid_name) %>%
-    summarise()
+                              "Somaliland" = "Somalia"))
 
   test <- ggplot2::ggplot(world) +
     ggplot2::geom_sf()
