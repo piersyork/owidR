@@ -42,7 +42,7 @@ Then searching for datesets about human rights.
 owid_search(ds, "human rights")
 ```
 
-Let's use the Schnakenberg and Fariss dataset.
+Let's use the Schnakenberg and Fariss (2014) dataset.
 
 ``` {r, example3, eval = TRUE, message = FALSE}
 
@@ -64,4 +64,8 @@ Use `summarise = FALSE` to show individual countries instead of the mean score. 
 owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))
 ```
 
+`owid_map()` makes it easy to create a choropleth world map of datasets that contain country level data. The Entities of the owid data must be country names.
+```{r map, results='hide'}
+owid_map(rights)
+```
 

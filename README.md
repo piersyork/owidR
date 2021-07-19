@@ -91,3 +91,13 @@ owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "F
 ```
 
 ![](images/owid_plot2-1.png)<!-- -->
+
+`owid_map()` makes it easy to create a choropleth world map of datasets
+that contain country level data. The Entities of the owid data must be
+country names.
+
+``` r
+owid_map(rights)
+```
+
+![](images/map-1.png)<!-- -->
