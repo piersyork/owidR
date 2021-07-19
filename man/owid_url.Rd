@@ -7,7 +7,7 @@
 owid_url(data)
 }
 \arguments{
-\item{data}{A tibble returned from `owid()`}
+\item{data}{A tibble returned from owid()}
 }
 \value{
 Returns a named vector of the owid GitHub URL and the source URL.
