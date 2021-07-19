@@ -1,4 +1,4 @@
-#' Get the GitHub url for the data
+#' Get the GitHub and source URLs for a dataset
 #'
 #' @param data A tibble returned from `owid()`
 #'
