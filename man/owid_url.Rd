@@ -2,7 +2,7 @@
 % Please edit documentation in R/owid_url.R
 \name{owid_url}
 \alias{owid_url}
-\title{Get the GitHub url for the data}
+\title{Get the GitHub and source URLs for a dataset}
 \usage{
 owid_url(data)
 }
@@ -10,8 +10,8 @@ owid_url(data)
 \item{data}{A tibble returned from `owid()`}
 }
 \value{
-The GitHub URL of the dataset.
+Returns a named vector of the owid GitHub URL and the source URL.
 }
 \description{
-Get the GitHub url for the data
+Get the GitHub and source URLs for a dataset
 }
