@@ -4,10 +4,10 @@
 \alias{owid}
 \title{Get data from Our World in Data}
 \usage{
-owid(id = NULL, datasets, ...)
+owid(id = NULL, datasets = NULL, ...)
 }
 \arguments{
-\item{id}{The id of a dataset.}
+\item{id}{Either the id of a dataset or a dataframe returned by owid_search().}
 
 \item{datasets}{A dataframe returned by get_owid_datasets().}
 
