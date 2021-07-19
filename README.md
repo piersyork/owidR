@@ -41,9 +41,9 @@ owid_search(ds, "human rights")
 ## # A tibble: 3 x 2
 ##      id title                                                                   
 ##   <int> <chr>                                                                   
-## 1   308 Fund for Peace – Fragile States Index (Human Rights Dimension)          
-## 2   435 Human Rights Protection Score – Christopher Farris (2014) and Keith Sch…
-## 3   436 Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
+## 1   309 Fund for Peace – Fragile States Index (Human Rights Dimension)          
+## 2   436 Human Rights Protection Score – Christopher Farris (2014) and Keith Sch…
+## 3   437 Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
 ```
 
 Let’s use the Schnakenberg and Fariss dataset.
@@ -51,7 +51,7 @@ Let’s use the Schnakenberg and Fariss dataset.
 ``` r
 id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
-rights <- owid(ds, id)
+rights <- owid(id, ds)
 ## Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
 
 rights
@@ -71,9 +71,9 @@ rights
 ## # … with 11,707 more rows
 ```
 
-`owid_plot()` makes it easy to visualise a dataset, plotting the first
-value column of an owid dataset. By default the mean score across all
-countries is plotted.
+`owid_plot()` makes it easy to visualise an owid dataset, plotting the
+first value column of an owid dataset. By default the mean score across
+all countries is plotted.
 
 ``` r
 owid_plot(rights)
@@ -81,7 +81,10 @@ owid_plot(rights)
 
 ![](images/owid_plot-1.png)<!-- -->
 
-Use `summarise = FALSE` to show individual countries instead of the mean score. Unless a vector of entities is specified using the `filter` argument 9 random entities will be plotted. If the data is not a time-series then a bar chart of the entities values will be plotted.
+Use `summarise = FALSE` to show individual countries instead of the mean
+score. Unless a vector of entities is specified using the `filter`
+argument 9 random entities will be plotted. If the data is not a
+time-series then a bar chart of the entities values will be plotted.
 
 ``` r
 owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))

@@ -48,7 +48,7 @@ Let's use the Schnakenberg and Fariss dataset.
 
 id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
-rights <- owid(ds, id)
+rights <- owid(id, ds)
 
 rights
 
