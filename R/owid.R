@@ -60,8 +60,12 @@ owid <- function(id = NULL, datasets = NULL, ...) {
     paste0("https://raw.github.com/owid/owid-datasets/master/", .)
   md_link <- grep("README", data_links, value = TRUE) %>%
     paste0("https://raw.github.com/owid/owid-datasets/master/", .)
+  datapackage_link <- grep("datapackage.json", data_links, value = TRUE) %>%
+    paste0("https://raw.github.com/owid/owid-datasets/master/", .)
 
   data <- readr::read_csv(data_link, ...)
+
+  datapackage <- jsonlite::fromJSON(datapackage_link, flatten = TRUE)
 
   pasteReadme <- function(fileName){
 
@@ -85,6 +89,7 @@ owid <- function(id = NULL, datasets = NULL, ...) {
 
   attributes(data)$url <- paste0("https://github.com", url)
   attributes(data)$readme <- readme
+  attributes(data)$datapackage <- datapackage
   # object$data <- data
   class(data) <- c("owid", class(data))
   return(data)
