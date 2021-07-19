@@ -2,7 +2,7 @@
 #'
 #' @description Get OWID datasets from the OWID datasets github repo.
 #'
-#' @param id The id of a dataset.
+#' @param id Either the id of a dataset or a dataframe returned by owid_search().
 #' @param datasets A dataframe returned by get_owid_datasets().
 #' @param ... Further arguments passed on to read_csv.
 #'
@@ -16,13 +16,17 @@
 #' owid_search(ds, "meat")
 #' id <- owid_search(ds, "Meat consumption in EU28")$id
 #' meat <- owid(id, ds)
-owid <- function(id = NULL, datasets, ...) {
+owid <- function(id = NULL, datasets = NULL, ...) {
 
   if (!length(names(attributes(datasets))) > 3) {
     stop ("datasets must be an object returned by 'get_owid_datasets'")
   }
   if (!names(attributes(datasets))[4] == "with_urls") {
     stop ("datasets must be an object returned by 'get_owid_datasets'")
+  }
+
+  if (is.data.frame(id)) {
+    id <- id$id
   }
 
   if (is.null(id)) {
@@ -33,8 +37,6 @@ owid <- function(id = NULL, datasets, ...) {
     .id <- id
   }
 
-
-
   url <- attr(datasets, "with_urls") %>%
     filter(id == .id) %>%
     pull(url)
@@ -42,6 +44,7 @@ owid <- function(id = NULL, datasets, ...) {
   title <- attr(datasets, "with_urls") %>%
     filter(id == .id) %>%
     pull(title)
+
   cat(title)
 
   data_links <- url %>%
