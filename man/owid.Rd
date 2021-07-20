@@ -4,12 +4,14 @@
 \alias{owid}
 \title{Get data from Our World in Data}
 \usage{
-owid(id = NULL, datasets = NULL, ...)
+owid(id = NULL, datasets = NULL, tidy.date = TRUE, ...)
 }
 \arguments{
 \item{id}{Either the id of a dataset or a dataframe returned by owid_search().}
 
 \item{datasets}{A dataframe returned by get_owid_datasets().}
+
+\item{tidy.date}{If TRUE then a Year column that should be a Date column will automatically be transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.}
 
 \item{...}{Further arguments passed on to read_csv.}
 }

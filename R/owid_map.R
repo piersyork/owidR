@@ -27,6 +27,10 @@ owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot
 
   owid_readme(data)
 
+  if (colnames(data)[2] == "Date") {
+    colnames(data)[2] <- "Year"
+  }
+
   data <- data %>%
     # group_by(Entity) %>%
     filter(Year == max(Year))

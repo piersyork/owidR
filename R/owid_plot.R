@@ -48,6 +48,10 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
     stop("value column of data must be numeric")
   }
 
+  if (colnames(data)[2] == "Date") {
+    colnames(data)[2] <- "Year"
+  }
+
   if (is.numeric(col)) {
     val_name <- colnames(data)[col]
     colnames(data)[col] <- "value"

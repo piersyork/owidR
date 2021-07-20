@@ -4,6 +4,7 @@
 #'
 #' @param id Either the id of a dataset or a dataframe returned by owid_search().
 #' @param datasets A dataframe returned by get_owid_datasets().
+#' @param tidy.date If TRUE then a Year column that should be a Date column will automatically be transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.
 #' @param ... Further arguments passed on to read_csv.
 #'
 #' @return A tibble of an owid dataset with the added class 'owid'.
@@ -16,7 +17,7 @@
 #' owid_search(ds, "meat")
 #' id <- owid_search(ds, "Meat consumption in EU28")$id
 #' meat <- owid(id, ds)
-owid <- function(id = NULL, datasets = NULL, ...) {
+owid <- function(id = NULL, datasets = NULL, tidy.date = TRUE, ...) {
 
   if (!length(names(attributes(datasets))) > 3) {
     stop ("datasets must be an object returned by 'get_owid_datasets'")
@@ -66,6 +67,30 @@ owid <- function(id = NULL, datasets = NULL, ...) {
   data <- readr::read_csv(data_link, ...)
 
   datapackage <- jsonlite::fromJSON(datapackage_link, flatten = TRUE)
+
+  display_settings <- datapackage$resources$schema.fields[[1]]$owidDisplaySettings
+  if (!is.null(display_settings) & tidy.date) {
+    zero_days <- display_settings %>%
+      na.omit() %>%
+      stringr::str_sub(2, -2) %>%
+      stringr::str_replace_all("\\\"", "") %>%
+      stringr::str_match("zeroDay: [0-9]+-[0-9]+-[0-9]+") %>%
+      na.omit() %>%
+      as.vector() %>%
+      unique()
+
+    if (length(zero_days) == 1) {
+      day_start <- gsub("zeroDay: ", "", zero_days) %>% as.Date()
+
+      data <- data %>%
+        mutate(Year = day_start + Year) %>%
+        rename(Date = Year)
+      warning("Year column automatically tranformed into Date column, use tidy.date = FALSE to keep original.")
+    } else {
+      warning("Year column is likely to be a date but could not transform due to ambiguous start date.")
+    }
+  }
+
 
   pasteReadme <- function(fileName){
 
