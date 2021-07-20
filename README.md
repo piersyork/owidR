@@ -46,13 +46,15 @@ owid_search(ds, "human rights")
 ## 3   437 Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
 ```
 
-Let’s use the Schnakenberg and Fariss dataset.
+Let’s use the Schnakenberg and Fariss (2014) dataset.
 
 ``` r
 id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
 rights <- owid(id, ds)
 ## Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
+## Warning in owid(id, ds): Year column is likely to be a date but could not
+## transform due to ambiguous start date.
 
 rights
 ## # A tibble: 11,717 x 3
@@ -94,7 +96,8 @@ owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "F
 
 `owid_map()` makes it easy to create a choropleth world map of datasets
 that contain country level data. The Entities of the owid data must be
-country names.
+country names. Currently the function plots data for the most recent
+year.
 
 ``` r
 owid_map(rights)
