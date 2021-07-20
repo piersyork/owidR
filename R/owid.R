@@ -87,7 +87,7 @@ owid <- function(id = NULL, datasets = NULL, tidy.date = TRUE, ...) {
         rename(Date = Year)
       warning("Year column automatically tranformed into Date column, use tidy.date = FALSE to keep original.")
     } else {
-      warning("Year column is likely to be a date but could not transform due to ambiguous start date.")
+      warning("Year column might not be a year but could not transform due to ambiguous start date.")
     }
   }
 
