@@ -4,7 +4,7 @@ Piers York
 
 This package acts as an interface to the [Our World in
 Data](https://ourworldindata.org/) datasets [GitHub
-repository](https://github.com/owid/owid-datasets), allowing for easy
+repository](https://github.com/owid/owid-datasets), allowing for an easy
 way to search from a list of almost 1,000 datasets and load them into
 the R environment.
 
