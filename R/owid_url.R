@@ -52,3 +52,18 @@ owid_sources <- function(data) {
 
   cat(sources_out, sep = "")
 }
+
+
+#' Show the description of the data
+#'
+#' @param data A dataframe returned from owid() of class "owid".
+#'
+#' @return
+#' @export
+#'
+owid_description <- function(data) {
+  name <- paste0(attributes(data)$datapackage$name, "\n\n")
+  description <- attributes(data)$datapackage$description
+  cat(name, description, sep = "")
+
+}
