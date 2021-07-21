@@ -51,6 +51,10 @@ owid_sources <- function(data) {
   }
 
   cat(sources_out, sep = "")
+
+  invisible(paste0(sources_out, collapse = ""))
+
+
 }
 
 
