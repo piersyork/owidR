@@ -69,7 +69,8 @@ owid <- function(id = NULL, datasets = NULL, tidy.date = TRUE, ...) {
   datapackage <- jsonlite::fromJSON(datapackage_link, flatten = TRUE)
 
   display_settings <- datapackage$resources$schema.fields[[1]]$owidDisplaySettings
-  if (!is.null(display_settings) & tidy.date) {
+
+  if (TRUE %in% (grepl("zeroDay", display_settings)) & tidy.date) {
     zero_days <- display_settings %>%
       na.omit() %>%
       stringr::str_sub(2, -2) %>%
