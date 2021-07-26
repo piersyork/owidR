@@ -52,11 +52,13 @@ create_dataset_json <- function(df, is_date) {
 #'
 #' @return A string of the jsonConfig
 #' @noRd
-create_config_json <- function(map_config, tab, title, subtitle, note, source, type, hasChartTab, hasMapTab, owidDataset, selectedData) {
-  jsonConfig <- sprintf(
-    '{map: {%s}, "tab": "%s", "title": "%s", "subtitle": "%s", "note": "%s", "sourceDesc": "%s", "hideLogo": true, "isPublished": false, "type": "%s","hasChartTab": %s, "hideTitleAnnotation": false, "hideLegend": false, "hideEntityControls": false, "hideRelativeToggle": true, "hasMapTab": %s, "stackMode": "absolute", "yAxis": {},
-  "owidDataset": {%s}, "dimensions": [{"property": "y", "variableId": 1, "display": {}}], "selectedData": [%s]};',
-  map_config, tab, title, subtitle, note, source, type, hasChartTab, hasMapTab, owidDataset, selectedData
+create_config_json <- function(map_config, tab, title, subtitle, note, source, type, hasChartTab, hideEntityControls,
+                               hasMapTab, owidDataset, selectedData) {
+  jsonConfig <- paste0(
+    '{map: {', map_config, '}, "tab": "', tab, '", "title": "', title, '", "subtitle": "', subtitle, '", "note": "', note,
+    '", "sourceDesc": "', source, '", "hideLogo": true, "isPublished": false, "type": "', type,
+    '","hasChartTab": ', hasChartTab, ', "hideTitleAnnotation": false, "hideLegend": false, "hideEntityControls": ', hideEntityControls,', "hideRelativeToggle": true, "hasMapTab": ', hasMapTab, ', "stackMode": "absolute", "yAxis": {},
+  "owidDataset": {', owidDataset, '}, "dimensions": [{"property": "y", "variableId": 1, "display": {}}], "selectedData": [', selectedData, ']};'
   )
 }
 #' Internal function to create the iframe html
@@ -179,6 +181,7 @@ print.grapher <- function(x, ...) {
   source <- attributes(grapher)$source
   include_map <- attributes(grapher)$include_map
   include_chart <- attributes(grapher)$include_chart
+  change_selected <- attributes(grapher)$change_selected
   raw_html <- attributes(grapher)$raw_html
   map_palette <- attributes(grapher)$map_palette
   map_bins <- attributes(grapher)$map_bins
@@ -204,10 +207,12 @@ print.grapher <- function(x, ...) {
 
   if (include_map) hasMapTab <- "true" else hasMapTab <- "false"
   if (include_chart) hasChartTab <- "true" else hasChartTab <- "false"
+  if (change_selected) hideEntityControls <- "false" else hideEntityControls <- "true"
 
   map_config <- create_map_config(map_palette, map_bins)
 
-  jsonConfig <- create_config_json(map_config, tab, title, subtitle, note, source, type, hasChartTab, hasMapTab, owidDataset, selectedData)
+  jsonConfig <- create_config_json(map_config, tab, title, subtitle, note, source, type, hasChartTab, hideEntityControls,
+                                   hasMapTab, owidDataset, selectedData)
   # print(jsonConfig)
   is_markdown <- !is.null(knitr::opts_knit$get("out.format"))
 

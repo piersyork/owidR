@@ -122,3 +122,19 @@ owid <- function(id = NULL, datasets = NULL, tidy.date = TRUE, ...) {
 
 }
 
+#' Get the Our World in Data covid-19 dataset
+#'
+#' @return A dataframe with multiple variables on the covid-19 pandemic.
+#' @export
+#'
+owid_covid <- function() {
+  data <- readr::read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",
+                          col_types = readr::cols(.default = readr::col_double(),
+                                                  iso_code = readr::col_character(),
+                                                  continent = readr::col_character(),
+                                                  location = readr::col_character(),
+                                                  date = readr::col_date(format = ""),
+                                                  tests_units = readr::col_character()))
+  class(data) <- c("owid", class(data))
+  return(data)
+}

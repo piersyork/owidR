@@ -34,7 +34,7 @@ owid_grapher <- function(data, x, y, entity) {
 
 
   grapher <- data %>%
-    rename(Entity = !!.entity,
+    select(Entity = !!.entity,
            Year = !!.x,
            value = !!.value) %>%
     # rename(Entity = country,
@@ -92,6 +92,7 @@ owid_grapher <- function(data, x, y, entity) {
   attributes(grapher)$source <- ""
   attributes(grapher)$include_map <- FALSE
   attributes(grapher)$include_chart <- FALSE
+  attributes(grapher)$change_selected <- TRUE
   attributes(grapher)$raw_html <- FALSE
   attributes(grapher)$map_palette <- "Greens"
   attributes(grapher)$map_bins <- "auto"
@@ -107,13 +108,16 @@ owid_grapher <- function(data, x, y, entity) {
 #'
 #' @param grapher An object of class "grapher".
 #' @param selected The entities displayed when the graph first loads.
+#' @param change_selected Allow the entities to be changed from within the graph.
 #'
 #' @return
 #' @export
 #'
-grapher_line <- function(grapher, selected = c("United Kingdom", "France", "Spain", "Ireland")) {
+grapher_line <- function(grapher, selected = c("United Kingdom", "France", "Spain", "Ireland"),
+                         change_selected = TRUE) {
   attributes(grapher)$selected <- selected
   attributes(grapher)$include_chart <- TRUE
+  attributes(grapher)$change_selected <- change_selected
 
   if (attributes(grapher)$tab == "") {
     attributes(grapher)$tab <- "chart"

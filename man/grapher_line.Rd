@@ -6,13 +6,16 @@
 \usage{
 grapher_line(
   grapher,
-  selected = c("United Kingdom", "France", "Spain", "Ireland")
+  selected = c("United Kingdom", "France", "Spain", "Ireland"),
+  change_selected = TRUE
 )
 }
 \arguments{
 \item{grapher}{An object of class "grapher".}
 
 \item{selected}{The entities displayed when the graph first loads.}
+
+\item{change_selected}{Allow the entities to be changed from within the graph.}
 }
 \value{
 
