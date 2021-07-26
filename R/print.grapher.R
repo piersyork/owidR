@@ -218,9 +218,10 @@ print.grapher <- function(x, ...) {
   html <- create_iframe(height, jsonConfig)
 
   if (is_markdown) {
-    return(htmltools::HTML(html))
-  } else if (raw_html) {
-    return(html)
+    # cat("OWID graph:") # <- this works
+    cat("<br>") # <- this works also :)
+    htmltools::HTML(html)
+
   } else {
     temp <- tempfile(fileext = ".html")
     cat(html, file = temp)
