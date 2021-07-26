@@ -23,7 +23,7 @@ search through the available datasets, using either a keyword or a
 regular expression. `owid()` takes an id and returns the corresponding
 dataset.
 
-### Example
+## Example
 
 Lets use the core functions to get data on how human rights have changed
 over time.
@@ -31,6 +31,8 @@ over time.
 First loading the tibble of datasets.
 
 ``` r
+library(owidR)
+
 ds <- owid_get_datasets()
 ```
 
@@ -41,9 +43,9 @@ owid_search(ds, "human rights")
 ## # A tibble: 3 x 2
 ##      id title                                                                   
 ##   <int> <chr>                                                                   
-## 1   309 Fund for Peace – Fragile States Index (Human Rights Dimension)          
-## 2   436 Human Rights Protection Score – Christopher Farris (2014) and Keith Sch…
-## 3   437 Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
+## 1   310 Fund for Peace – Fragile States Index (Human Rights Dimension)          
+## 2   437 Human Rights Protection Score – Christopher Farris (2014) and Keith Sch…
+## 3   438 Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
 ```
 
 Let’s use the Schnakenberg and Fariss (2014) dataset.
@@ -53,8 +55,6 @@ id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
 
 rights <- owid(id, ds)
 ## Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
-## Warning in owid(id, ds): Year column is likely to be a date but could not
-## transform due to ambiguous start date.
 
 rights
 ## # A tibble: 11,717 x 3
@@ -104,3 +104,22 @@ owid_map(rights)
 ```
 
 ![](images/map-1.png)<!-- -->
+
+## Creating Our World in Data style graphs
+
+`owid_grapher()` creates graphs in the style of Our World in Data. The
+output of `owid_grapher()` can be piped into `grapher_line()` to add a
+line graph, into `grapher_map()` to add a world map, and into
+`grapher_labels()` to add labels to the graph. The graph is shown in the
+RStudio viewer, or when called in an RMarkdown html document is
+displayed within the document.
+
+``` r
+rights %>% 
+  owid_grapher(x = Year, y = `Human Rights Scores`, entity = Entity) %>% 
+  grapher_line(selected = c("North Korea", "South Korea", "France", "United Kingdom", "United States")) %>% 
+  grapher_map(palette = "RdYlGn", bins = c(-2, 0, 2, 4)) %>% 
+  grapher_labels(title = "Human Rights Scores",
+                 subtitle = "Values range from around -3.8 to around 5.4 (the higher the better)",
+                 source = "Our World in Data; Schnakenberg and Fariss (2014); Fariss (2019)")
+```
