@@ -3,7 +3,7 @@
 #' @noRd
 #'
 get_datasets <- function() {
-  all_charts_page <- rvest::read_html("https://ourworldindata.org/charts")
+  all_charts_page <- xml2::read_html("https://ourworldindata.org/charts")
   links <- all_charts_page %>%
     rvest::html_nodes("section") %>%
     rvest::html_nodes("a")
@@ -43,7 +43,7 @@ owid_search <- function(term) {
 #'
 get_data_url <- function(chart_id) {
   url <- sprintf("https://ourworldindata.org/grapher/%s", chart_id)
-  page <- rvest::read_html(url)
+  page <- xml2::read_html(url)
   links <- rvest::html_nodes(page, "link")
   preload <- links[rvest::html_attr(links, "rel") == "preload"]
   full_url <- sprintf("https://ourworldindata.org%s", rvest::html_attr(preload, "href"))
