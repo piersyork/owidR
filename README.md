@@ -2,11 +2,10 @@ owidR
 ================
 Piers York
 
-This package acts as an interface to the [Our World in
-Data](https://ourworldindata.org/) datasets [GitHub
-repository](https://github.com/owid/owid-datasets), allowing for an easy
-way to search from a list of almost 1,000 datasets and load them into
-the R environment.
+This package acts as an interface to [Our World in
+Data](https://ourworldindata.org/) datasets, allowing for an easy way to
+search through data used in over 3,000 charts and load them into the R
+environment.
 
 ## Installation
 
@@ -16,60 +15,57 @@ devtools::install_github("piersyork/owidR")
 
 ## Using the package
 
-There are three core functions in the `owidR` package.
-`owid_get_datasets()` returns a tibble of all available Our World in
-Data datasets alongside a generated id. `owid_search()` makes it easy to
-search through the available datasets, using either a keyword or a
-regular expression. `owid()` takes an id and returns the corresponding
-dataset.
+The main function in owidR is `owid()`, which takes a chart id and
+returns a tibble (dataframe) of the corresponding OWID dataset. To
+search for chart ids you can use `owid_search()` to list all the chart
+ids that match a keyword or regular expression.
 
 ## Example
 
 Lets use the core functions to get data on how human rights have changed
-over time.
-
-First loading the tibble of datasets.
+over time. First by searching for charts on human rights.
 
 ``` r
 library(owidR)
 
-ds <- owid_get_datasets()
+owid_search("human rights")
+##      titles                                                                                                                                        
+## [1,] "Human Rights Score vs. Political regime type"                                                                                                
+## [2,] "Political regime type vs. Human Rights Score"                                                                                                
+## [3,] "Countries with National Human Rights Institutions in compliance with the Paris Principles"                                                   
+## [4,] "Human Rights Score vs. GDP per capita"                                                                                                       
+## [5,] "Human Rights Scores"                                                                                                                         
+## [6,] "Human Rights Violations"                                                                                                                     
+## [7,] "Proportion of countries that applied for accreditation as independent National Human Rights Institutions in compliance with Paris Principles"
+##      chart_id                                                      
+## [1,] "human-rights-score-vs-political-regime-type"                 
+## [2,] "political-regime-type-vs-human-rights-score"                 
+## [3,] "countries-in-compliance-with-paris-principles"               
+## [4,] "human-rights-score-vs-gdp-per-capita"                        
+## [5,] "human-rights-scores"                                         
+## [6,] "human-rights-violations"                                     
+## [7,] "countries-that-applied-for-accreditation-in-paris-principles"
 ```
 
-Then searching for datesets about human rights.
+Let’s use the human rights scores dataset.
 
 ``` r
-owid_search(ds, "human rights")
-## # A tibble: 3 x 2
-##      id title                                                                   
-##   <int> <chr>                                                                   
-## 1   310 Fund for Peace – Fragile States Index (Human Rights Dimension)          
-## 2   437 Human Rights Protection Score – Christopher Farris (2014) and Keith Sch…
-## 3   438 Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
-```
-
-Let’s use the Schnakenberg and Fariss (2014) dataset.
-
-``` r
-id <- owid_search(ds, "Human Rights Scores – Schnakenberg and Fariss")$id
-
-rights <- owid(id, ds)
-## Human Rights Scores – Schnakenberg and Fariss (2014), Fariss (2019)
+rights <- owid("human-rights-scores")
 
 rights
-## # A tibble: 11,717 x 3
-##    Entity       Year `Human Rights Scores`
-##  * <chr>       <dbl>                 <dbl>
-##  1 Afghanistan  1946                 0.690
-##  2 Afghanistan  1947                 0.740
-##  3 Afghanistan  1948                 0.787
-##  4 Afghanistan  1949                 0.817
-##  5 Afghanistan  1950                 0.851
-##  6 Afghanistan  1951                 0.909
-##  7 Afghanistan  1952                 0.938
-##  8 Afghanistan  1953                 0.988
-##  9 Afghanistan  1954                 1.01 
-## 10 Afghanistan  1955                 1.01 
+## # A tibble: 11,717 x 4
+##    entity     code   year `Human Rights Score (Schnakenberg & Fariss, 2014; Far…
+##  * <chr>      <chr> <int>                                                  <dbl>
+##  1 Afghanist… AFG    1946                                                  0.690
+##  2 Afghanist… AFG    1947                                                  0.740
+##  3 Afghanist… AFG    1948                                                  0.787
+##  4 Afghanist… AFG    1949                                                  0.817
+##  5 Afghanist… AFG    1950                                                  0.851
+##  6 Afghanist… AFG    1951                                                  0.909
+##  7 Afghanist… AFG    1952                                                  0.938
+##  8 Afghanist… AFG    1953                                                  0.988
+##  9 Afghanist… AFG    1954                                                  1.01 
+## 10 Afghanist… AFG    1955                                                  1.01 
 ## # … with 11,707 more rows
 ```
 
@@ -116,7 +112,8 @@ displayed within the document.
 
 ``` r
 rights %>% 
-  owid_grapher(x = Year, y = `Human Rights Scores`, entity = Entity) %>% 
+  owid_grapher(x = year, y = `Human Rights Score (Schnakenberg & Fariss, 2014; Fariss, 2019)`, 
+               entity = entity) %>% 
   grapher_line(selected = c("North Korea", "South Korea", "France", "United Kingdom", "United States")) %>% 
   grapher_map(palette = "RdYlGn", bins = c(-2, 0, 2, 4)) %>% 
   grapher_labels(title = "Human Rights Scores",

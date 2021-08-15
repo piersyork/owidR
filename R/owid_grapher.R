@@ -11,15 +11,14 @@
 #' @export
 #'
 #' @example
-#' ds <- owid_get_datasets()
 #'
-#' id <- owid_search(ds, "Polity IV and Wimmer & Min")$id
-#' regime <- owid(id, ds)
+#' owid_search("regime")
+#' regime <- owid("political-regime-updated2016")
 #'
-#' owid_grapher(regime, x = Year, y = `Political Regime (OWID based on Polity IV and Wimmer & Min)`,
-#'              entity = Entity) %>%
+#' owid_grapher(regime, x = year, y = `Political Regime (OWID based on Polity IV and Wimmer & Min)`,
+#'              entity = entity) %>%
 #'   grapher_line() %>%
-#'   grapher_map(palette = "RdYlGn") %>%
+#'   grapher_map(palette = "RdYlGn", ) %>%
 #'   grapher_labels(title = "Political Regime")
 #'
 owid_grapher <- function(data, x, y, entity) {

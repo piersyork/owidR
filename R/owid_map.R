@@ -2,7 +2,7 @@
 #'
 #' @description A function to easily create a choropleth world map using data from Our World in Data.
 #'
-#' @param data A dataframe returned by owid(). This dataframe must have country names in the Entity column, not all data returned by owid() will be like this.
+#' @param data A dataframe returned by owid(). This dataframe must have country names in the entity column, not all data returned by owid() will be like this.
 #' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
 #' @param palette The RColorBrewer palette to be used.
 #' @param mode If "plot", the output will be a ggplot2 map. If "view", the output will be a leaflet interactive map.
@@ -13,9 +13,7 @@
 #' @import sf
 #'
 #' @examples
-#' ds <- owid_get_datasets()
-#' id <- owid_search(ds, "Mental and substance use disorder")$id
-#' mental <- owid(id, ds)
+#' mental <- owid("share-with-mental-and-substance-disorders")
 #'
 #' # simple ggplot2 map
 #' owid_map(mental)
@@ -23,17 +21,17 @@
 #' # interavtive map with blue palette
 #' owid_map(mental, mode = "view", palette = "Blues")
 #'
-owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot") {
+owid_map <- function(data = dataframe(), col = 4, palette = "Reds", mode = "plot") {
 
-  owid_readme(data)
+  # owid_readme(data)
 
-  if (colnames(data)[2] == "Date") {
-    colnames(data)[2] <- "Year"
+  if (colnames(data)[3] == "date") {
+    colnames(data)[3] <- "year"
   }
 
   data <- data %>%
-    # group_by(Entity) %>%
-    filter(Year == max(Year))
+    # group_by(entity) %>%
+    filter(year == max(year))
 
   if (is.numeric(col)) {
     value <- colnames(data)[col]
@@ -47,7 +45,7 @@ owid_map <- function(data = dataframe(), col = 3, palette = "Reds", mode = "plot
   world <- world_map_data()
 
   map_data <- world %>%
-    left_join(data, by = c("owid_name" = "Entity"))
+    left_join(data, by = c("owid_name" = "entity"))
 
 
 

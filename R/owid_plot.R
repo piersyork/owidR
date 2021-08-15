@@ -5,25 +5,21 @@
 #'
 #' @param data A tibble returned from `owid()`
 #' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
-#' @param summarise A logical value. If TRUE, plot takes the mean value. If FALSE, each Entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many Entity's being plotted.
-#' @param filter The Entity's to include in the plot.
-#' @param years The Years to be included in the plot.
-#' @param show.all A logical value indicating wether all Entities should be included in the plot.
+#' @param summarise A logical value. If TRUE, plot takes the mean value. If FALSE, each entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many entity's being plotted.
+#' @param filter The entity's to include in the plot.
+#' @param years The years to be included in the plot.
+#' @param show.all A logical value indicating weather all Entities should be included in the plot.
 #'
 #' @return A ggplot object.
 #' @export
 #'
 #'
 #' @examples
-#' ds <- owid_get_datasets()
-#' id <- owid_search(ds, "meat")
-#' id <- owid_search(ds, "Meat consumption in EU28")$id
-#' meat <- owid(id, ds)
+#' protein <- owid("protein-efficiency-of-meat-and-dairy-production")
 #'
-#' owid_plot(meat)
+#' owid_plot(protein)
 #'
-#' hr_id <- owid_search(ds, "Human Rights Scores")$id
-#' human_rights <- owid(hr_id, ds)
+#' human_rights <- owid("human-rights-scores")
 #'
 #' # Plot average score over time
 #' owid_plot(human_rights)
@@ -33,23 +29,19 @@
 #'           filter = c("United Kingdom", "Sweden", "North Korea", "South Korea"))
 #'
 #'
-owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
+owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
                       years = NULL, show.all = FALSE) {
 
-  if ("owid" %in% class(data)) {
-    owid_readme(data)
-  }
-
-  if (col < 3) {
-    stop("col value cannot point to Entity or Year")
+  if (col < 4) {
+    stop("col value cannot point to entity, year or code")
   }
 
   if (!is.numeric(pull(data[, col]))) {
     stop("value column of data must be numeric")
   }
 
-  if (colnames(data)[2] == "Date") {
-    colnames(data)[2] <- "Year"
+  if (colnames(data)[4] == "date") {
+    colnames(data)[4] <- "year"
   }
 
   if (is.numeric(col)) {
@@ -62,11 +54,11 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
 
   if (!is.null(filter)) {
     data <- data %>%
-      filter(Entity %in% filter)
+      filter(entity %in% filter)
   }
   if (!is.null(years)) {
     data <- data %>%
-      filter(Year %in% years)
+      filter(year %in% years)
   }
 
   data$value <- as.numeric(data$value)
@@ -83,11 +75,11 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
 
   ggplot2::theme_set(owid_theme)
 
-  if (colnames(data)[2] == "Year") {
-    entities <- unique(data$Entity)
+  if (colnames(data)[3] == "year") {
+    entities <- unique(data$entity)
 
     n_entries <- data %>%
-      group_by(Entity) %>%
+      group_by(entity) %>%
       count() %>%
       magrittr::use_series(n) %>%
       max()
@@ -95,9 +87,9 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
     if (n_entries > 1) {
       if (summarise) {
         plot <- data %>%
-          group_by(Year) %>%
+          group_by(year) %>%
           summarise(value = mean(value, na.rm = TRUE)) %>%
-          ggplot2::ggplot(ggplot2::aes(Year, value)) +
+          ggplot2::ggplot(ggplot2::aes(year, value)) +
           ggplot2::geom_line(colour = "#377EB8") +
           ggplot2::labs(title = val_name, x = "", y = "") +
           ggplot2::coord_cartesian(expand = FALSE)
@@ -117,8 +109,8 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
 
         }
         plot <- data %>%
-          filter(Entity %in% entities) %>%
-          ggplot2::ggplot(ggplot2::aes(Year, value, colour = Entity)) +
+          filter(entity %in% entities) %>%
+          ggplot2::ggplot(ggplot2::aes(year, value, colour = entity)) +
           ggplot2::geom_line() +
           ggplot2::labs(title = val_name, x = "", y = "") +
           ggplot2::coord_cartesian(expand = FALSE)
@@ -140,8 +132,8 @@ owid_plot <- function(data = NULL, col = 3, summarise = TRUE, filter = NULL,
       }
 
       plot <- data %>%
-        filter(Entity %in% entities) %>%
-        ggplot2::ggplot(ggplot2::aes(forcats::fct_reorder(factor(Entity), value), value)) +
+        filter(entity %in% entities) %>%
+        ggplot2::ggplot(ggplot2::aes(forcats::fct_reorder(factor(entity), value), value)) +
         ggplot2::geom_col(fill = "#377EB8") +
         ggplot2::labs(title = val_name, x = "", y = "") +
         ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 35, hjust = 1, vjust = 1)) +

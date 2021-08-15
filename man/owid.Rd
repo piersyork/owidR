@@ -4,26 +4,21 @@
 \alias{owid}
 \title{Get data from Our World in Data}
 \usage{
-owid(id = NULL, datasets = NULL, tidy.date = TRUE, ...)
+owid(chart_id = NULL, tidy.date = TRUE, ...)
 }
 \arguments{
-\item{id}{Either the id of a dataset or a dataframe returned by owid_search().}
-
-\item{datasets}{A dataframe returned by get_owid_datasets().}
+\item{chart_id}{The chart_id as returned by owid_search}
 
 \item{tidy.date}{If TRUE then a Year column that should be a Date column will automatically be transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.}
 
-\item{...}{Further arguments passed on to read_csv.}
+\item{...}{Not to be used.}
 }
 \value{
 A tibble of an owid dataset with the added class 'owid'.
 }
 \description{
-Get OWID datasets from the OWID datasets github repo.
+Get a dataset used in an OWID chart.
 }
 \examples{
-ds <- owid_get_datasets()
-owid_search(ds, "meat")
-id <- owid_search(ds, "Meat consumption in EU28")$id
-meat <- owid(id, ds)
+owid_search("emissions")
 }

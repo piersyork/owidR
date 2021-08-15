@@ -4,10 +4,10 @@
 \alias{owid_map}
 \title{Create a choropleth world map using data from Our World in Data.}
 \usage{
-owid_map(data = dataframe(), col = 3, palette = "Reds", mode = "plot")
+owid_map(data = dataframe(), col = 4, palette = "Reds", mode = "plot")
 }
 \arguments{
-\item{data}{A dataframe returned by owid(). This dataframe must have country names in the Entity column, not all data returned by owid() will be like this.}
+\item{data}{A dataframe returned by owid(). This dataframe must have country names in the entity column, not all data returned by owid() will be like this.}
 
 \item{col}{Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.}
 
@@ -22,9 +22,7 @@ Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 A function to easily create a choropleth world map using data from Our World in Data.
 }
 \examples{
-ds <- owid_get_datasets()
-id <- owid_search(ds, "Mental and substance use disorder")$id
-mental <- owid(id, ds)
+mental <- owid("share-with-mental-and-substance-disorders")
 
 # simple ggplot2 map
 owid_map(mental)

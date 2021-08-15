@@ -1,11 +1,62 @@
+#' Internal function to get datasets from our world in data
+#'
+#' @noRd
+#'
+get_datasets <- function() {
+  all_charts_page <- rvest::read_html("https://ourworldindata.org/charts")
+  links <- all_charts_page %>%
+    rvest::html_nodes("section") %>%
+    rvest::html_nodes("a")
+
+  titles <- rvest::html_text(links)
+  urls <- rvest::html_attr(links, "href")
+
+  datasets <- tibble(titles, urls) %>%
+    filter(grepl("grapher", urls)) %>%
+    mutate(urls = stringr::word(urls, 3, -1, sep = "/")) %>%
+    rename(chart_id = urls) %>%
+    distinct()
+}
+
+#' Search the data sources used in OWID charts
+#'
+#' @param term A search term
+#'
+#' @return
+#' @export
+#'
+owid_search <- function(term) {
+  ds <- get_datasets()
+  ds %>%
+    filter(grepl(term, titles, ignore.case = TRUE)) %>%
+    as.matrix()
+}
+
+#' Internal function to get the dataset url
+#'
+#' @description thank you to Edouard Mathieu from OWID for this idea
+#' @param chart_id
+#'
+#' @return The url to the page with json data
+#'
+#' @noRd
+#'
+get_data_url <- function(chart_id) {
+  url <- sprintf("https://ourworldindata.org/grapher/%s", chart_id)
+  page <- rvest::read_html(url)
+  links <- rvest::html_nodes(page, "link")
+  preload <- links[rvest::html_attr(links, "rel") == "preload"]
+  full_url <- sprintf("https://ourworldindata.org%s", rvest::html_attr(preload, "href"))
+  return(full_url)
+}
+
 #' Get data from Our World in Data
 #'
-#' @description Get OWID datasets from the OWID datasets github repo.
+#' @description Get a dataset used in an OWID chart.
 #'
-#' @param id Either the id of a dataset or a dataframe returned by owid_search().
-#' @param datasets A dataframe returned by get_owid_datasets().
+#' @param chart_id The chart_id as returned by owid_search
 #' @param tidy.date If TRUE then a Year column that should be a Date column will automatically be transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.
-#' @param ... Further arguments passed on to read_csv.
+#' @param ... Not to be used.
 #'
 #' @return A tibble of an owid dataset with the added class 'owid'.
 #' @export
@@ -13,112 +64,88 @@
 #' @import dplyr
 #'
 #' @examples
-#' ds <- owid_get_datasets()
-#' owid_search(ds, "meat")
-#' id <- owid_search(ds, "Meat consumption in EU28")$id
-#' meat <- owid(id, ds)
-owid <- function(id = NULL, datasets = NULL, tidy.date = TRUE, ...) {
+#' owid_search("emissions")
+owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
 
-  if (!length(names(attributes(datasets))) > 3) {
-    stop ("datasets must be an object returned by 'get_owid_datasets'")
-  }
-  if (!names(attributes(datasets))[4] == "with_urls") {
-    stop ("datasets must be an object returned by 'get_owid_datasets'")
+  if (is.null(chart_id)) {
+    datasets <- get_datasets()
+    random_no <- sample(nrow(datasets), 1)
+    chart_id <- datasets$chart_id[random_no]
   }
 
-  if (is.data.frame(id)) {
-    id <- id$id
+  data_url <- get_data_url(chart_id)
+
+  data <- jsonlite::fromJSON(data_url)
+
+
+  datasets <- list()
+  for (i in 1:length(data$variables)) {
+    val_name <- data$variables[[i]]$name #%>%
+    # stringr::word(1, 3) %>%
+    # make.names()
+    # stringr::str_replace(" ", "_") %>%
+    # tolower()
+    datasets[[i]] <- tibble(
+      entity_id = data$variables[[i]]$entities,
+      year = data$variables[[i]]$years,
+      value = data$variables[[i]]$values
+    )
+    colnames(datasets[[i]])[3] <- val_name
+
+    yearIsDay <- if (is.null(data$variables[[i]]$display$yearIsDay)) {
+      FALSE
+    } else (data$variables[[i]]$display$yearIsDay)
+
+    if (yearIsDay & tidy.date) {
+      # colnames(datasets[[i]])[2] <- "date"
+      datasets[[i]] <- datasets[[i]] %>%
+        mutate(year = as.Date(data$variables[[i]]$display$zeroDay) + year)
+    }
+
   }
+  all_data <- purrr::reduce(datasets, full_join, by = c("entity_id", "year")) %>%
+    arrange(desc(year))
 
-  if (is.null(id)) {
-    .id <- sample(1:nrow(datasets), size = 1)
-  } else if (length(id) > 1) {
-    .id <- sample(id, 1)
-  } else {
-    .id <- id
-  }
-
-  url <- attr(datasets, "with_urls") %>%
-    filter(id == .id) %>%
-    pull(url)
-
-  title <- attr(datasets, "with_urls") %>%
-    filter(id == .id) %>%
-    pull(title)
-
-  cat(title)
-
-  data_links <- url %>%
-    paste0("https://github.com", .) %>%
-    rvest::read_html() %>%
-    rvest::html_nodes(".Details-content--hidden-not-important") %>%
-    rvest::html_nodes(".js-navigation-open") %>%
-    # extract(2) %>%
-    rvest::html_attr("href") %>%
-    stringr::word(6, -1, sep = "/")
-
-  data_link <- grep(".csv", data_links, value = TRUE) %>%
-    paste0("https://raw.github.com/owid/owid-datasets/master/", .)
-  md_link <- grep("README", data_links, value = TRUE) %>%
-    paste0("https://raw.github.com/owid/owid-datasets/master/", .)
-  datapackage_link <- grep("datapackage.json", data_links, value = TRUE) %>%
-    paste0("https://raw.github.com/owid/owid-datasets/master/", .)
-
-  data <- readr::read_csv(data_link, ...)
-
-  datapackage <- jsonlite::fromJSON(datapackage_link, flatten = TRUE)
-
-  display_settings <- datapackage$resources$schema.fields[[1]]$owidDisplaySettings
-
-  if (TRUE %in% (grepl("zeroDay", display_settings)) & tidy.date) {
-    zero_days <- display_settings %>%
-      na.omit() %>%
-      stringr::str_sub(2, -2) %>%
-      stringr::str_replace_all("\\\"", "") %>%
-      stringr::str_match("zeroDay: [0-9]+-[0-9]+-[0-9]+") %>%
-      na.omit() %>%
-      as.vector() %>%
-      unique()
-
-    if (length(zero_days) == 1) {
-      day_start <- gsub("zeroDay: ", "", zero_days) %>% as.Date()
-
-      data <- data %>%
-        mutate(Year = day_start + Year) %>%
-        rename(Date = Year)
-      warning("Year column automatically tranformed into Date column, use tidy.date = FALSE to keep original.")
+  entity <- vector()
+  code <- vector()
+  for (i in 1:length(data$entityKey)) {
+    entity <- c(entity, data$entityKey[[i]]$name)
+    if (is.null(data$entityKey[[i]]$code)) {
+      code <- c(code, NA)
     } else {
-      warning("Year column might not be a year but could not transform due to ambiguous start date.")
+      code <- c(code, data$entityKey[[i]]$code)
     }
   }
+  entity_key <- tibble(
+    entity_id = as.numeric(names(data$entityKey)),
+    entity,
+    code
+  )
 
+  # data$variables[[1]]$name
+  out <- all_data %>%
+    left_join(entity_key, by = "entity_id") %>%
+    select(-entity_id) %>%
+    relocate(entity, code, year) %>%
+    arrange(entity, year)
 
-  pasteReadme <- function(fileName){
-
-    breakFun <- function(x){
-      #function to replace empty lines with newline.
-      if(nchar(x) == 0){
-        return("\n\n") #double newline to give same space as in the .md-file
-      } else {
-        return(x)
-      }
-    }
-
-    storeLines <- readLines(fileName)
-
-    out <- (paste0(paste0(lapply(storeLines, FUN=function(x) breakFun(x)), collapse=""), "\n"))
-    return(out)
+  if (yearIsDay & tidy.date) {
+    colnames(out)[3] <- "date"
   }
 
-  readme <- suppressWarnings(pasteReadme(md_link))
-  # readme <- readLines(md_link)
+  data_info <- vector(mode = "list", length = length(colnames(out)[4:length(colnames(out))]))
+  names(data_info) <- colnames(out)[4:length(colnames(out))]
+  for (i in 1:length(data$variables)) {
+    data_info[[i]]$source <- data$variables[[i]]$source
+    data_info[[i]]$dataset_name <- data$variables[[i]]$datasetName
+    data_info[[i]]$display <- data$variables[[i]]$display
+  }
 
-  attributes(data)$url <- paste0("https://github.com", url)
-  attributes(data)$readme <- readme
-  attributes(data)$datapackage <- datapackage
-  # object$data <- data
-  class(data) <- c("owid", class(data))
-  return(data)
+  attributes(out)$data_info <- data_info
+  attributes(out)$chart_id <- chart_id
+  class(out) <- c("owid", class(out))
+
+  return(out)
 
 }
 
