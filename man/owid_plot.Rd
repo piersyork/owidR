@@ -16,7 +16,7 @@ owid_plot(
 \arguments{
 \item{data}{A tibble returned from `owid()`}
 
-\item{col}{Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.}
+\item{col}{Either the column number to be treated as the value or a character string specifying the name of the value column. Defaults to 3, which is the first possible value column.}
 
 \item{summarise}{A logical value. If TRUE, plot takes the mean value. If FALSE, each entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many entity's being plotted.}
 

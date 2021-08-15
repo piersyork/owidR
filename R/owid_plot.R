@@ -4,7 +4,7 @@
 #'
 #'
 #' @param data A tibble returned from `owid()`
-#' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
+#' @param col Either the column number to be treated as the value or a character string specifying the name of the value column. Defaults to 3, which is the first possible value column.
 #' @param summarise A logical value. If TRUE, plot takes the mean value. If FALSE, each entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many entity's being plotted.
 #' @param filter The entity's to include in the plot.
 #' @param years The years to be included in the plot.
