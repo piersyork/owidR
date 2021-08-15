@@ -5,7 +5,7 @@ Version: 0.1.1
 Author: Piers York
 Maintainer: Piers York <piersyork+owidr@gmail.com>
 Description: Scrapes data from the Our World in Data website to offer easy to use functions for searching for datasets and downloading them into R.
-Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf, magrittr, htmltools, forcats, jsonlite, knitr, rstudioapi
+Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf, magrittr, htmltools, forcats, jsonlite, knitr, rstudioapi, purrr
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
