@@ -7,6 +7,10 @@ Data](https://ourworldindata.org/) datasets, allowing for an easy way to
 search through data used in over 3,000 charts and load them into the R
 environment.
 
+**Warning:** Package has recently been updated to remove
+`owid_get_datasets()` and change how the syntax works. It’s now simpler
+to use but not backwards compatible.
+
 ## Installation
 
 ``` r
