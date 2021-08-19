@@ -102,6 +102,11 @@ owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
         mutate(year = as.Date(data$variables[[i]]$display$zeroDay) + year)
     }
 
+    if (colnames(datasets[[i]])[3] == "Countries Continents") {
+      colnames(datasets[[i]])[3] <- "continent"
+      # datasets[[2]] <- datasets[[2]][-2]
+    }
+
   }
   all_data <- purrr::reduce(datasets, full_join, by = c("entity_id", "year")) %>%
     arrange(desc(year))
