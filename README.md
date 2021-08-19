@@ -57,19 +57,19 @@ Let’s use the human rights scores dataset.
 rights <- owid("human-rights-scores")
 
 rights
-## # A tibble: 11,717 x 4
-##    entity     code   year `Human Rights Score (Schnakenberg & Fariss, 2014; Far…
-##  * <chr>      <chr> <int>                                                  <dbl>
-##  1 Afghanist… AFG    1946                                                  0.690
-##  2 Afghanist… AFG    1947                                                  0.740
-##  3 Afghanist… AFG    1948                                                  0.787
-##  4 Afghanist… AFG    1949                                                  0.817
-##  5 Afghanist… AFG    1950                                                  0.851
-##  6 Afghanist… AFG    1951                                                  0.909
-##  7 Afghanist… AFG    1952                                                  0.938
-##  8 Afghanist… AFG    1953                                                  0.988
-##  9 Afghanist… AFG    1954                                                  1.01 
-## 10 Afghanist… AFG    1955                                                  1.01 
+## # A tibble: 11,717 × 4
+##    entity      code   year `Human Rights Score (Schnakenberg & Fariss, 2014; Fa…
+##  * <chr>       <chr> <int>                                                 <dbl>
+##  1 Afghanistan AFG    1946                                                 0.690
+##  2 Afghanistan AFG    1947                                                 0.740
+##  3 Afghanistan AFG    1948                                                 0.787
+##  4 Afghanistan AFG    1949                                                 0.817
+##  5 Afghanistan AFG    1950                                                 0.851
+##  6 Afghanistan AFG    1951                                                 0.909
+##  7 Afghanistan AFG    1952                                                 0.938
+##  8 Afghanistan AFG    1953                                                 0.988
+##  9 Afghanistan AFG    1954                                                 1.01 
+## 10 Afghanistan AFG    1955                                                 1.01 
 ## # … with 11,707 more rows
 ```
 
@@ -112,7 +112,8 @@ output of `owid_grapher()` can be piped into `grapher_line()` to add a
 line graph, into `grapher_map()` to add a world map, and into
 `grapher_labels()` to add labels to the graph. The graph is shown in the
 RStudio viewer, or when called in an RMarkdown html document is
-displayed within the document.
+displayed within the document. Currently this isn’t implemented as an
+htmlwidget and requires an internet connection to function.
 
 ``` r
 rights %>% 
