@@ -8,7 +8,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "##",
-  fig.path = "images/"
+  fig.path = "inst/images/", fig.width=8, fig.asp=0.6, fig.align='center'
 )
 
 library(dplyr)

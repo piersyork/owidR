@@ -81,7 +81,7 @@ all countries is plotted.
 owid_plot(rights)
 ```
 
-![](images/owid_plot-1.png)<!-- -->
+<img src="inst/images/owid_plot-1.png" style="display: block; margin: auto;" />
 
 Use `summarise = FALSE` to show individual countries instead of the mean
 score. Unless a vector of entities is specified using the `filter`
@@ -92,7 +92,7 @@ time-series then a bar chart of the entities values will be plotted.
 owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))
 ```
 
-![](images/owid_plot2-1.png)<!-- -->
+<img src="inst/images/owid_plot2-1.png" style="display: block; margin: auto;" />
 
 `owid_map()` makes it easy to create a choropleth world map of datasets
 that contain country level data. The Entities of the owid data must be
@@ -103,7 +103,7 @@ year.
 owid_map(rights)
 ```
 
-![](images/map-1.png)<!-- -->
+<img src="inst/images/map-1.png" style="display: block; margin: auto;" />
 
 ## Creating Our World in Data style graphs
 
