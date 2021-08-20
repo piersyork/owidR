@@ -72,8 +72,13 @@ owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
     random_no <- sample(nrow(datasets), 1)
     chart_id <- datasets$chart_id[random_no]
   }
+  tryCatch({
+    data_url <- get_data_url(chart_id)
+  }, error = function(e) {
+    stop(paste("Unable to connect to ourworldindata.org, either", chart_id,
+                  "is not a valid id or you have no internet connection"))
+  })
 
-  data_url <- get_data_url(chart_id)
 
   data <- jsonlite::fromJSON(data_url)
 
