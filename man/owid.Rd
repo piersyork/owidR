@@ -9,7 +9,7 @@ owid(chart_id = NULL, tidy.date = TRUE, ...)
 \arguments{
 \item{chart_id}{The chart_id as returned by owid_search}
 
-\item{tidy.date}{If TRUE then a Year column that should be a Date column will automatically be transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.}
+\item{tidy.date}{If TRUE then a year column that should be a date column will automatically detected and transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.}
 
 \item{...}{Not to be used.}
 }
@@ -21,4 +21,7 @@ Get a dataset used in an OWID chart.
 }
 \examples{
 owid_search("emissions")
+emissions <- owid("per-capita-ghg-emissions")
+
+
 }

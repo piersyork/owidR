@@ -10,8 +10,13 @@ owid_search(term)
 \item{term}{A search term}
 }
 \value{
-
+A matrix of chart titles and chard ids
 }
 \description{
 Search the data sources used in OWID charts
+}
+\examples{
+# returns the titles and chart_ids of all charts containing the word 'emissions'
+owid_search("emissions")
+
 }

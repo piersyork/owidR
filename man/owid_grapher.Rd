@@ -19,5 +19,18 @@ owid_grapher(data, x, y, entity)
 If executed from within an R script then the graph will be displayed within the viewer. If executed from within an RMarkdown file the graph will be displayed within the output document (only if the output is an html document).
 }
 \description{
-Use any dataframe to create your own owid style graphs. **Warning:** This function is in very early stages of development, may not be fully function and may undergo major changes.
+Use any dataframe to create your own owid style graphs. The function currently requires an internet connection to work. **Warning:** This function is in very early stages of development, may not be fully functional and may undergo major changes.
+}
+\examples{
+library(dplyr)
+owid_search("regime")
+regime <- owid("political-regime-updated2016")
+
+\dontrun{
+owid_grapher(regime, x = year, y = `Political Regime (OWID based on Polity IV and Wimmer & Min)`,
+             entity = entity) \%>\%
+  grapher_line() \%>\%
+  grapher_map(palette = "RdYlGn") \%>\%
+  grapher_labels(title = "Political Regime")
+}
 }

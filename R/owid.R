@@ -22,8 +22,12 @@ get_datasets <- function() {
 #'
 #' @param term A search term
 #'
-#' @return
+#' @return A matrix of chart titles and chard ids
 #' @export
+#'
+#' @examples
+#' # returns the titles and chart_ids of all charts containing the word 'emissions'
+#' owid_search("emissions")
 #'
 owid_search <- function(term) {
   ds <- get_datasets()
@@ -55,7 +59,7 @@ get_data_url <- function(chart_id) {
 #' @description Get a dataset used in an OWID chart.
 #'
 #' @param chart_id The chart_id as returned by owid_search
-#' @param tidy.date If TRUE then a Year column that should be a Date column will automatically be transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.
+#' @param tidy.date If TRUE then a year column that should be a date column will automatically detected and transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.
 #' @param ... Not to be used.
 #'
 #' @return A tibble of an owid dataset with the added class 'owid'.
@@ -65,6 +69,9 @@ get_data_url <- function(chart_id) {
 #'
 #' @examples
 #' owid_search("emissions")
+#' emissions <- owid("per-capita-ghg-emissions")
+#'
+#'
 owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
 
   if (is.null(chart_id)) {

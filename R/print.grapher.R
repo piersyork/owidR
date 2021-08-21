@@ -41,14 +41,16 @@ create_dataset_json <- function(df, is_date) {
 }
 #' Internal function to create the jsonConfig string.
 #'
-#' @param title
-#' @param subtitle
-#' @param note
-#' @param source
-#' @param type
-#' @param hasMapTab
+#' @description uses the grapher settings to create a jsonConfig string used to change the chart settings
+#'
+#' @param title The chart title
+#' @param subtitle The chart subtitle
+#' @param note The chart note
+#' @param source The chart source
+#' @param type The type of chart
+#' @param hasMapTab Should a map be included
 #' @param owidDataset A string returned by create_dataset_json().
-#' @param selectedData
+#' @param selectedData The entities to be included in the chart
 #'
 #' @return A string of the jsonConfig
 #' @noRd
@@ -64,7 +66,7 @@ create_config_json <- function(map_config, tab, title, subtitle, note, source, t
 #' Internal function to create the iframe html
 #'
 #'
-#' @param height
+#' @param height The height of the chart, to be changed for whether chart is displayed in viewer of in rmarkdown
 #' @param jsonConfig
 #'
 #' @return An html string of the iframe. This html text is able to produce an owid graph.
