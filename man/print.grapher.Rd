@@ -11,9 +11,6 @@
 
 \item{...}{Further arguments for future versions}
 }
-\value{
-
-}
 \description{
-Create the final graph and presents it in the viewer
+Create the final graph and present it in the viewer
 }

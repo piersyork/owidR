@@ -17,9 +17,6 @@ grapher_labels(grapher, title = "", subtitle = "", note = "", source = "")
 
 \item{source}{The source of data}
 }
-\value{
-
-}
 \description{
 Add labels to the grapher
 }

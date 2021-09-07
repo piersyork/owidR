@@ -57,13 +57,17 @@ owid_map <- function(data = dataframe(), col = 4, palette = "Reds", mode = "plot
       ggplot2::geom_sf(size = 0.05, colour = "black") + #, colour = "#dedfea"
       ggplot2::scale_fill_distiller(palette = palette, direction = 1, na.value = "grey80") +
       ggplot2::labs(title = value) +
-      ggplot2::theme_void() +
-      ggplot2::theme(legend.position = "bottom",
+      theme_owid() +
+      ggplot2::theme(axis.line.x = ggplot2::element_blank(),
+                     axis.ticks = ggplot2::element_blank(),
+                     panel.grid = ggplot2::element_blank(),
+                     panel.grid.major = ggplot2::element_blank(),
+                     axis.text = ggplot2::element_blank(),
+                     legend.position = "bottom",
                      legend.title = ggplot2::element_blank(),
                      legend.key.width = ggplot2::unit(2, units = "cm"),
                      legend.key.height = ggplot2::unit(0.3, units = "cm"),
-                     plot.title = ggplot2::element_text(hjust = 0.1, vjust = 0.3, face = "bold"),
-                     plot.title.position = "plot")
+                     plot.title = element_text(vjust = 1))
   } else if (mode == "view") {
     pal <- leaflet::colorNumeric(
       palette = palette,

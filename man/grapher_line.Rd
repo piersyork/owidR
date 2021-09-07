@@ -17,9 +17,6 @@ grapher_line(
 
 \item{change_selected}{Allow the entities to be changed from within the graph.}
 }
-\value{
-
-}
 \description{
 Add a line graph to the grapher
 }

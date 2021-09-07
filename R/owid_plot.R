@@ -63,17 +63,17 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
 
   data$value <- as.numeric(data$value)
 
-  owid_theme <- ggplot2::theme_minimal() +
-    ggplot2::theme(title = ggplot2::element_text(face = "bold"),
-                   legend.title = ggplot2::element_blank(),
-                   legend.position = "top",
-                   panel.grid.minor = ggplot2::element_blank(),
-                   panel.grid.major.x = ggplot2::element_blank(),
-                   panel.grid.major.y = ggplot2::element_line(linetype = "dashed", colour = "grey"),
-                   axis.text = ggplot2::element_text(size = 11),
-                   plot.margin = ggplot2::margin(r = 15, b = 4, t = 4, l = 2))
+  # owid_theme <- ggplot2::theme_minimal() +
+  #   ggplot2::theme(title = ggplot2::element_text(face = "bold"),
+  #                  legend.title = ggplot2::element_blank(),
+  #                  legend.position = "top",
+  #                  panel.grid.minor = ggplot2::element_blank(),
+  #                  panel.grid.major.x = ggplot2::element_blank(),
+  #                  panel.grid.major.y = ggplot2::element_line(linetype = "dashed", colour = "grey"),
+  #                  axis.text = ggplot2::element_text(size = 11),
+  #                  plot.margin = ggplot2::margin(r = 15, b = 4, t = 4, l = 2))
 
-  ggplot2::theme_set(owid_theme)
+  # ggplot2::theme_set(theme_owid())
 
   if (colnames(data)[3] == "year") {
     entities <- unique(data$entity)
@@ -90,9 +90,10 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
           group_by(year) %>%
           summarise(value = mean(value, na.rm = TRUE)) %>%
           ggplot2::ggplot(ggplot2::aes(year, value)) +
-          ggplot2::geom_line(colour = "#377EB8") +
+          ggplot2::geom_line(colour = "#57677D") +
           ggplot2::labs(title = val_name, x = "", y = "") +
-          ggplot2::coord_cartesian(expand = FALSE)
+          theme_owid() +
+          ggplot2::theme(panel.grid.major.x = element_blank())
 
       } else {
         if (length(entities) > 10) {
@@ -104,20 +105,28 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
                            ". Use the filter argument to select which entities are shown."))
             # set.seed(20) # show same countries on repeated calls?
             entities <- sample(entities, 9)
-
           }
-
         }
+        max_string_length <- max(nchar(entities))
         plot <- data %>%
+          group_by(entity) %>%
+          mutate(label = ifelse(year == max(year), entity, NA)) %>%
           filter(entity %in% entities) %>%
           ggplot2::ggplot(ggplot2::aes(year, value, colour = entity)) +
           ggplot2::geom_line() +
           ggplot2::labs(title = val_name, x = "", y = "") +
-          ggplot2::coord_cartesian(expand = FALSE)
-        if (length(entities) <= 9){
-          plot <- plot + ggplot2::scale_colour_brewer(palette="Set1")
-        }
+          theme_owid() +
+          coord_cartesian(clip = "off") +
+          ggplot2::theme(panel.grid.major.x = element_blank(),
+                         plot.margin = margin(5, 6*max_string_length, 5, 10),
+                         legend.position = "none") +
+          ggrepel::geom_text_repel(aes(label = label),
+                                   hjust = 0, xlim = Inf,
+                                   na.rm = TRUE, segment.colour = "grey")
 
+        if (length(entities) <= 10){
+          plot <- plot + scale_colour_owid()
+        }
       }
     } else {
 
@@ -133,10 +142,13 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
 
       plot <- data %>%
         filter(entity %in% entities) %>%
-        ggplot2::ggplot(ggplot2::aes(forcats::fct_reorder(factor(entity), value), value)) +
-        ggplot2::geom_col(fill = "#377EB8") +
+        ggplot2::ggplot(ggplot2::aes(value, forcats::fct_reorder(factor(entity), value))) +
+        ggplot2::geom_col(fill = "#57677D") +
         ggplot2::labs(title = val_name, x = "", y = "") +
-        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 35, hjust = 1, vjust = 1)) +
+        theme_owid() +
+        ggplot2::theme(panel.grid.major.y = element_blank(),
+                       plot.margin = margin(5, 5, 5, 10),
+                       plot.title = element_text(vjust = 1)) +
         ggplot2::coord_cartesian(expand = FALSE)
     }
   }

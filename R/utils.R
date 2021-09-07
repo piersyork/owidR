@@ -49,7 +49,6 @@ owid_source <- function(data) {
 #'
 #' @param x Either a tibble returned by owid(), or a chart_id.
 #'
-#' @return
 #' @export
 #'
 #' @examples

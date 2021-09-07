@@ -105,7 +105,7 @@ owid_map(rights)
 
 <img src="inst/images/map-1.png" style="display: block; margin: auto;" />
 
-## Creating Our World in Data style graphs
+## Creating Our World in Data style interactive charts
 
 `owid_grapher()` creates graphs in the style of Our World in Data. The
 output of `owid_grapher()` can be piped into `grapher_line()` to add a

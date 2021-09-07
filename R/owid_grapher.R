@@ -110,7 +110,6 @@ owid_grapher <- function(data, x, y, entity) {
 #' @param selected The entities displayed when the graph first loads.
 #' @param change_selected Allow the entities to be changed from within the graph.
 #'
-#' @return
 #' @export
 #'
 grapher_line <- function(grapher, selected = c("United Kingdom", "France", "Spain", "Ireland"),
@@ -132,7 +131,6 @@ grapher_line <- function(grapher, selected = c("United Kingdom", "France", "Spai
 #' @param palette An RColorBrewer palette.
 #' @param bins The steps in the map legend bins.
 #'
-#' @return
 #' @export
 #'
 grapher_map <- function(grapher, palette = "Greens", bins = "auto") {
@@ -155,7 +153,6 @@ grapher_map <- function(grapher, palette = "Greens", bins = "auto") {
 #' @param note A footnote for the graph
 #' @param source The source of data
 #'
-#' @return
 #' @export
 #'
 grapher_labels <- function(grapher, title = "", subtitle = "", note = "", source = "") {

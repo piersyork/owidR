@@ -13,9 +13,6 @@ grapher_map(grapher, palette = "Greens", bins = "auto")
 
 \item{bins}{The steps in the map legend bins.}
 }
-\value{
-
-}
 \description{
 Add a map to the grapher
 }

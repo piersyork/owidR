@@ -164,12 +164,11 @@ create_map_config <- function(map_palette = "Greens", map_bins = "auto") {
 
 #' The print method for owid_grapher()
 #'
-#' @description Create the final graph and presents it in the viewer
+#' @description Create the final graph and present it in the viewer
 #'
 #' @param x An object of class "grapher"
 #' @param ... Further arguments for future versions
 #'
-#' @return
 #' @export
 #'
 print.grapher <- function(x, ...) {

@@ -9,9 +9,6 @@ view_chart(x)
 \arguments{
 \item{x}{Either a tibble returned by owid(), or a chart_id.}
 }
-\value{
-
-}
 \description{
 A function that opens the original OWID chart in your browser.
 }
