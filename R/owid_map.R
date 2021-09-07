@@ -6,6 +6,7 @@
 #' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
 #' @param palette The RColorBrewer palette to be used.
 #' @param mode If "plot", the output will be a ggplot2 map. If "view", the output will be a leaflet interactive map.
+#' @param year The year to be mapped. Defaults to NULL, which plots the most recent year with data available.
 #'
 #' @return Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 #' @export
@@ -21,7 +22,7 @@
 #' # interavtive map with blue palette
 #' owid_map(mental, mode = "view", palette = "Blues")
 #'
-owid_map <- function(data = dataframe(), col = 4, palette = "Reds", mode = "plot") {
+owid_map <- function(data = dataframe(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
 
   # owid_readme(data)
 
@@ -29,9 +30,20 @@ owid_map <- function(data = dataframe(), col = 4, palette = "Reds", mode = "plot
     colnames(data)[3] <- "year"
   }
 
-  data <- data %>%
-    # group_by(entity) %>%
-    filter(year == max(year))
+  if (is.null(year)) {
+    data <- data %>%
+      # group_by(entity) %>%
+      filter(year == max(year))
+  } else {
+    if (!is.numeric(year)) {
+      stop("year must be numeric")
+    } else if (!year %in% unique(data$year)) {
+      stop(paste("There is no data for", year))
+    }
+    data <- data %>%
+      filter(year == year)
+  }
+
 
   if (is.numeric(col)) {
     value <- colnames(data)[col]

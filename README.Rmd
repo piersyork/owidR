@@ -58,7 +58,7 @@ Use `summarise = FALSE` to show individual countries instead of the mean score. 
 owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))
 ```
 
-`owid_map()` makes it easy to create a choropleth world map of datasets that contain country level data. The Entities of the owid data must be country names. Currently the function plots data for the most recent year.
+`owid_map()` makes it easy to create a choropleth world map of datasets that contain country level data. The Entities of the owid data must be country names. By default the most recent year will be plotted, use the `year` argument to plot a different year.
 ```{r map, results='hide'}
 owid_map(rights)
 ```
