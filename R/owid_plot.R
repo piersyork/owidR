@@ -40,8 +40,8 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
     stop("value column of data must be numeric")
   }
 
-  if (colnames(data)[4] == "date") {
-    colnames(data)[4] <- "year"
+  if (colnames(data)[3] == "date") {
+    colnames(data)[3] <- "year"
   }
 
   if (is.numeric(col)) {
