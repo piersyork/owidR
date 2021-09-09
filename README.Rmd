@@ -64,6 +64,8 @@ owid_map(rights)
 ```
 
 ## Creating Our World in Data style interactive charts 
+**Warning** The grapher functionality has now moved to https://github.com/piersyork/owidGrapher. This both to simplify the owidR experience and also because the grapher is very unstable.
+
 `owid_grapher()` creates graphs in the style of Our World in Data. The output of `owid_grapher()` can be piped into `grapher_line()` to add a line graph, into `grapher_map()` to add a world map, and into `grapher_labels()` to add labels to the graph. The graph is shown in the RStudio viewer, or when called in an RMarkdown html document is displayed within the document. Currently this isn't implemented as an htmlwidget and requires an internet connection to function.
 ```{r grapher_eg, results='hide'}
 rights %>% 

@@ -79,6 +79,7 @@ all countries is plotted.
 
 ``` r
 owid_plot(rights)
+## Loading required namespace: showtext
 ```
 
 <img src="inst/images/owid_plot-1.png" style="display: block; margin: auto;" />
@@ -96,8 +97,8 @@ owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "F
 
 `owid_map()` makes it easy to create a choropleth world map of datasets
 that contain country level data. The Entities of the owid data must be
-country names. Currently the function plots data for the most recent
-year.
+country names. By default the most recent year will be plotted, use the
+`year` argument to plot a different year.
 
 ``` r
 owid_map(rights)
@@ -106,6 +107,10 @@ owid_map(rights)
 <img src="inst/images/map-1.png" style="display: block; margin: auto;" />
 
 ## Creating Our World in Data style interactive charts
+
+**Warning** The grapher functionality has now moved to
+<https://github.com/piersyork/owidGrapher>. This both to simplify the
+owidR experience and also because the grapher is very unstable.
 
 `owid_grapher()` creates graphs in the style of Our World in Data. The
 output of `owid_grapher()` can be piped into `grapher_line()` to add a
