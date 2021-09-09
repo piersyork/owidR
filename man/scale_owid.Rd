@@ -21,6 +21,7 @@ scale_color_owid(alpha = 1, ...)
 Our World in Data Colour Scales
 }
 \examples{
+\dontrun{
 library(ggplot2)
 library(dplyr)
 library(ggrepel)
@@ -49,6 +50,7 @@ venom \%>\%
   theme_owid() +
   theme(plot.margin = margin(5, 80, 5, 10), legend.position = "none",
         panel.grid.major.x = element_blank())
+}
 
 
 }

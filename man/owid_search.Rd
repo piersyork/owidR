@@ -16,7 +16,9 @@ A matrix of chart titles and chard ids
 Search the data sources used in OWID charts
 }
 \examples{
+\dontrun{
 # returns the titles and chart_ids of all charts containing the word 'emissions'
 owid_search("emissions")
+}
 
 }

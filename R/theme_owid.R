@@ -77,6 +77,7 @@ pal_owid <- function(alpha) {
 #' @rdname scale_owid
 #'
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
 #' library(dplyr)
 #' library(ggrepel)
@@ -105,6 +106,7 @@ pal_owid <- function(alpha) {
 #'   theme_owid() +
 #'   theme(plot.margin = margin(5, 80, 5, 10), legend.position = "none",
 #'         panel.grid.major.x = element_blank())
+#' }
 #'
 #'
 scale_fill_owid <- function(alpha = 1, ...) {
