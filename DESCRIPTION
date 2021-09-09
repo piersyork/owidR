@@ -1,7 +1,7 @@
 Package: owidR
 Type: Package
 Title: A Package for Importing Data from Our World in Data
-Version: 0.1.1
+Version: 0.2.1
 Author: Piers York
 Maintainer: Piers York <piersyork+owidr@gmail.com>
 Description: Scrapes data from the Our World in Data website to offer easy to use functions for searching for datasets and downloading them into R.
