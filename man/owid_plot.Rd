@@ -33,9 +33,6 @@ A ggplot object.
 A wrapper around ggplot to provide an quick visualisation of owid data.
 }
 \examples{
-protein <- owid("protein-efficiency-of-meat-and-dairy-production")
-
-owid_plot(protein)
 
 human_rights <- owid("human-rights-scores")
 
