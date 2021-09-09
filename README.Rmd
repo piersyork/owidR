@@ -16,7 +16,7 @@ library(dplyr)
 
 This package acts as an interface to [Our World in Data](https://ourworldindata.org/) datasets, allowing for an easy way to search through data used in over 3,000 charts and load them into the R environment.
 
-**Warning:** Package has recently been updated to remove `owid_get_datasets()` and change how the syntax works. It's now simpler to use but not backwards compatible.
+**Note:** Package has recently been updated to remove `owid_get_datasets()` and change how the syntax works. It's now simpler to use but not backwards compatible.
 
 ## Installation
 
@@ -64,7 +64,7 @@ owid_map(rights)
 ```
 
 ## Creating Our World in Data style interactive charts 
-**Warning** The grapher functionality has now moved to https://github.com/piersyork/owidGrapher. This both to simplify the owidR experience and also because the grapher is very unstable.
+**Warning:** The grapher functionality has now moved to https://github.com/piersyork/owidGrapher. This both to simplify the owidR experience and also because the grapher is very unstable.
 
 `owid_grapher()` creates graphs in the style of Our World in Data. The output of `owid_grapher()` can be piped into `grapher_line()` to add a line graph, into `grapher_map()` to add a world map, and into `grapher_labels()` to add labels to the graph. The graph is shown in the RStudio viewer, or when called in an RMarkdown html document is displayed within the document. Currently this isn't implemented as an htmlwidget and requires an internet connection to function.
 ```{r grapher_eg, results='hide'}
