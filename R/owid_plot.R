@@ -54,11 +54,11 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
 
   if (!is.null(filter)) {
     data <- data %>%
-      filter(entity %in% filter)
+      filter(.data$entity %in% filter)
   }
   if (!is.null(years)) {
     data <- data %>%
-      filter(year %in% years)
+      filter(.data$year %in% years)
   }
 
   data$value <- as.numeric(data$value)
@@ -79,7 +79,7 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
     entities <- unique(data$entity)
 
     n_entries <- data %>%
-      group_by(entity) %>%
+      group_by(.data$entity) %>%
       count() %>%
       magrittr::use_series(n) %>%
       max()
@@ -87,9 +87,9 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
     if (n_entries > 1) {
       if (summarise) {
         plot <- data %>%
-          group_by(year) %>%
-          summarise(value = mean(value, na.rm = TRUE)) %>%
-          ggplot2::ggplot(ggplot2::aes(year, value)) +
+          group_by(.data$year) %>%
+          summarise(value = mean(.data$value, na.rm = TRUE)) %>%
+          ggplot2::ggplot(ggplot2::aes(.data$year, .data$value)) +
           ggplot2::geom_line(colour = "#57677D") +
           ggplot2::labs(title = val_name, x = "", y = "") +
           theme_owid() +
@@ -109,10 +109,10 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
         }
         max_string_length <- max(nchar(entities))
         plot <- data %>%
-          group_by(entity) %>%
-          mutate(label = ifelse(year == max(year), entity, NA)) %>%
-          filter(entity %in% entities) %>%
-          ggplot2::ggplot(ggplot2::aes(year, value, colour = entity)) +
+          group_by(.data$entity) %>%
+          mutate(label = ifelse(.data$year == max(.data$year), .data$entity, NA)) %>%
+          filter(.data$entity %in% entities) %>%
+          ggplot2::ggplot(ggplot2::aes(.data$year, .data$value, colour = .data$entity)) +
           ggplot2::geom_line() +
           ggplot2::labs(title = val_name, x = "", y = "") +
           theme_owid() +
@@ -120,7 +120,7 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
           ggplot2::theme(panel.grid.major.x = element_blank(),
                          plot.margin = margin(5, 6*max_string_length, 5, 10),
                          legend.position = "none") +
-          ggrepel::geom_text_repel(aes(label = label),
+          ggrepel::geom_text_repel(aes(label = .data$label),
                                    hjust = 0, xlim = Inf,
                                    na.rm = TRUE, segment.colour = "grey")
 
@@ -141,8 +141,9 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
       }
 
       plot <- data %>%
-        filter(entity %in% entities) %>%
-        ggplot2::ggplot(ggplot2::aes(value, forcats::fct_reorder(factor(entity), value))) +
+        filter(.data$entity %in% entities) %>%
+        ggplot2::ggplot(ggplot2::aes(.data$value,
+                                     forcats::fct_reorder(factor(.data$entity), .data$value))) +
         ggplot2::geom_col(fill = "#57677D") +
         ggplot2::labs(title = val_name, x = "", y = "") +
         theme_owid() +

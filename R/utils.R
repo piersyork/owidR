@@ -56,12 +56,19 @@ owid_source <- function(data) {
 #' view_chart(firearm_suicide)
 #'
 view_chart <- function(x) {
-  if ("owid" %in% class(x)) {
-    chart_id <- attributes(x)$chart_id
+  if (requireNamespace("utils", quietly = TRUE)) {
+    if ("owid" %in% class(x)) {
+      chart_id <- attributes(x)$chart_id
+    } else {
+      chart_id <- x
+    }
+    url <- paste0("https://ourworldindata.org/grapher/", chart_id)
+    utils::browseURL(url, browser = getOption("browser"),
+                     encodeIfNeeded = FALSE)
   } else {
-    chart_id <- x
+    stop("utils is required to launch browser, please go to", url, "instead")
   }
-  browseURL(paste0("https://ourworldindata.org/grapher/", chart_id))
+
 }
 
 

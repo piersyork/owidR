@@ -22,7 +22,7 @@
 #' # interavtive map with blue palette
 #' owid_map(mental, mode = "view", palette = "Blues")
 #'
-owid_map <- function(data = dataframe(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
+owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
 
   # owid_readme(data)
 
@@ -65,7 +65,7 @@ owid_map <- function(data = dataframe(), col = 4, palette = "Reds", mode = "plot
 
   if (mode == "plot") {
     map_data %>%
-      ggplot2::ggplot(ggplot2::aes(fill = value, id = owid_name)) +
+      ggplot2::ggplot(ggplot2::aes(fill = value, id = .data$owid_name)) +
       ggplot2::geom_sf(size = 0.05, colour = "black") + #, colour = "#dedfea"
       ggplot2::scale_fill_distiller(palette = palette, direction = 1, na.value = "grey80") +
       ggplot2::labs(title = value) +

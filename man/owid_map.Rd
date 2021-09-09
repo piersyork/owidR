@@ -5,7 +5,7 @@
 \title{Create a choropleth world map using data from Our World in Data.}
 \usage{
 owid_map(
-  data = dataframe(),
+  data = data.frame(),
   col = 4,
   palette = "Reds",
   mode = "plot",

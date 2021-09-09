@@ -32,7 +32,7 @@ get_datasets <- function() {
 owid_search <- function(term) {
   ds <- get_datasets()
   ds %>%
-    filter(grepl(term, titles, ignore.case = TRUE)) %>%
+    filter(grepl(term, .data$titles, ignore.case = TRUE)) %>%
     as.matrix()
 }
 
@@ -66,6 +66,7 @@ get_data_url <- function(chart_id) {
 #' @export
 #'
 #' @import dplyr
+#' @importFrom rlang .data
 #'
 #' @examples
 #' owid_search("emissions")
@@ -111,7 +112,7 @@ owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
     if (yearIsDay & tidy.date) {
       # colnames(datasets[[i]])[2] <- "date"
       datasets[[i]] <- datasets[[i]] %>%
-        mutate(year = as.Date(data$variables[[i]]$display$zeroDay) + year)
+        mutate(year = as.Date(data$variables[[i]]$display$zeroDay) + .data$year)
     }
 
     if (colnames(datasets[[i]])[3] == "Countries Continents") {
@@ -121,7 +122,7 @@ owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
 
   }
   all_data <- purrr::reduce(datasets, full_join, by = c("entity_id", "year")) %>%
-    arrange(desc(year))
+    arrange(desc(.data$year))
 
   entity <- vector()
   code <- vector()
@@ -142,9 +143,9 @@ owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
   # data$variables[[1]]$name
   out <- all_data %>%
     left_join(entity_key, by = "entity_id") %>%
-    select(-entity_id) %>%
-    relocate(entity, code, year) %>%
-    arrange(entity, year)
+    select(-.data$entity_id) %>%
+    relocate(entity, code, .data$year) %>%
+    arrange(entity, .data$year)
 
   if (yearIsDay & tidy.date) {
     colnames(out)[3] <- "date"

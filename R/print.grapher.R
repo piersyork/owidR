@@ -194,10 +194,10 @@ print.grapher <- function(x, ...) {
   selected_entities <- selected
 
   selected_ids <- grapher %>%
-    select(Entity, id) %>%
+    select(.data$Entity, .data$id) %>%
     distinct() %>%
-    filter(Entity %in% selected_entities) %>%
-    pull(id)
+    filter(.data$Entity %in% selected_entities) %>%
+    pull(.data$id)
 
   selectedData <- paste0(sprintf('{"entityId": %s}', selected_ids), collapse = ", ")
 

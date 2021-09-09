@@ -60,10 +60,10 @@ pal_owid <- function(alpha) {
   if (alpha > 1L | alpha <= 0L)
     stop("alpha must be in (0, 1]")
   raw_cols = lancet_palette
-  raw_cols_rgb = col2rgb(raw_cols)
-  alpha_cols = rgb(raw_cols_rgb[1L, ], raw_cols_rgb[2L, ],
-                   raw_cols_rgb[3L, ], alpha = alpha * 255L, names = names(raw_cols),
-                   maxColorValue = 255L)
+  raw_cols_rgb = grDevices::col2rgb(raw_cols)
+  alpha_cols = grDevices::rgb(raw_cols_rgb[1L, ], raw_cols_rgb[2L, ],
+                              raw_cols_rgb[3L, ], alpha = alpha * 255L, names = names(raw_cols),
+                              maxColorValue = 255L)
   scales::manual_pal(unname(alpha_cols))
 }
 
@@ -147,15 +147,19 @@ theme_owid <- function(import_fonts = TRUE) {
           axis.ticks = element_line(colour = "#8e8e8e"))
 
   if (import_fonts) {
-    if (curl::has_internet()) {
-      get_owid_fonts()
+    if (requireNamespace("showtext")) {
+      if (curl::has_internet()) {
+        get_owid_fonts()
+        thm <- thm + theme(text = element_text(family = "Lato", face = "plain", colour = "#373737"),
+                           plot.title = element_text(family = "Playfair Display",
+                                                     size = "20", hjust = 0),
+                           plot.subtitle = element_text(family = "Lato", hjust = 0))
+      } else {
+        warning("importing fonts requires an internet connection please use import_fonts = FALSE")
+      }
     } else {
-      stop("importing fonts requires an internet connection please use import_fonts = FALSE")
+      warning("importing fonts requires the showtext pacakge")
     }
-    thm <- thm + theme(text = element_text(family = "Lato", face = "plain", colour = "#373737"),
-                       plot.title = element_text(family = "Playfair Display",
-                                                 size = "20", hjust = 0),
-                       plot.subtitle = element_text(family = "Lato", hjust = 0))
   }
   thm
 }

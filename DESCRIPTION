@@ -1,16 +1,19 @@
 Package: owidR
 Type: Package
-Title: A package for importing data from Our World in Data
+Title: A Package for Importing Data from Our World in Data
 Version: 0.1.1
 Author: Piers York
 Maintainer: Piers York <piersyork+owidr@gmail.com>
 Description: Scrapes data from the Our World in Data website to offer easy to use functions for searching for datasets and downloading them into R.
-Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf, magrittr, htmltools, forcats, jsonlite, knitr, rstudioapi, purrr, xml2, curl, ggrepel, scales, showtext, sysfonts
+Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf, magrittr, htmltools, forcats, jsonlite, knitr, rstudioapi, purrr, xml2, curl, ggrepel, scales, rlang, grDevices
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    utils,
+    showtext,
+    sysfonts
 Config/testthat/edition: 3

@@ -40,20 +40,19 @@ owid_grapher <- function(data, x, y, entity) {
     # rename(Entity = country,
     #        Year = year,
     #        value = gdp_per_capita) %>%
-    na.omit() %>%
-    group_by(Entity) %>%
-    arrange(Year) %>%
+    stats::na.omit() %>%
+    group_by(.data$Entity) %>%
+    arrange(.data$Year) %>%
     mutate(id = cur_group_id()) %>%
     ungroup() %>%
     arrange(id) %>%
     # change entity names to match owid spelling if it isn't already. This list should translate work
     # for common other spellings such as World Bank Development index
-    mutate(Entity = recode(Entity,
+    mutate(Entity = recode(.data$Entity,
                            "Democratic Republic of the Congo" = "Democratic Republic of Congo",
                            "Congo, Dem. Rep." = "Democratic Republic of Congo",
                            "Republic of the Congo" = "Congo",
                            "Congo, Rep." = "Congo",
-                           "C\u00f4te d'Ivoire" = "Cote d'Ivoire",
                            "Russian Federation" = "Russia",
                            "Lao PDR" = "Laos",
                            "Dem. Rep. Korea" = "North Korea",
@@ -74,7 +73,7 @@ owid_grapher <- function(data, x, y, entity) {
 
   if (is_date) {
     grapher <- grapher %>%
-      mutate(Year = as.numeric(Year))
+      mutate(Year = as.numeric(.data$Year))
   }
 
   if (!is.numeric(grapher$value)) {
