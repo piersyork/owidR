@@ -7,7 +7,7 @@ Data](https://ourworldindata.org/) datasets, allowing for an easy way to
 search through data used in over 3,000 charts and load them into the R
 environment.
 
-**Warning:** Package has recently been updated to remove
+**Note:** Package has recently been updated to remove
 `owid_get_datasets()` and change how the syntax works. It’s now simpler
 to use but not backwards compatible.
 
@@ -108,7 +108,7 @@ owid_map(rights)
 
 ## Creating Our World in Data style interactive charts
 
-**Warning** The grapher functionality has now moved to
+**Warning:** The grapher functionality has now moved to
 <https://github.com/piersyork/owidGrapher>. This both to simplify the
 owidR experience and also because the grapher is very unstable.
 
