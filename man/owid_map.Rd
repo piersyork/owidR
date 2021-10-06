@@ -30,6 +30,7 @@ Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 A function to easily create a choropleth world map using data from Our World in Data.
 }
 \examples{
+\dontrun{
 mental <- owid("share-with-mental-and-substance-disorders")
 
 # simple ggplot2 map
@@ -37,5 +38,5 @@ owid_map(mental)
 
 # interavtive map with blue palette
 owid_map(mental, mode = "view", palette = "Blues")
-
+}
 }

@@ -13,7 +13,8 @@ view_chart(x)
 A function that opens the original OWID chart in your browser.
 }
 \examples{
+\dontrun{
 firearm_suicide <- owid("suicide-rate-by-firearm")
 view_chart(firearm_suicide)
-
+}
 }

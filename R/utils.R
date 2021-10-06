@@ -8,9 +8,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' rights <- owid("human-rights-scores")
 #' owid_source(rights)
-#'
+#' }
 owid_source <- function(data) {
 
   if (!"owid" %in% class(data)) {
@@ -52,9 +53,10 @@ owid_source <- function(data) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' firearm_suicide <- owid("suicide-rate-by-firearm")
 #' view_chart(firearm_suicide)
-#'
+#' }
 view_chart <- function(x) {
   if (requireNamespace("utils", quietly = TRUE)) {
     if ("owid" %in% class(x)) {

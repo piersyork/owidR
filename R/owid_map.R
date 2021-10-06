@@ -14,6 +14,7 @@
 #' @import sf
 #'
 #' @examples
+#' \dontrun{
 #' mental <- owid("share-with-mental-and-substance-disorders")
 #'
 #' # simple ggplot2 map
@@ -21,7 +22,7 @@
 #'
 #' # interavtive map with blue palette
 #' owid_map(mental, mode = "view", palette = "Blues")
-#'
+#' }
 owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
 
   # owid_readme(data)

@@ -16,7 +16,7 @@ library(dplyr)
 
 This package acts as an interface to [Our World in Data](https://ourworldindata.org/) datasets, allowing for an easy way to search through data used in over 3,000 charts and load them into the R environment.
 
-**Note:** Package has recently been updated to remove `owid_get_datasets()` and change how the syntax works. It's now simpler to use but not backwards compatible.
+**Note:** Package has been updated since the first version. It's now simpler to use but not backwards compatible.
 
 ## Installation
 
@@ -62,6 +62,7 @@ owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "F
 ```{r map, results='hide'}
 owid_map(rights)
 ```
+
 
 ## Creating Our World in Data style interactive charts 
 **Warning:** The grapher functionality has now moved to https://github.com/piersyork/owidGrapher. This both to simplify the owidR experience and also because the grapher is very unstable.
