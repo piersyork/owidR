@@ -1,7 +1,7 @@
 Package: owidR
 Type: Package
 Title: A Package for Importing Data from Our World in Data
-Version: 0.2.1
+Version: 1.0.0
 Author: Piers York
 Maintainer: Piers York <piersyork+owidr@gmail.com>
 Description: Scrapes data from the Our World in Data website to offer easy to use functions for searching for datasets and downloading them into R.
@@ -9,6 +9,7 @@ Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf, magrittr, forcats, 
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: en-GB
 LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
