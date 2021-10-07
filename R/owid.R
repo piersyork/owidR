@@ -26,7 +26,7 @@ get_datasets <- function() {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # returns the titles and chart_ids of all charts containing the word 'emissions'
 #' owid_search("emissions")
 #' }
@@ -71,7 +71,7 @@ get_data_url <- function(chart_id) {
 #' @importFrom rlang .data
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' owid_search("emissions")
 #' emissions <- owid("per-capita-ghg-emissions")
 #' }

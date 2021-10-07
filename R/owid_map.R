@@ -14,7 +14,7 @@
 #' @import sf
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' mental <- owid("share-with-mental-and-substance-disorders")
 #'
 #' # simple ggplot2 map

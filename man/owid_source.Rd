@@ -16,7 +16,7 @@ Displays the information in an easy to read format in the R console, also return
 A function to get source information from an OWID dataset and display it in the R console.
 }
 \examples{
-\dontrun{
+\donttest{
 rights <- owid("human-rights-scores")
 owid_source(rights)
 }

@@ -20,7 +20,7 @@
 #'
 #' # Plot average score over time
 #' owid_plot(human_rights)
-#' \dontrun{
+#' \donttest{
 #' # Plot score for a selection of countries
 #' owid_plot(human_rights, summarise = FALSE,
 #'           filter = c("United Kingdom", "Sweden", "North Korea", "South Korea"))

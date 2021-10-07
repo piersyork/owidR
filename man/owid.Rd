@@ -20,7 +20,7 @@ A tibble of an owid dataset with the added class 'owid'.
 Get a dataset used in an OWID chart.
 }
 \examples{
-\dontrun{
+\donttest{
 owid_search("emissions")
 emissions <- owid("per-capita-ghg-emissions")
 }

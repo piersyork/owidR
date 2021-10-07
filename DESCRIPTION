@@ -5,6 +5,7 @@ Version: 1.0.0
 Author: Piers York
 Maintainer: Piers York <piersyork+owidr@gmail.com>
 Description: Scrapes data from the Our World in Data website to offer easy to use functions for searching for datasets and downloading them into R.
+URL: <https://github.com/piersyork/owidR>, https://github.com/owid/covid-19-data/, <https://ourworldindata.org/>
 Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf, magrittr, forcats, jsonlite, htmltools, purrr, xml2, curl, ggrepel, scales, rlang, grDevices
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE

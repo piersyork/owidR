@@ -9,6 +9,9 @@ theme_owid(import_fonts = TRUE)
 \arguments{
 \item{import_fonts}{Import the fonts used by Our World in Data}
 }
+\value{
+A ggplot2 theme to be added to a ggplot2 plot.
+}
 \description{
 ggplot2 Theme in the Style of Our World in Data
 }

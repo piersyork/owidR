@@ -17,11 +17,14 @@ scale_color_owid(alpha = 1, ...)
 
 \item{...}{additional parameters for \code{\link[ggplot2]{discrete_scale}}}
 }
+\value{
+A ggproto object to be used in the context of ggplot2.
+}
 \description{
 Our World in Data Colour Scales
 }
 \examples{
-\dontrun{
+\donttest{
 library(ggplot2)
 library(dplyr)
 library(ggrepel)

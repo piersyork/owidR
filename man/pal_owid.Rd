@@ -9,6 +9,9 @@ pal_owid(alpha)
 \arguments{
 \item{alpha}{Transparency level, a real number in (0, 1).}
 }
+\value{
+A ggproto object to be used in the context of ggplot2.
+}
 \description{
 Colour palettes based on the colours used by Our World in Data
 }

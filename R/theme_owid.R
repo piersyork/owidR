@@ -42,6 +42,8 @@ get_owid_fonts <- function() {
 #'
 #' @param alpha Transparency level, a real number in (0, 1).
 #'
+#' @return A ggproto object to be used in the context of ggplot2.
+#'
 #' @export
 #'
 pal_owid <- function(alpha) {
@@ -72,12 +74,14 @@ pal_owid <- function(alpha) {
 #' @inheritParams pal_owid
 #' @param ... additional parameters for \code{\link[ggplot2]{discrete_scale}}
 #'
+#' @return A ggproto object to be used in the context of ggplot2.
+#'
 #' @export scale_fill_owid
 #'
 #' @rdname scale_owid
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(ggplot2)
 #' library(dplyr)
 #' library(ggrepel)
@@ -129,6 +133,8 @@ scale_color_owid <- scale_colour_owid
 #' ggplot2 Theme in the Style of Our World in Data
 #'
 #' @param import_fonts Import the fonts used by Our World in Data
+#'
+#' @return A ggplot2 theme to be added to a ggplot2 plot.
 #'
 #' @import ggplot2
 #'
