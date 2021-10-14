@@ -9,7 +9,5 @@
 
 * This is a new release.
 
-## Resubmission Fixes
-* Added the webservices used to the Description file under the tag 'URL:'
-* Added \value tags to the .Rd files which were missing in the previous submission.
-* Changed \dontrun{} to donttest{} to keep example executable time under 5s.
+## Resubmission
+* I've been requested to resubmit due to a problem with my email. Also, slightly changed my email: from piersyork+owidr@gmail.com to piersyork@gmail.com. This email still goes to the same inbox, the original one was an alias.
