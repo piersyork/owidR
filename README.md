@@ -7,11 +7,12 @@ Data](https://ourworldindata.org/) datasets, allowing for an easy way to
 search through data used in over 3,000 charts and load them into the R
 environment.
 
-**Note:** Package has been updated since the first version. It’s now
-simpler to use but not backwards compatible.
-
 ## Installation
-
+Install from CRAN using:
+``` r
+install.packages("owidR")
+```
+Install the development version using:
 ``` r
 devtools::install_github("piersyork/owidR")
 ```
