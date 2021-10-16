@@ -2,17 +2,30 @@ owidR
 ================
 Piers York
 
+<!-- badges: start -->
+
+![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/owidR)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/package=owidR)
+<!-- badges: end -->
+
 This package acts as an interface to [Our World in
 Data](https://ourworldindata.org/) datasets, allowing for an easy way to
 search through data used in over 3,000 charts and load them into the R
 environment.
 
 ## Installation
-Install from CRAN using:
+
+To install from CRAN:
+
 ``` r
 install.packages("owidR")
+
+To install the development version from GitHub: 
 ```
-Install the development version using:
+
 ``` r
 devtools::install_github("piersyork/owidR")
 ```
