@@ -22,9 +22,9 @@ To install from CRAN:
 
 ``` r
 install.packages("owidR")
-
-To install the development version from GitHub: 
 ```
+
+To install the development version from GitHub:
 
 ``` r
 devtools::install_github("piersyork/owidR")

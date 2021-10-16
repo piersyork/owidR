@@ -26,6 +26,7 @@ This package acts as an interface to [Our World in Data](https://ourworldindata.
 To install from CRAN:
 ```{r eval=FALSE}
 install.packages("owidR")
+```
 
 To install the development version from GitHub: 
 ``` {r eval = FALSE}
