@@ -58,6 +58,8 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
       filter(.data$year %in% years)
   }
 
+  title <- attributes(data)$data_info[[1]]$display$name
+
   data$value <- as.numeric(data$value)
 
   # owid_theme <- ggplot2::theme_minimal() +
@@ -88,7 +90,7 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
           summarise(value = mean(.data$value, na.rm = TRUE)) %>%
           ggplot2::ggplot(ggplot2::aes(.data$year, .data$value)) +
           ggplot2::geom_line(colour = "#57677D") +
-          ggplot2::labs(title = val_name, x = "", y = "") +
+          ggplot2::labs(title = title, x = "", y = "") +
           theme_owid() +
           ggplot2::theme(panel.grid.major.x = element_blank())
 
@@ -111,7 +113,7 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
           filter(.data$entity %in% entities) %>%
           ggplot2::ggplot(ggplot2::aes(.data$year, .data$value, colour = .data$entity)) +
           ggplot2::geom_line() +
-          ggplot2::labs(title = val_name, x = "", y = "") +
+          ggplot2::labs(title = title, x = "", y = "") +
           theme_owid() +
           coord_cartesian(clip = "off") +
           ggplot2::theme(panel.grid.major.x = element_blank(),
@@ -142,7 +144,7 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
         ggplot2::ggplot(ggplot2::aes(.data$value,
                                      forcats::fct_reorder(factor(.data$entity), .data$value))) +
         ggplot2::geom_col(fill = "#57677D") +
-        ggplot2::labs(title = val_name, x = "", y = "") +
+        ggplot2::labs(title = title, x = "", y = "") +
         theme_owid() +
         ggplot2::theme(panel.grid.major.y = element_blank(),
                        plot.margin = margin(5, 5, 5, 10),

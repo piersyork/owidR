@@ -61,6 +61,7 @@ get_data_url <- function(chart_id) {
 #' @description Get a dataset used in an OWID chart.
 #'
 #' @param chart_id The chart_id as returned by owid_search
+#' @param rename Rename the value column. Currently only works if their is just one value column.
 #' @param tidy.date If TRUE then a year column that should be a date column will automatically detected and transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.
 #' @param ... Not to be used.
 #'
@@ -77,7 +78,7 @@ get_data_url <- function(chart_id) {
 #' }
 #'
 #'
-owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
+owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
   if (is.null(chart_id)) {
     datasets <- get_datasets()
@@ -153,6 +154,13 @@ owid <- function(chart_id = NULL, tidy.date = TRUE, ...) {
 
   if (yearIsDay & tidy.date) {
     colnames(out)[3] <- "date"
+  }
+
+
+  if (!is.null(rename)) {
+    if (length(rename) == 1 && length(colnames(out)) == 4) {
+      colnames(out)[4] <- rename
+    }
   }
 
   data_info <- vector(mode = "list", length = length(colnames(out)[4:length(colnames(out))]))
