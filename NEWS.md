@@ -1,9 +1,12 @@
 # owidR 0.2.1
 
-* Added a `NEWS.md` file to track changes to the package.
-* Removed grapher tools to different package (owidGrapher)
+* Added a `NEWS.md` file to track changes to the package.  
+* Removed grapher tools to different package (owidGrapher)  
 
 # owidR 1.0.0
-* Version ready for release
+* Version ready for release  
 
-#owidR 1.0.1
+# owidR 1.0.1
+* Minor bug fixes for `owid_map()`
+* Added 'rename' arg to `owid()`  
+* Added example analysis vignette  

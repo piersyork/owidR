@@ -17,5 +17,10 @@ Suggests:
     testthat (>= 3.0.0),
     utils,
     showtext,
-    sysfonts
+    sysfonts,
+    knitr,
+    rmarkdown,
+    plm,
+    texreg
 Config/testthat/edition: 3
+VignetteBuilder: knitr
