@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This article provides an example of how to use `owidR` to create a country level dataset consisting of multiple variables. It does this in the context of trying to answer the research question: does higher internet use lead to higher levels of democracy? This is based on research done by (citation) We will do a similar analysis using data gathered from Our World in Data. This analysis is only intended to be an example of how to use owidR and not a robust research paper. The article assumes some basic knowledge of the `tidyverse`, especially `dplyr` and `ggplot2`. If you aren't familiar with either of these you should still be able to follow along but I would recommend reading [R for Data Science](https://r4ds.had.co.nz/). An understanding of R is essential.
+This article provides an example of how to use `owidR` to create a country level dataset consisting of multiple variables. It does this in the context of trying to answer the research question: does higher internet use lead to higher levels of democracy? This is based on research done by (citation) We will do a similar analysis using data gathered from Our World in Data. This analysis is only intended to be an example of how to use owidR and not a robust research paper. The article assumes some basic knowledge of the `tidyverse`, especially `dplyr` and `ggplot2`. If you aren't familiar with either of these you should still be able to follow along but I would recommend reading [R for Data Science](https://r4ds.had.co.nz/). An understanding of basic R is essential.
 
 To begin we'll load `owidR` using the `library()` function. We'll also load `dplyr`, `ggplot2`, `plm` as well as `texreg` which we'll be using to do the analysis.
 
@@ -50,11 +50,11 @@ owid_source(internet)
 view_chart(internet)
 ```
 
-To create simple plots to see how internet use has changed over time and across countries we can simply use `owid_plot()`, with `internet` as the only argument. Given that this function is a wrapper around `ggplot2` you can use normal `ggplot2` functions to further manipulate the graph. I'm going to add a title using `labs()` and change the y axis scale so that it starts from 0 (this makes the graph clearer to interpret given that the value is a percentage, otherwise small variations can appear large).
+To create simple plots to see how internet use has changed over time simply use `owid_plot()`, filtering to give the World total. Given that this function is a wrapper around `ggplot2` you can use normal `ggplot2` functions to further manipulate the graph. I'm going to add a title using `labs()` and change the y axis scale so that it starts from 0 (this makes the graph clearer to interpret given that the value is a percentage, otherwise small variations can appear large).
 
 ```{r plot_internet}
-owid_plot(internet) +
-  labs(title = "Share of Population using the Internet") +
+owid_plot(internet, filter = "World") +
+  labs(title = "Share of the World Population using the Internet") +
   scale_y_continuous(limits = c(0, 100))
 ```
 
@@ -62,7 +62,7 @@ We can see how internet use varies between countries by creating a choropleth ma
 
 ```{r map_internet}
 owid_map(internet, year = 2017) +
-  labs(title = "Share of Population Using the Internet")
+  labs(title = "Share of Population Using the Internet, 2017")
 ```
 
 It's also possible to compare countries level of internet use across time, again using `owid_plot()`. By using the argument `summarise = FALSE`, `owid_plot()` will show individual countries instead of aggregating them into the total. You can then use the `filter` argument to select which countries you want to be displayed.
@@ -87,18 +87,10 @@ democracy <- owid("political-regime-updated2016-distinction-democracies-and-full
 democracy
 
 owid_source(democracy)
-#, summarise = FALSE, filter = c("United Kingdom", "Spain", "Russia", "Egypt", "Nigeria")
-owid_plot(democracy) +
-  labs(title = "Political Regime (Polity IV)") +
-  scale_y_continuous(limits = c(-10, 10))
 
+owid_map(democracy, palette = "YlGn") +
+  labs(title = "Political Regime (Polity IV)")
 
-democracy %>% 
-  group_by(year) %>% 
-  count() %>% 
-  ggplot(aes(year, n)) +
-  geom_line() +
-  theme_owid()
 ```
 
 So we've done some nice exploratory analysis and produced some pretty graphs, but now let's get into some more in depth analysis. We'll use a fixed effect (FE) regression analysis to estimate the average effect that an increase in internet use has on democracy within a country. If you aren't familiar with FE regression [this article](https://towardsdatascience.com/fixed-effect-regression-simply-explained-ab690bd885cf) explain its purpose well and [this chapter](https://www.econometrics-with-r.org/10-3-fixed-effects-regression.html) from Introduction to Econometrics with R shows how to implement it in R. To estimate the effect of internet use we're going to use a within-unit fixed effects model.
@@ -128,13 +120,26 @@ data <- internet %>%
   
 ```
 
-Now that we have a combined dataset we can get to the analysis. We'll create two models, one with just internet use and democracy, and the other with the confounders added.
+Now that we have a combined dataset we can get to the analysis. First, let's use `ggplot2` create a graph to see the correlation between internet access and democracy in 2015.
+
+```{r lm_graph}
+data %>% 
+  filter(year == 2015) %>% 
+  ggplot(aes(internet_use, polity)) +
+  geom_point(colour = "#57677D") +
+  geom_smooth(method = "lm", colour = "#DC5E78") +
+  labs(title = "Relationship Between Internet Use and Polity IV Score", x = "Internet Use", y = "Polity IV") +
+  theme_owid()
+```
+
+
+There appears to be some relationship but this could easily be explained by countries with higher development also being more democratic and not actually the result of internet access. That's why we control for GDP and the other confounders. Next, we'll create two models, one with just internet use and democracy, and the other with the confounders added.
 
 ```{r analysis, results='asis'}
-fe_model <- plm(internet_use ~ polity, data, 
+fe_model <- plm(polity ~ internet_use, data, 
                 effect = c("individual"), index = "entity")
 
-fe_model_2 <- plm(internet_use ~ polity + gdp + gov_exp + age_dep + unemp, data, 
+fe_model_2 <- plm(polity ~ internet_use + gdp + gov_exp + age_dep + unemp, data, 
                   effect = c("individual"), index = "entity")
 
 htmlreg(list(fe_model, fe_model_2))
@@ -142,7 +147,7 @@ htmlreg(list(fe_model, fe_model_2))
 
 ```
 
-
+You can see that internet use has a significant positive effect in the first model, but once the confounders are added the effect is insignificant. This means that our model provides no evidence that internet use has an effect on democracy. However, feel free to play around with this data yourself and see if you get a different result when other variables are used.
 
 
 
