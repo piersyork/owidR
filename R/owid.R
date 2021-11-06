@@ -159,8 +159,15 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
   n_rename <- length(rename)
   n_values <- length(colnames(out)) - 3
 
-  if (!is.null(rename) && n_rename == n_values) {
-    colnames(out)[4] <- rename
+  if (!is.null(rename)) {
+    if (!is.character(rename)) {
+      stop("rename must be of class character")
+    }
+    if (n_rename == n_values) {
+      colnames(out)[4:(3 + n_values)] <- rename
+    } else {
+      stop(paste0("Length of rename must be the same us number of value columns"))
+    }
   }
 
   data_info <- vector(mode = "list", length = length(colnames(out)[4:length(colnames(out))]))
