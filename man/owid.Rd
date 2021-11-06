@@ -4,10 +4,12 @@
 \alias{owid}
 \title{Get data from Our World in Data}
 \usage{
-owid(chart_id = NULL, tidy.date = TRUE, ...)
+owid(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...)
 }
 \arguments{
 \item{chart_id}{The chart_id as returned by owid_search}
+
+\item{rename}{Rename the value column. Currently only works if their is just one value column.}
 
 \item{tidy.date}{If TRUE then a year column that should be a date column will automatically detected and transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.}
 
