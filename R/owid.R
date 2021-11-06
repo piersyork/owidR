@@ -156,11 +156,11 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     colnames(out)[3] <- "date"
   }
 
+  n_rename <- length(rename)
+  n_values <- length(colnames(out)) - 3
 
-  if (!is.null(rename)) {
-    if (length(rename) == 1 && length(colnames(out)) == 4) {
-      colnames(out)[4] <- rename
-    }
+  if (!is.null(rename) && n_rename == n_values) {
+    colnames(out)[4] <- rename
   }
 
   data_info <- vector(mode = "list", length = length(colnames(out)[4:length(colnames(out))]))
