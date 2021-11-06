@@ -5,10 +5,9 @@ Piers York
 <!-- badges: start -->
 
 ![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/owidR)
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/package=owidR)
+[![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
 <!-- badges: end -->
 
 This package acts as an interface to [Our World in
