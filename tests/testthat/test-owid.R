@@ -1,7 +1,13 @@
 
 test_that("test core owid function", {
   search_result <- owid_search("gdp")
-  data <- owid(search_result[1, 2])
+  data <- owid("water-productivity", rename = "water_prod")
   expect_equal(class(data), c("owid", "tbl_df", "tbl", "data.frame"))
-  expect_equal(colnames(data)[1:3], c("entity", "code", "year"))
+  expect_equal(colnames(data), c("entity", "code", "year", "water_prod"))
+})
+
+test_that("test multiple cols", {
+  data <- owid("learning-outcomes-vs-gdp-per-capita",
+               rename = c("pop", "continent", "learning", "gdp"))
+  expect_equal(colnames(data), c("entity", "code", "year", "pop", "continent", "learning", "gdp"))
 })
