@@ -26,6 +26,7 @@
 owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
 
   # owid_readme(data)
+  .year <- year
 
   if (colnames(data)[3] == "date") {
     colnames(data)[3] <- "year"
@@ -40,9 +41,10 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
       stop("year must be numeric")
     } else if (!year %in% unique(data$year)) {
       stop(paste("There is no data for", year))
+    } else {
+      data <- data %>%
+       filter(year == .year)
     }
-    data <- data %>%
-      filter(year == year)
   }
 
 
