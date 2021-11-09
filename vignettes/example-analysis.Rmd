@@ -34,7 +34,7 @@ Searching for and importing data using `owidR` is very easy. First, we can searc
 owid_search("internet")
 ```
 
-When running this line of code around 10 datasets about the internet are returned. Let's use the dataset with the title: Share of the population using the Internet. The corresponding chart_id to this data is: "Share of the population using the Internet". Using the chart_id as an argument to `owid()` imports that data into R, asigning it to an object called internet. We use the rename argument to give the value column a shorter a clean name.
+When running this line of code around 10 datasets about the internet are returned. Let's use the dataset with the title: Share of the population using the Internet. The corresponding chart_id to this data is: "Share of the population using the Internet". Using the chart_id as an argument to `owid()` imports that data into R, assigning it to an object called internet. We use the rename argument to give the value column a shorter a clean name.
 
 ```{r import_internet}
 internet <- owid("share-of-individuals-using-the-internet", rename = "internet_use")
