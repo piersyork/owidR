@@ -47,7 +47,7 @@ get_owid_fonts <- function() {
 #' @export
 #'
 pal_owid <- function(alpha) {
-  lancet_palette <- c(
+  owid_palette <- c(
     "BlueGrey" = "#57677D",
     "RedOrange" = "#CB480E",
     "Teal" = "#019B94",
@@ -61,7 +61,7 @@ pal_owid <- function(alpha) {
   )
   if (alpha > 1L | alpha <= 0L)
     stop("alpha must be in (0, 1]")
-  raw_cols = lancet_palette
+  raw_cols = owid_palette
   raw_cols_rgb = grDevices::col2rgb(raw_cols)
   alpha_cols = grDevices::rgb(raw_cols_rgb[1L, ], raw_cols_rgb[2L, ],
                               raw_cols_rgb[3L, ], alpha = alpha * 255L, names = names(raw_cols),
@@ -144,7 +144,7 @@ theme_owid <- function(import_fonts = TRUE) {
 
   thm <- theme_minimal(base_family = "serif") %+replace%
     theme(text = element_text(colour = "#373737"),
-          plot.title = element_text(size = "20", hjust = 0, vjust = 2.5),
+          plot.title = element_text(size = "20", hjust = 0.05, vjust = 3.2),
           plot.subtitle = element_text(hjust = 0, vjust = 3.5),
           plot.title.position = "plot",
           legend.position = "right",
@@ -160,7 +160,7 @@ theme_owid <- function(import_fonts = TRUE) {
         get_owid_fonts()
         thm <- thm + theme(text = element_text(family = "Lato", face = "plain", colour = "#373737"),
                            plot.title = element_text(family = "Playfair Display",
-                                                     size = "20", hjust = 0),
+                                                     size = "20"),
                            plot.subtitle = element_text(family = "Lato", hjust = 0))
       } else {
         warning("importing fonts requires an internet connection please use import_fonts = FALSE")

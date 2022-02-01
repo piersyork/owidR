@@ -135,10 +135,9 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
         ggplot2::labs(title = title, x = "", y = "") +
         theme_owid() +
         ggplot2::theme(panel.grid.major.y = element_blank(),
-                       plot.margin = margin(11, 5, 5, 10),
-                       plot.title = element_text(vjust = 1)) +
+                       plot.margin = margin(11, 5, 5, 10)) +
         ggplot2::coord_cartesian(expand = FALSE)
     }
   }
-  return(plot)
+  return(plot + ggplot2::theme(axis.title = element_blank()))
 }
