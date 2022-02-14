@@ -1,6 +1,5 @@
 owidR
 ================
-Piers York
 
 <!-- badges: start -->
 
@@ -70,7 +69,7 @@ rights <- owid("human-rights-scores")
 
 rights
 ## # A tibble: 11,717 × 4
-##    entity      code   year `Human Rights Score (Schnakenberg & Fariss, 2014; Fa…
+##    entity      code   year `Human Rights Score (Schnakenberg & Fariss, 2014; F…`
 ##  * <chr>       <chr> <int>                                                 <dbl>
 ##  1 Afghanistan AFG    1946                                                 0.690
 ##  2 Afghanistan AFG    1947                                                 0.740
@@ -91,7 +90,6 @@ all countries is plotted.
 
 ``` r
 owid_plot(rights)
-## Loading required namespace: showtext
 ```
 
 <img src="inst/images/owid_plot-1.png" style="display: block; margin: auto;" />
@@ -118,27 +116,33 @@ owid_map(rights)
 
 <img src="inst/images/map-1.png" style="display: block; margin: auto;" />
 
-## Creating Our World in Data style interactive charts
+## COVID-19 Data
 
-**Warning:** The grapher functionality has now moved to
-<https://github.com/piersyork/owidGrapher>. This both to simplify the
-owidR experience and also because the grapher is very unstable.
-
-`owid_grapher()` creates graphs in the style of Our World in Data. The
-output of `owid_grapher()` can be piped into `grapher_line()` to add a
-line graph, into `grapher_map()` to add a world map, and into
-`grapher_labels()` to add labels to the graph. The graph is shown in the
-RStudio viewer, or when called in an RMarkdown html document is
-displayed within the document. Currently this isn’t implemented as an
-htmlwidget and requires an internet connection to function.
+You can quickly download world covid-19 data, including vaccination
+rates, using `owid_covid()`.
 
 ``` r
-rights %>% 
-  owid_grapher(x = year, y = `Human Rights Score (Schnakenberg & Fariss, 2014; Fariss, 2019)`, 
-               entity = entity) %>% 
-  grapher_line(selected = c("North Korea", "South Korea", "France", "United Kingdom", "United States")) %>% 
-  grapher_map(palette = "RdYlGn", bins = c(-2, 0, 2, 4)) %>% 
-  grapher_labels(title = "Human Rights Scores",
-                 subtitle = "Values range from around -3.8 to around 5.4 (the higher the better)",
-                 source = "Our World in Data; Schnakenberg and Fariss (2014); Fariss (2019)")
+covid <- owid_covid()
+
+covid
+## # A tibble: 161,553 × 67
+##    iso_code continent location date       total_cases new_cases new_cases_smoot…
+##    <chr>    <chr>     <chr>    <date>           <dbl>     <dbl>            <dbl>
+##  1 AFG      Asia      Afghani… 2020-02-24           5         5           NA    
+##  2 AFG      Asia      Afghani… 2020-02-25           5         0           NA    
+##  3 AFG      Asia      Afghani… 2020-02-26           5         0           NA    
+##  4 AFG      Asia      Afghani… 2020-02-27           5         0           NA    
+##  5 AFG      Asia      Afghani… 2020-02-28           5         0           NA    
+##  6 AFG      Asia      Afghani… 2020-02-29           5         0            0.714
+##  7 AFG      Asia      Afghani… 2020-03-01           5         0            0.714
+##  8 AFG      Asia      Afghani… 2020-03-02           5         0            0    
+##  9 AFG      Asia      Afghani… 2020-03-03           5         0            0    
+## 10 AFG      Asia      Afghani… 2020-03-04           5         0            0    
+## # … with 161,543 more rows, and 60 more variables: total_deaths <dbl>,
+## #   new_deaths <dbl>, new_deaths_smoothed <dbl>, total_cases_per_million <dbl>,
+## #   new_cases_per_million <dbl>, new_cases_smoothed_per_million <dbl>,
+## #   total_deaths_per_million <dbl>, new_deaths_per_million <dbl>,
+## #   new_deaths_smoothed_per_million <dbl>, reproduction_rate <dbl>,
+## #   icu_patients <dbl>, icu_patients_per_million <dbl>, hosp_patients <dbl>,
+## #   hosp_patients_per_million <dbl>, weekly_icu_admissions <dbl>, …
 ```

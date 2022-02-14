@@ -1,6 +1,5 @@
 ---
 title: "owidR"
-author: Piers York
 output: github_document
 always_allow_html: true
 ---
@@ -9,7 +8,8 @@ always_allow_html: true
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "##",
-  fig.path = "inst/images/", fig.width=8.5, fig.asp=0.55, fig.align='center'
+  fig.path = "inst/images/", fig.width=8.5, fig.asp=0.55, fig.align='center',
+  message = FALSE
 )
 
 library(dplyr)
@@ -73,19 +73,13 @@ owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "F
 owid_map(rights)
 ```
 
-## Creating Our World in Data style interactive charts 
-**Warning:** The grapher functionality has now moved to https://github.com/piersyork/owidGrapher. This both to simplify the owidR experience and also because the grapher is very unstable.
+## COVID-19 Data
+You can quickly download world covid-19 data, including vaccination rates, using `owid_covid()`. 
 
-`owid_grapher()` creates graphs in the style of Our World in Data. The output of `owid_grapher()` can be piped into `grapher_line()` to add a line graph, into `grapher_map()` to add a world map, and into `grapher_labels()` to add labels to the graph. The graph is shown in the RStudio viewer, or when called in an RMarkdown html document is displayed within the document. Currently this isn't implemented as an htmlwidget and requires an internet connection to function.
-```r
-rights %>% 
-  owid_grapher(x = year, y = `Human Rights Score (Schnakenberg & Fariss, 2014; Fariss, 2019)`, 
-               entity = entity) %>% 
-  grapher_line(selected = c("North Korea", "South Korea", "France", "United Kingdom", "United States")) %>% 
-  grapher_map(palette = "RdYlGn", bins = c(-2, 0, 2, 4)) %>% 
-  grapher_labels(title = "Human Rights Scores",
-                 subtitle = "Values range from around -3.8 to around 5.4 (the higher the better)",
-                 source = "Our World in Data; Schnakenberg and Fariss (2014); Fariss (2019)")
+```{r covid}
+covid <- owid_covid()
+
+covid
 ```
 
 
