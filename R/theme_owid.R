@@ -144,7 +144,7 @@ theme_owid <- function(import_fonts = TRUE) {
 
   thm <- theme_minimal(base_family = "serif") %+replace%
     theme(text = element_text(colour = "#373737"),
-          plot.title = element_text(size = "20", hjust = 0.05, vjust = 3.2),
+          plot.title = element_text(size = "20", hjust = 0, vjust = 3.2),
           plot.subtitle = element_text(hjust = 0, vjust = 3.5),
           plot.title.position = "plot",
           legend.position = "right",
