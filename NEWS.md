@@ -12,3 +12,7 @@
 * Added example analysis vignette  
 * `theme_owid()` margin fixes
 * updated readme
+
+# owidR 1.2.0
+* Ensured compliance with failing safely CRAN rule
+* Minor tweaks to owid theming
