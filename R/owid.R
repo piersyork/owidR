@@ -3,6 +3,15 @@
 #' @noRd
 #'
 get_datasets <- function() {
+
+  if (!curl::has_internet()) {
+    message("No internet connection available: returning NULL.")
+    return(NULL)
+  } else if (httr::http_error("https://ourworldindata.org/charts")) {
+    message("Could not connect to https://ourworldindata.org/charts, site may be down. Returning NULL.")
+    return(NULL)
+  }
+
   all_charts_page <- xml2::read_html("https://ourworldindata.org/charts")
   links <- all_charts_page %>%
     rvest::html_nodes("section") %>%
@@ -85,12 +94,17 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     random_no <- sample(nrow(datasets), 1)
     chart_id <- datasets$chart_id[random_no]
   }
-  tryCatch({
-    data_url <- get_data_url(chart_id)
-  }, error = function(e) {
-    stop(paste("Unable to connect to ourworldindata.org, either", chart_id,
-                  "is not a valid id or you have no internet connection"))
-  })
+
+  if (!curl::has_internet()) {
+    message("No internet connection available: returning NULL.")
+    return(NULL)
+
+  } else if (httr::http_error(paste0("https://ourworldindata.org/grapher/", chart_id))) {
+    message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning NULL."))
+    return(NULL)
+  }
+
+  data_url <- get_data_url(chart_id)
 
 
   data <- jsonlite::fromJSON(data_url)
