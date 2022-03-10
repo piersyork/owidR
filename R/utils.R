@@ -14,6 +14,11 @@
 #' }
 owid_source <- function(data) {
 
+  if (class(data)[1] == "owid.no.connection") {
+    message("owid object had not connected to ourworldindata.org")
+    return(NULL)
+  }
+
   if (!"owid" %in% class(data)) {
     stop("data must be of class 'owid', returned from `owid()`")
   }
@@ -60,6 +65,11 @@ owid_source <- function(data) {
 #' view_chart(firearm_suicide)
 #' }
 view_chart <- function(x) {
+  if (class(x)[1] == "owid.no.connection") {
+    message("owid object had not connected to ourworldindata.org")
+    return(NULL)
+  }
+
   if (requireNamespace("utils", quietly = TRUE)) {
     if ("owid" %in% class(x)) {
       chart_id <- attributes(x)$chart_id

@@ -25,7 +25,11 @@
 #' }
 owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
 
-  # owid_readme(data)
+  if (class(data)[1] == "owid.no.connection") {
+    message("owid object had not connected to ourworldindata.org")
+    return(ggplot())
+  }
+
   .year <- year
 
   if (colnames(data)[3] == "date") {

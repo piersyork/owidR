@@ -29,6 +29,11 @@
 owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
                       years = NULL, show.all = FALSE) {
 
+  if (class(data)[1] == "owid.no.connection") {
+    message("owid object had not connected to ourworldindata.org")
+    return(ggplot())
+  }
+
   if (col < 4) {
     stop("col value cannot point to entity, year or code")
   }

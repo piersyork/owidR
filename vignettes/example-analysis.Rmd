@@ -1,6 +1,7 @@
 ---
 title: "Create and Analyse a Dataset"
 output: rmarkdown::html_vignette
+  
 vignette: >
   %\VignetteIndexEntry{Create and Analyse a Dataset}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,7 +13,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.width = 7.2,
-  fig.height = 4
+  fig.height = 4,
+  error = TRUE
 )
 ```
 
@@ -81,8 +83,7 @@ owid_search("democrac")
 ```
 
 ```{r democ}
-democracy <- owid("electoral-democracy") %>% 
-  filter(year %in% 1960:2020)
+democracy <- owid("electoral-democracy") 
 democracy
 
 owid_source(democracy)

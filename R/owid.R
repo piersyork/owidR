@@ -5,11 +5,11 @@
 get_datasets <- function() {
 
   if (!curl::has_internet()) {
-    message("No internet connection available: returning NULL.")
-    return(NULL)
+    message("No internet connection available: returning blank tibble")
+    return(tibble(titles = NA, urls = NA))
   } else if (httr::http_error("https://ourworldindata.org/charts")) {
-    message("Could not connect to https://ourworldindata.org/charts, site may be down. Returning NULL.")
-    return(NULL)
+    message("Could not connect to https://ourworldindata.org/charts, site may be down. Returning blank tibble")
+    return(tibble(titles = NA, urls = NA))
   }
 
   all_charts_page <- xml2::read_html("https://ourworldindata.org/charts")
@@ -96,12 +96,16 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
   }
 
   if (!curl::has_internet()) {
-    message("No internet connection available: returning NULL.")
-    return(NULL)
+    message("No internet connection available: returning blank tibble")
+    out <- tibble(entity = NA, year = NA, value = NA)
+    class(out) <- c("owid.no.connection", class(out))
+    return(out)
 
   } else if (httr::http_error(paste0("https://ourworldindata.org/grapher/", chart_id))) {
-    message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning NULL."))
-    return(NULL)
+    message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning blank tibble."))
+    out <- tibble(entity = NA, year = NA, value = NA)
+    class(out) <- c("owid.no.connection", class(out))
+    return(out)
   }
 
   data_url <- get_data_url(chart_id)
@@ -206,6 +210,14 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 #' @export
 #'
 owid_covid <- function() {
+  if (!curl::has_internet()) {
+    message("No internet connection available: returning blank tibble")
+    return(tibble())
+  } else if (httr::http_error("https://covid.ourworldindata.org/data/owid-covid-data.csv")) {
+    message("Could not connect to https://covid.ourworldindata.org/data/owid-covid-data.csv, returning blank tibble")
+    return(tibble())
+  }
+
   data <- readr::read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",
                           col_types = readr::cols(.default = readr::col_double(),
                                                   iso_code = readr::col_character(),
