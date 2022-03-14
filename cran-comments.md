@@ -3,6 +3,7 @@
 * Mac OS (release)
 * windows-latest (release)
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC (rhub)
+* Ubuntu Linux (devel)
 
 ## R CMD check results
 

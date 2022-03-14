@@ -16,3 +16,7 @@
 # owidR 1.2.0
 * Ensured compliance with failing safely CRAN rule
 * Minor tweaks to owid theming
+
+# owidR 1.2.1
+* Updated tests, examples and vignettes to ensure failing safely
+* owid() gives blank tibble when failing to connect to server
