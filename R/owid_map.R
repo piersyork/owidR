@@ -32,22 +32,21 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
 
   .year <- year
 
+  data <- as.data.table(data)
+
   if (colnames(data)[3] == "date") {
     colnames(data)[3] <- "year"
   }
 
   if (is.null(year)) {
-    data <- data %>%
-      # group_by(entity) %>%
-      filter(year == max(year))
+    data <- data[year == max(year)]
   } else {
     if (!is.numeric(year)) {
       stop("year must be numeric")
     } else if (!year %in% unique(data$year)) {
       stop(paste("There is no data for", year))
     } else {
-      data <- data %>%
-       filter(year == .year)
+      data <- data[year == .year]
     }
   }
 
@@ -65,7 +64,7 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
   world <- world_map_data()
 
   map_data <- world %>%
-    left_join(data, by = c("owid_name" = "entity"))
+    merge(data, by.x = "owid_name", by.y = "entity")
 
 
 
@@ -89,48 +88,49 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
                      legend.key.height = ggplot2::unit(0.3, units = "cm"),
                      plot.title = element_text(vjust = 1))
   } else if (mode == "view") {
-    pal <- leaflet::colorNumeric(
-      palette = palette,
-      domain = map_data$value
-    )
-    pal_leg <- leaflet::colorNumeric(
-      palette = palette,
-      domain = map_data$value,
-      na.color = NA
-    )
-
-    labels <- sprintf(
-      "<strong>%s</strong><br/>%g",
-      map_data$owid_name, map_data$value
-    ) %>% lapply(htmltools::HTML)
-
-    map_data %>%
-      leaflet::leaflet() %>%
-      leaflet:: addPolygons(
-        fillColor = ~pal(value),
-        weight = 0.2,
-        opacity = 1,
-        color = "black",
-        dashArray = "1",
-        fillOpacity = 0.7,
-        highlight = leaflet::highlightOptions(
-          weight = 2,
-          color = "#666",
-          dashArray = "",
-          fillOpacity = 0.7,
-          bringToFront = TRUE
-        ),
-        label = labels,
-        labelOptions = leaflet::labelOptions(
-          style = list("font-weight" = "normal", padding = "3px 8px"),
-          textsize = "15px",
-          direction = "auto"
-        )
-      ) %>%
-      leaflet::addLegend(pal = pal_leg, values = ~value, opacity = 0.7, title = NULL,
-                         position = "bottomleft", labFormat = leaflet::labelFormat()) %>%
-      leaflet::addControl(paste0("<b>", title, "<b/>"), position = "topright") %>%
-      leaflet::addTiles("", attribution = "<a href = 'https://ourworldindata.org/' title = 'Research and data to make progress against the world\u2019s largest problems'>Our World In Data | <a/><a href = 'https://www.naturalearthdata.com/' title = 'Made with Natural Earth. Free vector and raster map data'>Natural Earth Data<a/>")
+    message("mode = 'view' is now depracated please use the default: mode = 'plot'")
+    # pal <- leaflet::colorNumeric(
+    #   palette = palette,
+    #   domain = map_data$value
+    # )
+    # pal_leg <- leaflet::colorNumeric(
+    #   palette = palette,
+    #   domain = map_data$value,
+    #   na.color = NA
+    # )
+    #
+    # labels <- sprintf(
+    #   "<strong>%s</strong><br/>%g",
+    #   map_data$owid_name, map_data$value
+    # ) %>% lapply(htmltools::HTML)
+    #
+    # map_data %>%
+    #   leaflet::leaflet() %>%
+    #   leaflet:: addPolygons(
+    #     fillColor = ~pal(value),
+    #     weight = 0.2,
+    #     opacity = 1,
+    #     color = "black",
+    #     dashArray = "1",
+    #     fillOpacity = 0.7,
+    #     highlight = leaflet::highlightOptions(
+    #       weight = 2,
+    #       color = "#666",
+    #       dashArray = "",
+    #       fillOpacity = 0.7,
+    #       bringToFront = TRUE
+    #     ),
+    #     label = labels,
+    #     labelOptions = leaflet::labelOptions(
+    #       style = list("font-weight" = "normal", padding = "3px 8px"),
+    #       textsize = "15px",
+    #       direction = "auto"
+    #     )
+    #   ) %>%
+    #   leaflet::addLegend(pal = pal_leg, values = ~value, opacity = 0.7, title = NULL,
+    #                      position = "bottomleft", labFormat = leaflet::labelFormat()) %>%
+    #   leaflet::addControl(paste0("<b>", title, "<b/>"), position = "topright") %>%
+    #   leaflet::addTiles("", attribution = "<a href = 'https://ourworldindata.org/' title = 'Research and data to make progress against the world\u2019s largest problems'>Our World In Data | <a/><a href = 'https://www.naturalearthdata.com/' title = 'Made with Natural Earth. Free vector and raster map data'>Natural Earth Data<a/>")
   }
 }
 

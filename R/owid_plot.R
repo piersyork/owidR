@@ -34,11 +34,14 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
     return(ggplot())
   }
 
+  data <- as.data.table(data)
+
+
   if (col < 4) {
     stop("col value cannot point to entity, year or code")
   }
 
-  if (!is.numeric(pull(data[, col]))) {
+  if (!is.numeric(data[[col]])) { # need to fix for when col is column name
     stop("value column of data must be numeric")
   }
 
@@ -55,12 +58,10 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
   }
 
   if (!is.null(filter)) {
-    data <- data %>%
-      filter(.data$entity %in% filter)
+    data <- data[entity %in% filter]
   }
   if (!is.null(years)) {
-    data <- data %>%
-      filter(.data$year %in% years)
+    data <- data[year %in% years]
   }
 
   title <- attributes(data)$data_info[[1]]$display$name
@@ -70,18 +71,12 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
   if (colnames(data)[3] == "year") {
     entities <- unique(data$entity)
 
-    n_entries <- data %>%
-      group_by(.data$entity) %>%
-      count() %>%
-      magrittr::use_series(n) %>%
-      max()
+    n_entries <- data[, .N, by = entity][, max(N)]
 
     if (n_entries > 1) {
       if (summarise) {
-        plot <- data %>%
-          group_by(.data$year) %>%
-          summarise(value = mean(.data$value, na.rm = TRUE)) %>%
-          ggplot2::ggplot(ggplot2::aes(.data$year, .data$value)) +
+        plot <- data[, .(value = mean(value, na.rm = TRUE)), by = year] %>%
+          ggplot2::ggplot(ggplot2::aes(year, value)) +
           ggplot2::geom_line(colour = "#57677D") +
           ggplot2::labs(title = title, x = "", y = "") +
           theme_owid() +
@@ -100,10 +95,10 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
           }
         }
         max_string_length <- max(nchar(entities))
-        plot <- data %>%
-          group_by(.data$entity) %>%
-          mutate(label = ifelse(.data$year == max(.data$year), .data$entity, NA)) %>%
-          filter(.data$entity %in% entities) %>%
+
+        data[, label := ifelse(year == max(year), entity, NA), by = entity]
+
+        plot <- data[entity %in% entities] %>%
           ggplot2::ggplot(ggplot2::aes(.data$year, .data$value, colour = .data$entity)) +
           ggplot2::geom_line() +
           ggplot2::labs(title = title, x = "", y = "") +
@@ -132,8 +127,7 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
         }
       }
 
-      plot <- data %>%
-        filter(.data$entity %in% entities) %>%
+      plot <- data[entity %in% entities] %>%
         ggplot2::ggplot(ggplot2::aes(.data$value,
                                      forcats::fct_reorder(factor(.data$entity), .data$value))) +
         ggplot2::geom_col(fill = "#57677D") +

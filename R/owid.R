@@ -6,10 +6,10 @@ get_datasets <- function() {
 
   if (!curl::has_internet()) {
     message("No internet connection available: returning blank tibble")
-    return(tibble(titles = NA, urls = NA))
+    return(tibble::tibble(titles = NA, urls = NA))
   } else if (httr::http_error("https://ourworldindata.org/charts")) {
     message("Could not connect to https://ourworldindata.org/charts, site may be down. Returning blank tibble")
-    return(tibble(titles = NA, urls = NA))
+    return(tibble::tibble(titles = NA, urls = NA))
   }
 
   all_charts_page <- xml2::read_html("https://ourworldindata.org/charts")
@@ -20,11 +20,13 @@ get_datasets <- function() {
   titles <- rvest::html_text(links)
   urls <- rvest::html_attr(links, "href")
 
-  datasets <- tibble(titles, urls) %>%
-    filter(grepl("grapher", urls)) %>%
-    mutate(urls = stringr::word(urls, 3, -1, sep = "/")) %>%
-    rename(chart_id = urls) %>%
-    distinct()
+  datasets <- data.table(titles, urls)[
+    grepl("grapher", urls),
+    .(urls = stringr::word(urls, 3, -1, sep = "/"), titles)
+  ] %>%
+    unique()
+
+  return(datasets)
 }
 
 #' Search the data sources used in OWID charts
@@ -42,9 +44,10 @@ get_datasets <- function() {
 #'
 owid_search <- function(term) {
   ds <- get_datasets()
-  ds %>%
-    filter(grepl(term, .data$titles, ignore.case = TRUE)) %>%
+
+  ds[grepl(term, titles, ignore.case = TRUE)] %>%
     as.matrix()
+
 }
 
 #' Internal function to get the dataset url
@@ -77,7 +80,7 @@ get_data_url <- function(chart_id) {
 #' @return A tibble of an owid dataset with the added class 'owid'.
 #' @export
 #'
-#' @import dplyr
+#' @import data.table
 #' @importFrom rlang .data
 #'
 #' @examples
@@ -97,13 +100,13 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
   if (!curl::has_internet()) {
     message("No internet connection available: returning blank tibble")
-    out <- tibble(entity = NA, year = NA, value = NA)
+    out <- tibble::tibble(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
 
   } else if (httr::http_error(paste0("https://ourworldindata.org/grapher/", chart_id))) {
     message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning blank tibble."))
-    out <- tibble(entity = NA, year = NA, value = NA)
+    out <- tibble::tibble(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
   }
@@ -116,12 +119,9 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
   datasets <- list()
   for (i in 1:length(data$variables)) {
-    val_name <- data$variables[[i]]$name #%>%
-    # stringr::word(1, 3) %>%
-    # make.names()
-    # stringr::str_replace(" ", "_") %>%
-    # tolower()
-    datasets[[i]] <- tibble(
+    val_name <- data$variables[[i]]$name
+
+    datasets[[i]] <- data.table(
       entity_id = data$variables[[i]]$entities,
       year = data$variables[[i]]$years,
       value = data$variables[[i]]$values
@@ -134,8 +134,13 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
     if (yearIsDay & tidy.date) {
       # colnames(datasets[[i]])[2] <- "date"
-      datasets[[i]] <- datasets[[i]] %>%
-        mutate(year = as.Date(data$variables[[i]]$display$zeroDay) + .data$year)
+      # datasets[[i]] <- datasets[[i]] %>%
+      #   mutate(year = as.Date(data$variables[[i]]$display$zeroDay) + .data$year)
+
+      # datasets[[i]]$year <- datasets[[i]]$year + as.Date(data$variables[[i]]$display$zeroDay)
+
+      datasets[[i]][, year := (as.Date(data$variables[[i]]$display$zeroDay) + year)]
+
     }
 
     if (colnames(datasets[[i]])[3] == "Countries Continents") {
@@ -144,11 +149,11 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     }
 
   }
-  all_data <- purrr::reduce(datasets, full_join, by = c("entity_id", "year")) %>%
-    arrange(desc(.data$year))
+  all_data <- purrr::reduce(datasets, merge, by = c("entity_id", "year")) #%>%
+    # arrange(desc(.data$year))
 
-  entity <- vector()
-  code <- vector()
+  entity <- vector(length = length(data$entityKey))
+  code <- vector(length = length(data$entityKey))
   for (i in 1:length(data$entityKey)) {
     entity <- c(entity, data$entityKey[[i]]$name)
     if (is.null(data$entityKey[[i]]$code)) {
@@ -157,18 +162,25 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
       code <- c(code, data$entityKey[[i]]$code)
     }
   }
-  entity_key <- tibble(
+  entity_key <- data.table(
     entity_id = as.numeric(names(data$entityKey)),
     entity,
     code
   )
 
   # data$variables[[1]]$name
-  out <- all_data %>%
-    left_join(entity_key, by = "entity_id") %>%
-    select(-.data$entity_id) %>%
-    relocate(entity, code, .data$year) %>%
-    arrange(entity, .data$year)
+  all_data[entity_key, c("entity", "code") := .(entity, code),  on = "entity_id"] # left join entity key
+  all_data[, entity_id := NULL] # remove entity_id
+  setcolorder(all_data, c("entity", "code", names(all_data)[1:(length(names(all_data)) - 2)])) # set order of cols
+
+  out <- all_data[order(entity, year)] %>%
+    tibble::as_tibble()
+
+  # out <- all_data %>%
+  #   left_join(entity_key, by = "entity_id") %>%
+  #   select(-.data$entity_id) %>%
+  #   relocate(entity, code, .data$year) %>%
+  #   arrange(entity, .data$year)
 
   if (yearIsDay & tidy.date) {
     colnames(out)[3] <- "date"
@@ -212,10 +224,10 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 owid_covid <- function() {
   if (!curl::has_internet()) {
     message("No internet connection available: returning blank tibble")
-    return(tibble())
+    return(tibble::tibble())
   } else if (httr::http_error("https://covid.ourworldindata.org/data/owid-covid-data.csv")) {
     message("Could not connect to https://covid.ourworldindata.org/data/owid-covid-data.csv, returning blank tibble")
-    return(tibble())
+    return(tibble::tibble())
   }
 
   data <- readr::read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",
