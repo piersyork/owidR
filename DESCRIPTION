@@ -21,6 +21,7 @@ Suggests:
     knitr,
     rmarkdown,
     plm,
-    texreg
+    texreg,
+    dplyr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
