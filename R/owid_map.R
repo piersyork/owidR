@@ -63,8 +63,7 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
 
   world <- world_map_data()
 
-  map_data <- world %>%
-    merge(data, by.x = "owid_name", by.y = "entity")
+  map_data <- merge(world, data, by.x = "owid_name", by.y = "entity", all.x = TRUE)
 
 
 
