@@ -230,13 +230,8 @@ owid_covid <- function() {
     return(tibble::tibble())
   }
 
-  data <- readr::read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",
-                          col_types = readr::cols(.default = readr::col_double(),
-                                                  iso_code = readr::col_character(),
-                                                  continent = readr::col_character(),
-                                                  location = readr::col_character(),
-                                                  date = readr::col_date(format = ""),
-                                                  tests_units = readr::col_character()))
+  data <- data.table::fread("https://covid.ourworldindata.org/data/owid-covid-data.csv") %>%
+    tibble::as_tibble()
   class(data) <- c("owid", class(data))
   return(data)
 }
