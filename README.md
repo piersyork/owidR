@@ -45,21 +45,17 @@ library(owidR)
 
 owid_search("human rights")
 ##      titles                                                                                                                                        
-## [1,] "Human Rights Score vs. Political regime type"                                                                                                
-## [2,] "Political regime type vs. Human Rights Score"                                                                                                
-## [3,] "Countries with National Human Rights Institutions in compliance with the Paris Principles"                                                   
-## [4,] "Human Rights Score vs. GDP per capita"                                                                                                       
-## [5,] "Human Rights Scores"                                                                                                                         
-## [6,] "Human Rights Violations"                                                                                                                     
-## [7,] "Proportion of countries that applied for accreditation as independent National Human Rights Institutions in compliance with Paris Principles"
+## [1,] "Human rights protection vs. liberal democracy"                                                                                               
+## [2,] "Countries with National Human Rights Institutions in compliance with the Paris Principles"                                                   
+## [3,] "Human rights protection"                                                                                                                     
+## [4,] "Human rights protection vs. GDP per capita"                                                                                                  
+## [5,] "Proportion of countries that applied for accreditation as independent National Human Rights Institutions in compliance with Paris Principles"
 ##      chart_id                                                      
-## [1,] "human-rights-score-vs-political-regime-type"                 
-## [2,] "political-regime-type-vs-human-rights-score"                 
-## [3,] "countries-in-compliance-with-paris-principles"               
-## [4,] "human-rights-score-vs-gdp-per-capita"                        
-## [5,] "human-rights-scores"                                         
-## [6,] "human-rights-violations"                                     
-## [7,] "countries-that-applied-for-accreditation-in-paris-principles"
+## [1,] "human-rights-protection-vs-liberal-democracy"                
+## [2,] "countries-in-compliance-with-paris-principles"               
+## [3,] "human-rights-protection"                                     
+## [4,] "human-rights-protection-vs-gdp-per-capita"                   
+## [5,] "countries-that-applied-for-accreditation-in-paris-principles"
 ```
 
 Let’s use the human rights scores dataset.
@@ -68,20 +64,20 @@ Let’s use the human rights scores dataset.
 rights <- owid("human-rights-scores")
 
 rights
-## # A tibble: 11,717 × 4
-##    entity      code   year `Human Rights Score (Schnakenberg & Fariss, 2014; F…`
-##  * <chr>       <chr> <int>                                                 <dbl>
-##  1 Afghanistan AFG    1946                                                 0.690
-##  2 Afghanistan AFG    1947                                                 0.740
-##  3 Afghanistan AFG    1948                                                 0.787
-##  4 Afghanistan AFG    1949                                                 0.817
-##  5 Afghanistan AFG    1950                                                 0.851
-##  6 Afghanistan AFG    1951                                                 0.909
-##  7 Afghanistan AFG    1952                                                 0.938
-##  8 Afghanistan AFG    1953                                                 0.988
-##  9 Afghanistan AFG    1954                                                 1.01 
-## 10 Afghanistan AFG    1955                                                 1.01 
-## # … with 11,707 more rows
+## # A tibble: 11,273 × 4
+##    entity      code   year `Human rights protection`
+##  * <chr>       <chr> <int>                     <dbl>
+##  1 Afghanistan AFG    1946                     0.829
+##  2 Afghanistan AFG    1947                     0.878
+##  3 Afghanistan AFG    1948                     0.935
+##  4 Afghanistan AFG    1949                     0.966
+##  5 Afghanistan AFG    1950                     1.01 
+##  6 Afghanistan AFG    1951                     1.09 
+##  7 Afghanistan AFG    1952                     1.13 
+##  8 Afghanistan AFG    1953                     1.18 
+##  9 Afghanistan AFG    1954                     1.22 
+## 10 Afghanistan AFG    1955                     1.22 
+## # … with 11,263 more rows
 ```
 
 `owid_plot()` makes it easy to visualise an owid dataset, plotting the
@@ -125,7 +121,7 @@ rates, using `owid_covid()`.
 covid <- owid_covid()
 
 covid
-## # A tibble: 161,553 × 67
+## # A tibble: 192,788 × 67
 ##    iso_code continent location date       total_cases new_cases new_cases_smoot…
 ##    <chr>    <chr>     <chr>    <date>           <dbl>     <dbl>            <dbl>
 ##  1 AFG      Asia      Afghani… 2020-02-24           5         5           NA    
@@ -138,7 +134,7 @@ covid
 ##  8 AFG      Asia      Afghani… 2020-03-02           5         0            0    
 ##  9 AFG      Asia      Afghani… 2020-03-03           5         0            0    
 ## 10 AFG      Asia      Afghani… 2020-03-04           5         0            0    
-## # … with 161,543 more rows, and 60 more variables: total_deaths <dbl>,
+## # … with 192,778 more rows, and 60 more variables: total_deaths <dbl>,
 ## #   new_deaths <dbl>, new_deaths_smoothed <dbl>, total_cases_per_million <dbl>,
 ## #   new_cases_per_million <dbl>, new_cases_smoothed_per_million <dbl>,
 ## #   total_deaths_per_million <dbl>, new_deaths_per_million <dbl>,
@@ -146,3 +142,10 @@ covid
 ## #   icu_patients <dbl>, icu_patients_per_million <dbl>, hosp_patients <dbl>,
 ## #   hosp_patients_per_million <dbl>, weekly_icu_admissions <dbl>, …
 ```
+
+## To-do
+
+-   [ ] Add function to load multiple country datasets into on dataframe
+-   [ ] Add caching of data (inc. backend)
+-   [ ] Remove interactive plotting to reduce dependencies
+-   [ ] Plan/think of way to import owid explorers
