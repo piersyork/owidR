@@ -142,11 +142,8 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     }
 
     display_name <- metadata$display$name
-    colnames(out)[4] <- if (!is.null(display_name)) {
-      janitor::make_clean_names(display_name)
-    } else {
-      metadata$name
-    }
+    colnames(out)[4] <- if (!is.null(display_name)) display_name else metadata$name
+
 
   } else {
 
@@ -166,11 +163,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
 
       display_name <- metadata$display$name
-      colnames(results[[i]])[4] <- if (!is.null(display_name)) {
-        janitor::make_clean_names(display_name)
-      } else {
-        metadata$name
-      }
+      colnames(results[[i]])[4] <- if (!is.null(display_name)) display_name else metadata$name
     }
 
     out <- purrr::reduce(results, full_join, by = c("entity", "code", "year"))
