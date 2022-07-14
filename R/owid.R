@@ -133,23 +133,12 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
       select(entity = name, code, year = years, values) |>
       arrange(entity, year)
 
-    year_is_day <- if (!is.null(metadata$display$yearIsDay)) metadata$display$yearIsDay
+    if (!is.null(metadata$display$yearIsDay)) year_is_day <- metadata$display$yearIsDay
 
     if (year_is_day & tidy.date) {
       out <- out %>%
         mutate(year = as.Date(metadata$display$zeroDay) + .data$year)
     }
-
-    #   if (yearIsDay & tidy.date) {
-    #     # colnames(datasets[[i]])[2] <- "date"
-    #     datasets[[i]] <- datasets[[i]] %>%
-    #       mutate(year = as.Date(data$variables[[i]]$display$zeroDay) + .data$year)
-    #   }
-    #
-    #   if (colnames(datasets[[i]])[3] == "Countries Continents") {
-    #     colnames(datasets[[i]])[3] <- "continent"
-    #     # datasets[[2]] <- datasets[[2]][-2]
-    #   }
 
     display_name <- metadata$display$name
     colnames(out)[4] <- if (!is.null(display_name)) {
