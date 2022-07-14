@@ -145,12 +145,19 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     colnames(out)[4] <- if (!is.null(display_name)) display_name else metadata$name
 
 
+    data_info <- vector(mode = "list", length = 1)
+    data_info[[1]]$source <- metadata$source
+    data_info[[1]]$dataset_name <- metadata$name
+    data_info[[1]]$display <- metadata$display
+
   } else {
 
     tables <- grep("variables/data/", data_urls, value = TRUE) |>
       lapply(\(x) jsonlite::fromJSON(x))
 
     results <- vector("list", length(tables))
+
+    data_info <- vector(mode = "list", length = length(tables))
 
     for (i in 1:length(tables)) {
       metadata <- jsonlite::fromJSON(data_urls[i*2])
@@ -164,6 +171,11 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
       display_name <- metadata$display$name
       colnames(results[[i]])[4] <- if (!is.null(display_name)) display_name else metadata$name
+
+
+      data_info[[i]]$source <- metadata$source
+      data_info[[i]]$dataset_name <- metadata$name
+      data_info[[i]]$display <- metadata$display
     }
 
     out <- purrr::reduce(results, full_join, by = c("entity", "code", "year"))
@@ -196,10 +208,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
   #   data_info[[i]]$display <- data$variables[[i]]$display
   # }
 
-  data_info <- vector(mode = "list", length = 1)
-  data_info[[1]]$source <- metadata$source
-  data_info[[1]]$dataset_name <- metadata$name
-  data_info[[1]]$display <- metadata$display
+
 
 
   attributes(out)$data_info <- data_info
