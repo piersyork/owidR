@@ -134,6 +134,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
       arrange(entity, year)
 
     if (!is.null(metadata$display$yearIsDay)) year_is_day <- metadata$display$yearIsDay
+    if (!is.null(metadata$display$conversionFactor)) out[[4]] <- out[[4]] * metadata$display$conversionFactor
 
     if (year_is_day & tidy.date) {
       out <- out %>%
