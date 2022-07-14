@@ -125,7 +125,7 @@ Now that we have a combined dataset we can get to the analysis. First, let's use
 ```{r lm_graph}
 data %>% 
   filter(year == 2015) %>% 
-  ggplot(aes(internet_use, electdem_vdem_owid)) +
+  ggplot(aes(internet_use, electoral_democracy)) +
   geom_point(colour = "#57677D") +
   geom_smooth(method = "lm", colour = "#DC5E78") +
   labs(title = "Relationship Between Internet Use and Polity IV Score", x = "Internet Use", y = "Polity IV") +
@@ -136,10 +136,10 @@ data %>%
 There appears to be some relationship but this could easily be explained by countries with higher development also being more democratic and not actually the result of internet access. That's why we control for GDP and the other confounders. Next, we'll create two models, one with just internet use and democracy, and the other with the confounders added.
 
 ```{r analysis, results='asis'}
-fe_model <- plm(electdem_vdem_owid ~ internet_use, data, 
+fe_model <- plm(electoral_democracy ~ internet_use, data, 
                 effect = c("individual"), index = "entity")
 
-fe_model_2 <- plm(electdem_vdem_owid ~ internet_use + gdp + gov_exp + age_dep + unemp, data, 
+fe_model_2 <- plm(electoral_democracy ~ internet_use + gdp + gov_exp + age_dep + unemp, data, 
                   effect = c("individual"), index = "entity")
 
 htmlreg(list(fe_model, fe_model_2))

@@ -9,11 +9,11 @@ test_that("test core owid function", {
   expect_equal(colnames(data), c("entity", "code", "year", "water_prod"))
 })
 
-# test_that("test multiple cols", {
-#   data <- owid("learning-outcomes-vs-gdp-per-capita",
-#                rename = c("pop", "continent", "learning", "gdp"))
-#   expect_equal(colnames(data), c("entity", "code", "year", "pop", "continent", "learning", "gdp"))
-# })
+test_that("test multiple cols", {
+  data <- owid("learning-outcomes-vs-gdp-per-capita",
+               rename = c("pop", "continent", "learning", "gdp"))
+  expect_equal(colnames(data), c("entity", "code", "year", "pop", "continent", "learning", "gdp"))
+})
 
 test_that("test http error", {
   data <- owid("this_is_not_a_valid_id")
