@@ -83,7 +83,7 @@ owid_search("democrac")
 ```
 
 ```{r democ}
-democracy <- owid("electoral-democracy") 
+democracy <- owid("electoral-democracy", rename = c("electoral_democracy", "vdem_high", "vdem_low"))
 democracy
 
 owid_source(democracy)
