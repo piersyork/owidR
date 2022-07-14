@@ -9,11 +9,10 @@ status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/
 [![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
 <!-- badges: end -->
 
-*WARNING:* Due to a change in the Our World in Data Website, owidR will
-not currently work. Download the development version for a temporary fix
-(which will only be able to import data that has just one value column).
-A full fix and CRAN update will follow soon, there will be no syntax
-changes.
+**WARNING:** Due to a change in the Our World in Data Website, owidR
+will not currently work. Download the development version for a
+temporary fix (which may have some bugs). A full fix and CRAN update
+will follow in the coming days, there will be no syntax changes.
 
 This package acts as an interface to [Our World in
 Data](https://ourworldindata.org/) datasets, allowing for an easy way to
