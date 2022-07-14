@@ -9,6 +9,12 @@ status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/
 [![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
 <!-- badges: end -->
 
+*WARNING:* Due to a change in the Our World in Data Website, owidR will
+not currently work. Download the development version for a temporary fix
+(which will only be able to import data that has just one value column).
+A full fix and CRAN update will follow soon, there will be no syntax
+changes.
+
 This package acts as an interface to [Our World in
 Data](https://ourworldindata.org/) datasets, allowing for an easy way to
 search through data used in over 3,000 charts and load them into the R
@@ -65,18 +71,18 @@ rights <- owid("human-rights-scores")
 
 rights
 ## # A tibble: 11,273 × 4
-##    entity      code   year `Human rights protection`
-##  * <chr>       <chr> <int>                     <dbl>
-##  1 Afghanistan AFG    1946                     0.829
-##  2 Afghanistan AFG    1947                     0.878
-##  3 Afghanistan AFG    1948                     0.935
-##  4 Afghanistan AFG    1949                     0.966
-##  5 Afghanistan AFG    1950                     1.01 
-##  6 Afghanistan AFG    1951                     1.09 
-##  7 Afghanistan AFG    1952                     1.13 
-##  8 Afghanistan AFG    1953                     1.18 
-##  9 Afghanistan AFG    1954                     1.22 
-## 10 Afghanistan AFG    1955                     1.22 
+##    entity      code   year human_rights_protection
+##  * <chr>       <chr> <int>                   <dbl>
+##  1 Afghanistan AFG    1946                   0.829
+##  2 Afghanistan AFG    1947                   0.878
+##  3 Afghanistan AFG    1948                   0.935
+##  4 Afghanistan AFG    1949                   0.966
+##  5 Afghanistan AFG    1950                   1.01 
+##  6 Afghanistan AFG    1951                   1.09 
+##  7 Afghanistan AFG    1952                   1.13 
+##  8 Afghanistan AFG    1953                   1.18 
+##  9 Afghanistan AFG    1954                   1.22 
+## 10 Afghanistan AFG    1955                   1.22 
 ## # … with 11,263 more rows
 ```
 
@@ -121,7 +127,7 @@ rates, using `owid_covid()`.
 covid <- owid_covid()
 
 covid
-## # A tibble: 192,788 × 67
+## # A tibble: 201,032 × 67
 ##    iso_code continent location date       total_cases new_cases new_cases_smoot…
 ##    <chr>    <chr>     <chr>    <date>           <dbl>     <dbl>            <dbl>
 ##  1 AFG      Asia      Afghani… 2020-02-24           5         5           NA    
@@ -134,7 +140,7 @@ covid
 ##  8 AFG      Asia      Afghani… 2020-03-02           5         0            0    
 ##  9 AFG      Asia      Afghani… 2020-03-03           5         0            0    
 ## 10 AFG      Asia      Afghani… 2020-03-04           5         0            0    
-## # … with 192,778 more rows, and 60 more variables: total_deaths <dbl>,
+## # … with 201,022 more rows, and 60 more variables: total_deaths <dbl>,
 ## #   new_deaths <dbl>, new_deaths_smoothed <dbl>, total_cases_per_million <dbl>,
 ## #   new_cases_per_million <dbl>, new_cases_smoothed_per_million <dbl>,
 ## #   total_deaths_per_million <dbl>, new_deaths_per_million <dbl>,
