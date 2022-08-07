@@ -11,7 +11,8 @@ test_that("test core owid function", {
 
 test_that("test multiple cols", {
   data <- owid("learning-outcomes-vs-gdp-per-capita",
-               rename = c("pop", "continent", "learning", "gdp"))
+    rename = c("pop", "continent", "learning", "gdp")
+  )
   expect_equal(colnames(data), c("entity", "code", "year", "pop", "continent", "learning", "gdp"))
 })
 
@@ -20,5 +21,4 @@ test_that("test http error", {
 
   expect_equal(class(data)[1], "owid.no.connection")
   expect_equal(dplyr::tibble(data), dplyr::tibble(entity = NA, year = NA, value = NA))
-
 })

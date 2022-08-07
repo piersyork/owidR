@@ -22,13 +22,14 @@
 #' owid_plot(human_rights)
 #' \donttest{
 #' # Plot score for a selection of countries
-#' owid_plot(human_rights, summarise = FALSE,
-#'           filter = c("United Kingdom", "Sweden", "North Korea", "South Korea"))
+#' owid_plot(human_rights,
+#'   summarise = FALSE,
+#'   filter = c("United Kingdom", "Sweden", "North Korea", "South Korea")
+#' )
 #' }
 #'
 owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
                       years = NULL, show.all = FALSE) {
-
   if (class(data)[1] == "owid.no.connection") {
     message("owid object had not connected to ourworldindata.org")
     return(ggplot())
@@ -86,15 +87,15 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
           ggplot2::labs(title = title, x = "", y = "") +
           theme_owid() +
           ggplot2::theme(panel.grid.major.x = element_blank())
-
       } else {
         if (length(entities) > 10) {
           if (show.all) {
             warning("show.all is true but the number of entities may be too large to show in a graph. Consider using `show.all = FALSE`")
-
           } else {
-            warning(paste0("Too many entities to plot, plotting a sample of 9 out of ", length(entities),
-                           ". Use the filter argument to select which entities are shown."))
+            warning(paste0(
+              "Too many entities to plot, plotting a sample of 9 out of ", length(entities),
+              ". Use the filter argument to select which entities are shown."
+            ))
             # set.seed(20) # show same countries on repeated calls?
             entities <- sample(entities, 9)
           }
@@ -109,19 +110,21 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
           ggplot2::labs(title = title, x = "", y = "") +
           theme_owid() +
           coord_cartesian(clip = "off") +
-          ggplot2::theme(panel.grid.major.x = element_blank(),
-                         plot.margin = margin(11, 6*max_string_length, 5, 10),
-                         legend.position = "none") +
+          ggplot2::theme(
+            panel.grid.major.x = element_blank(),
+            plot.margin = margin(11, 6 * max_string_length, 5, 10),
+            legend.position = "none"
+          ) +
           ggrepel::geom_text_repel(aes(label = .data$label),
-                                   hjust = 0, xlim = Inf,
-                                   na.rm = TRUE, segment.colour = "grey")
+            hjust = 0, xlim = Inf,
+            na.rm = TRUE, segment.colour = "grey"
+          )
 
-        if (length(entities) <= 10){
+        if (length(entities) <= 10) {
           plot <- plot + scale_colour_owid()
         }
       }
     } else {
-
       if (length(entities) > 20) {
         if (show.all) {
           warning("show.all is true but the number of entities may be too large to show in a graph. Consider using `show.all = FALSE`")
@@ -134,13 +137,17 @@ owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
 
       plot <- data %>%
         filter(.data$entity %in% entities) %>%
-        ggplot2::ggplot(ggplot2::aes(.data$value,
-                                     forcats::fct_reorder(factor(.data$entity), .data$value))) +
+        ggplot2::ggplot(ggplot2::aes(
+          .data$value,
+          forcats::fct_reorder(factor(.data$entity), .data$value)
+        )) +
         ggplot2::geom_col(fill = "#57677D") +
         ggplot2::labs(title = title, x = "", y = "") +
         theme_owid() +
-        ggplot2::theme(panel.grid.major.y = element_blank(),
-                       plot.margin = margin(11, 5, 5, 10)) +
+        ggplot2::theme(
+          panel.grid.major.y = element_blank(),
+          plot.margin = margin(11, 5, 5, 10)
+        ) +
         ggplot2::coord_cartesian(expand = FALSE)
     }
   }

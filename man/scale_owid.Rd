@@ -56,5 +56,4 @@ colnames(venom) <- c("entity", "code", "year", "venom")
 #         panel.grid.major.x = element_blank(), axis.title = element_blank())
 }
 
-
 }

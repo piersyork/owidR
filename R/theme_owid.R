@@ -5,7 +5,7 @@
 #' @noRd
 get_owid_fonts <- function() {
   get_file <- function(url) {
-    dest = file.path(tempdir(), basename(url))
+    dest <- file.path(tempdir(), basename(url))
     curl::curl_download(url, dest, handle = curl::new_handle())
     dest
   }
@@ -59,13 +59,16 @@ pal_owid <- function(alpha) {
     "Blue" = "#0184A9",
     "PastelPink" = "#DC5E78"
   )
-  if (alpha > 1L | alpha <= 0L)
+  if (alpha > 1L | alpha <= 0L) {
     stop("alpha must be in (0, 1]")
-  raw_cols = owid_palette
-  raw_cols_rgb = grDevices::col2rgb(raw_cols)
-  alpha_cols = grDevices::rgb(raw_cols_rgb[1L, ], raw_cols_rgb[2L, ],
-                              raw_cols_rgb[3L, ], alpha = alpha * 255L, names = names(raw_cols),
-                              maxColorValue = 255L)
+  }
+  raw_cols <- owid_palette
+  raw_cols_rgb <- grDevices::col2rgb(raw_cols)
+  alpha_cols <- grDevices::rgb(raw_cols_rgb[1L, ], raw_cols_rgb[2L, ],
+    raw_cols_rgb[3L, ],
+    alpha = alpha * 255L, names = names(raw_cols),
+    maxColorValue = 255L
+  )
   scales::manual_pal(unname(alpha_cols))
 }
 
@@ -113,7 +116,6 @@ pal_owid <- function(alpha) {
 #' #         panel.grid.major.x = element_blank(), axis.title = element_blank())
 #' }
 #'
-#'
 scale_fill_owid <- function(alpha = 1, ...) {
   ggplot2::discrete_scale("fill", "owid", pal_owid(alpha), ...)
 }
@@ -142,27 +144,32 @@ scale_color_owid <- scale_colour_owid
 #' @export
 #'
 theme_owid <- function(import_fonts = TRUE) {
-
   thm <- theme_minimal(base_family = "serif") %+replace%
-    theme(text = element_text(colour = "#373737"),
-          plot.title = element_text(size = "20", hjust = 0, vjust = 3.2),
-          plot.subtitle = element_text(hjust = 0, vjust = 3.5),
-          plot.title.position = "plot",
-          legend.position = "right",
-          axis.text = element_text(face = "plain"),
-          panel.grid.major = element_line(linetype = "dashed"), panel.grid.minor = element_blank(),
-          plot.margin = margin(11, 15, 5, 10),
-          axis.line.x = element_line(colour = "#8e8e8e"),
-          axis.ticks = element_line(colour = "#8e8e8e"))
+    theme(
+      text = element_text(colour = "#373737"),
+      plot.title = element_text(size = "20", hjust = 0, vjust = 3.2),
+      plot.subtitle = element_text(hjust = 0, vjust = 3.5),
+      plot.title.position = "plot",
+      legend.position = "right",
+      axis.text = element_text(face = "plain"),
+      panel.grid.major = element_line(linetype = "dashed"), panel.grid.minor = element_blank(),
+      plot.margin = margin(11, 15, 5, 10),
+      axis.line.x = element_line(colour = "#8e8e8e"),
+      axis.ticks = element_line(colour = "#8e8e8e")
+    )
 
   if (import_fonts) {
     if (requireNamespace("showtext")) {
       if (curl::has_internet()) {
         get_owid_fonts()
-        thm <- thm + theme(text = element_text(family = "Lato", face = "plain", colour = "#373737"),
-                           plot.title = element_text(family = "Playfair Display",
-                                                     size = "20"),
-                           plot.subtitle = element_text(family = "Lato", hjust = 0))
+        thm <- thm + theme(
+          text = element_text(family = "Lato", face = "plain", colour = "#373737"),
+          plot.title = element_text(
+            family = "Playfair Display",
+            size = "20"
+          ),
+          plot.subtitle = element_text(family = "Lato", hjust = 0)
+        )
       } else {
         warning("importing fonts requires an internet connection please use import_fonts = FALSE")
       }

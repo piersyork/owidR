@@ -5,7 +5,6 @@ globalVariables(c("name", "code", "years", "values", "entity", "year"))
 #' @noRd
 #'
 get_datasets <- function() {
-
   if (!curl::has_internet()) {
     message("No internet connection available: returning blank tibble")
     return(tibble(titles = NA, urls = NA))
@@ -91,9 +90,7 @@ get_data_url <- function(chart_id) {
 #' emissions <- owid("per-capita-ghg-emissions")
 #' }
 #'
-#'
 owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
-
   if (is.null(chart_id)) {
     datasets <- get_datasets()
     random_no <- sample(nrow(datasets), 1)
@@ -105,7 +102,6 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     out <- tibble(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
-
   } else if (httr::http_error(paste0("https://ourworldindata.org/grapher/", chart_id))) {
     message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning blank tibble."))
     out <- tibble(entity = NA, year = NA, value = NA)
@@ -123,7 +119,6 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     class(out) <- c("owid.no.connection", class(out))
     return(out)
   } else if (length(data_urls) == 2) {
-
     df <- jsonlite::fromJSON(data_urls[1])
     metadata <- jsonlite::fromJSON(data_urls[2])
 
@@ -149,9 +144,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     data_info[[1]]$source <- metadata$source
     data_info[[1]]$dataset_name <- metadata$name
     data_info[[1]]$display <- metadata$display
-
   } else {
-
     tables <- grep("variables/data/", data_urls, value = TRUE) |>
       lapply(\(x) jsonlite::fromJSON(x))
 
@@ -160,7 +153,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     data_info <- vector(mode = "list", length = length(tables))
 
     for (i in 1:length(tables)) {
-      metadata <- jsonlite::fromJSON(data_urls[i*2])
+      metadata <- jsonlite::fromJSON(data_urls[i * 2])
       entities <- as_tibble(metadata$dimensions$entities$values)
 
       results[[i]] <- as_tibble(tables[[i]]) |>
@@ -179,7 +172,6 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     }
 
     out <- purrr::reduce(results, full_join, by = c("entity", "code", "year"))
-
   }
 
   if (year_is_day & tidy.date) {
@@ -216,7 +208,6 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
   class(out) <- c("owid", class(out))
 
   return(out)
-
 }
 
 #' Get the Our World in Data covid-19 dataset
@@ -234,12 +225,15 @@ owid_covid <- function() {
   }
 
   data <- readr::read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",
-                          col_types = readr::cols(.default = readr::col_double(),
-                                                  iso_code = readr::col_character(),
-                                                  continent = readr::col_character(),
-                                                  location = readr::col_character(),
-                                                  date = readr::col_date(format = ""),
-                                                  tests_units = readr::col_character()))
+    col_types = readr::cols(
+      .default = readr::col_double(),
+      iso_code = readr::col_character(),
+      continent = readr::col_character(),
+      location = readr::col_character(),
+      date = readr::col_date(format = ""),
+      tests_units = readr::col_character()
+    )
+  )
   class(data) <- c("owid", class(data))
   return(data)
 }

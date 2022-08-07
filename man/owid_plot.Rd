@@ -40,8 +40,10 @@ human_rights <- owid("human-rights-scores")
 owid_plot(human_rights)
 \donttest{
 # Plot score for a selection of countries
-owid_plot(human_rights, summarise = FALSE,
-          filter = c("United Kingdom", "Sweden", "North Korea", "South Korea"))
+owid_plot(human_rights,
+  summarise = FALSE,
+  filter = c("United Kingdom", "Sweden", "North Korea", "South Korea")
+)
 }
 
 }

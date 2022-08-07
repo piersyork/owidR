@@ -27,5 +27,4 @@ owid_search("emissions")
 emissions <- owid("per-capita-ghg-emissions")
 }
 
-
 }

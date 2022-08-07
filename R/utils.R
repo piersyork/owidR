@@ -13,7 +13,6 @@
 #' owid_source(rights)
 #' }
 owid_source <- function(data) {
-
   if (class(data)[1] == "owid.no.connection") {
     message("owid object had not connected to ourworldindata.org")
     return(NULL)
@@ -34,15 +33,19 @@ owid_source <- function(data) {
 
   if (all_identical) {
     source <- data_info[[1]]$source
-    c("Dataset Name: ", source$name, "\n\n", "Published By: ", source$dataPublishedBy, "\n\n",
-      "Link: ", source$link, "\n\n", source$additionalInfo) %>%
+    c(
+      "Dataset Name: ", source$name, "\n\n", "Published By: ", source$dataPublishedBy, "\n\n",
+      "Link: ", source$link, "\n\n", source$additionalInfo
+    ) %>%
       cat(sep = "")
   } else {
     for (i in 1:length(data_info)) {
       cat("Value: ", names(data_info)[i], "\n\n")
       source <- data_info[[i]]$source
-      c("Dataset Name: ", source$name, "\n\n", "Published By: ", source$dataPublishedBy, "\n\n",
-        "Link: ", source$link, "\n\n", source$additionalInfo) %>%
+      c(
+        "Dataset Name: ", source$name, "\n\n", "Published By: ", source$dataPublishedBy, "\n\n",
+        "Link: ", source$link, "\n\n", source$additionalInfo
+      ) %>%
         cat(sep = "")
     }
   }
@@ -77,12 +80,11 @@ view_chart <- function(x) {
       chart_id <- x
     }
     url <- paste0("https://ourworldindata.org/grapher/", chart_id)
-    utils::browseURL(url, browser = getOption("browser"),
-                     encodeIfNeeded = FALSE)
+    utils::browseURL(url,
+      browser = getOption("browser"),
+      encodeIfNeeded = FALSE
+    )
   } else {
     stop("utils is required to launch browser, please go to", url, "instead")
   }
-
 }
-
-

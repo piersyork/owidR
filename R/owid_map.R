@@ -24,7 +24,6 @@
 #' owid_map(mental, mode = "view", palette = "Blues")
 #' }
 owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
-
   if (class(data)[1] == "owid.no.connection") {
     message("owid object had not connected to ourworldindata.org")
     return(ggplot())
@@ -47,7 +46,7 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
       stop(paste("There is no data for", year))
     } else {
       data <- data %>%
-       filter(year == .year)
+        filter(year == .year)
     }
   }
 
@@ -74,20 +73,22 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
   if (mode == "plot") {
     map_data %>%
       ggplot2::ggplot(ggplot2::aes(fill = value, id = .data$owid_name)) +
-      ggplot2::geom_sf(size = 0.05, colour = "black") + #, colour = "#dedfea"
+      ggplot2::geom_sf(size = 0.05, colour = "black") + # , colour = "#dedfea"
       ggplot2::scale_fill_distiller(palette = palette, direction = 1, na.value = "grey80") +
       ggplot2::labs(title = title) +
       theme_owid() +
-      ggplot2::theme(axis.line.x = ggplot2::element_blank(),
-                     axis.ticks = ggplot2::element_blank(),
-                     panel.grid = ggplot2::element_blank(),
-                     panel.grid.major = ggplot2::element_blank(),
-                     axis.text = ggplot2::element_blank(),
-                     legend.position = "bottom",
-                     legend.title = ggplot2::element_blank(),
-                     legend.key.width = ggplot2::unit(2, units = "cm"),
-                     legend.key.height = ggplot2::unit(0.3, units = "cm"),
-                     plot.title = element_text(vjust = 1))
+      ggplot2::theme(
+        axis.line.x = ggplot2::element_blank(),
+        axis.ticks = ggplot2::element_blank(),
+        panel.grid = ggplot2::element_blank(),
+        panel.grid.major = ggplot2::element_blank(),
+        axis.text = ggplot2::element_blank(),
+        legend.position = "bottom",
+        legend.title = ggplot2::element_blank(),
+        legend.key.width = ggplot2::unit(2, units = "cm"),
+        legend.key.height = ggplot2::unit(0.3, units = "cm"),
+        plot.title = element_text(vjust = 1)
+      )
   } else if (mode == "view") {
     pal <- leaflet::colorNumeric(
       palette = palette,
@@ -106,8 +107,8 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
 
     map_data %>%
       leaflet::leaflet() %>%
-      leaflet:: addPolygons(
-        fillColor = ~pal(value),
+      leaflet::addPolygons(
+        fillColor = ~ pal(value),
         weight = 0.2,
         opacity = 1,
         color = "black",
@@ -127,8 +128,10 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
           direction = "auto"
         )
       ) %>%
-      leaflet::addLegend(pal = pal_leg, values = ~value, opacity = 0.7, title = NULL,
-                         position = "bottomleft", labFormat = leaflet::labelFormat()) %>%
+      leaflet::addLegend(
+        pal = pal_leg, values = ~value, opacity = 0.7, title = NULL,
+        position = "bottomleft", labFormat = leaflet::labelFormat()
+      ) %>%
       leaflet::addControl(paste0("<b>", title, "<b/>"), position = "topright") %>%
       leaflet::addTiles("", attribution = "<a href = 'https://ourworldindata.org/' title = 'Research and data to make progress against the world\u2019s largest problems'>Our World In Data | <a/><a href = 'https://www.naturalearthdata.com/' title = 'Made with Natural Earth. Free vector and raster map data'>Natural Earth Data<a/>")
   }
@@ -146,7 +149,3 @@ world_map_data <- function() {
   world <- readRDS(system.file("extdata", "world_map_sf.rds", package = "owidR"))
   return(world)
 }
-
-
-
-
