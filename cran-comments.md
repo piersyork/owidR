@@ -1,5 +1,5 @@
 ## Test environments
-* local R installation (Ubuntu Linux), R 4.1.2  
+* local R installation (Ubuntu Linux), R 4.2.1
 * Mac OS (release)
 * windows-latest (release)
 * Ubuntu Linux (devel)

@@ -25,6 +25,9 @@
 * Update to fix failure to import data
 * Backend changes to remain compatible with ourworldindata.org site
 
+# owidR 1.3.1
+* Change native pipe to magrittr pipe, removing R 4.1 dependency
+* Change code format to tidy style guide
 
 
 

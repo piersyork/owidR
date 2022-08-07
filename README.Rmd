@@ -88,7 +88,7 @@ covid
 * [ ] Add function to load multiple country datasets into on dataframe
 * [ ] Add caching of data (inc. backend)
 * [ ] Remove interactive plotting to reduce dependencies
-* [ ] Plan/think of way to import owid explorers
+* [ ] Create way to import owid explorers
 
 
 
