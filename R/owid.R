@@ -123,9 +123,9 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     metadata <- jsonlite::fromJSON(data_urls[2])
 
     entities <- as_tibble(metadata$dimensions$entities$values)
-    out <- as_tibble(df) |>
-      left_join(entities, by = c("entities" = "id")) |>
-      select(entity = name, code, year = years, values) |>
+    out <- as_tibble(df) %>%
+      left_join(entities, by = c("entities" = "id")) %>%
+      select(entity = name, code, year = years, values) %>%
       arrange(entity, year)
 
     if (!is.null(metadata$display$yearIsDay)) year_is_day <- metadata$display$yearIsDay
@@ -145,7 +145,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     data_info[[1]]$dataset_name <- metadata$name
     data_info[[1]]$display <- metadata$display
   } else {
-    tables <- grep("variables/data/", data_urls, value = TRUE) |>
+    tables <- grep("variables/data/", data_urls, value = TRUE) %>%
       lapply(\(x) jsonlite::fromJSON(x))
 
     results <- vector("list", length(tables))
@@ -156,9 +156,9 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
       metadata <- jsonlite::fromJSON(data_urls[i * 2])
       entities <- as_tibble(metadata$dimensions$entities$values)
 
-      results[[i]] <- as_tibble(tables[[i]]) |>
-        left_join(entities, by = c("entities" = "id")) |>
-        select(entity = name, code, year = years, values) |>
+      results[[i]] <- as_tibble(tables[[i]]) %>%
+        left_join(entities, by = c("entities" = "id")) %>%
+        select(entity = name, code, year = years, values) %>%
         arrange(entity, year)
 
 
