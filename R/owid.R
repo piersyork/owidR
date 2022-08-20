@@ -1,16 +1,18 @@
-globalVariables(c("name", "code", "years", "values", "entity", "year"))
+globalVariables(c("name", "code", "years", "values", "entity", "year", ".", "title"))
 
 #' Internal function to get datasets from our world in data
 #'
 #' @noRd
 #'
+#' @import data.table
+#'
 get_datasets <- function() {
   if (!curl::has_internet()) {
-    message("No internet connection available: returning blank tibble")
-    return(tibble(titles = NA, urls = NA))
+    message("No internet connection available: returning blank data.table")
+    return(data.table(titles = NA, urls = NA))
   } else if (httr::http_error("https://ourworldindata.org/charts")) {
-    message("Could not connect to https://ourworldindata.org/charts, site may be down. Returning blank tibble")
-    return(tibble(titles = NA, urls = NA))
+    message("Could not connect to https://ourworldindata.org/charts, site may be down. Returning blank data.table")
+    return(data.table(titles = NA, urls = NA))
   }
 
   all_charts_page <- xml2::read_html("https://ourworldindata.org/charts")
@@ -21,11 +23,11 @@ get_datasets <- function() {
   titles <- rvest::html_text(links)
   urls <- rvest::html_attr(links, "href")
 
-  datasets <- tibble(titles, urls) %>%
-    filter(grepl("grapher", urls)) %>%
-    mutate(urls = stringr::word(urls, 3, -1, sep = "/")) %>%
-    rename(chart_id = urls) %>%
-    distinct()
+  datasets <- unique(data.table(titles, urls)[
+    grepl("grapher", urls),
+    .(chart_id = stringr::word(urls, 3, -1, sep = "/"), title = titles)
+  ])
+
 }
 
 #' Search the data sources used in OWID charts
@@ -43,9 +45,9 @@ get_datasets <- function() {
 #'
 owid_search <- function(term) {
   ds <- get_datasets()
-  ds %>%
-    filter(grepl(term, .data$titles, ignore.case = TRUE)) %>%
-    as.matrix()
+
+  as.matrix(ds[grepl(term, title, ignore.case = TRUE)])
+
 }
 
 #' Internal function to get the dataset url
@@ -78,11 +80,10 @@ get_data_url <- function(chart_id) {
 #' @param tidy.date If TRUE then a year column that should be a date column will automatically detected and transformed. If FALSE then the Year column will be kept as is. Defaults to TRUE.
 #' @param ... Not to be used.
 #'
-#' @return A tibble of an owid dataset with the added class 'owid'.
+#' @return A data.table of an owid dataset with the added class 'owid'.
 #' @export
 #'
-#' @import dplyr
-#' @importFrom rlang .data
+#' @import magrittr
 #'
 #' @examples
 #' \donttest{
@@ -98,13 +99,13 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
   }
 
   if (!curl::has_internet()) {
-    message("No internet connection available: returning blank tibble")
-    out <- tibble(entity = NA, year = NA, value = NA)
+    message("No internet connection available: returning blank data.table")
+    out <- data.table(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
   } else if (httr::http_error(paste0("https://ourworldindata.org/grapher/", chart_id))) {
-    message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning blank tibble."))
-    out <- tibble(entity = NA, year = NA, value = NA)
+    message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning blank data.table."))
+    out <- data.table(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
   }
@@ -115,25 +116,25 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
   if (length(data_urls) == 0) {
     message("Unable to get data for this chart_id")
-    out <- tibble(entity = NA, year = NA, value = NA)
+    out <- data.table(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
   } else if (length(data_urls) == 2) {
     df <- jsonlite::fromJSON(data_urls[1])
     metadata <- jsonlite::fromJSON(data_urls[2])
 
-    entities <- as_tibble(metadata$dimensions$entities$values)
-    out <- as_tibble(df) %>%
-      left_join(entities, by = c("entities" = "id")) %>%
-      select(entity = name, code, year = years, values) %>%
-      arrange(entity, year)
+    entities <- data.table(metadata$dimensions$entities$values)
+    out <- merge(as.data.table(df), entities, by.x = "entities", by.y = "id", all.x = TRUE)[
+      order(name, years),
+      .(entity = name, code, year = years, values)
+    ]
+
 
     if (!is.null(metadata$display$yearIsDay)) year_is_day <- metadata$display$yearIsDay
     if (!is.null(metadata$display$conversionFactor)) out[[4]] <- out[[4]] * metadata$display$conversionFactor
 
     if (year_is_day & tidy.date) {
-      out <- out %>%
-        mutate(year = as.Date(metadata$display$zeroDay) + .data$year)
+      out[, year := as.Date(metadata$display$zeroDay) + year]
     }
 
     display_name <- metadata$display$name
@@ -154,12 +155,12 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
     for (i in 1:length(tables)) {
       metadata <- jsonlite::fromJSON(data_urls[i * 2])
-      entities <- as_tibble(metadata$dimensions$entities$values)
+      entities <- as.data.table(metadata$dimensions$entities$values)
 
-      results[[i]] <- as_tibble(tables[[i]]) %>%
-        left_join(entities, by = c("entities" = "id")) %>%
-        select(entity = name, code, year = years, values) %>%
-        arrange(entity, year)
+      results[[i]] <- merge(as.data.table(tables[[i]]), entities, by.x = "entities", by.y = "id", all.x = TRUE)[
+        order(name, years),
+        .(entity = name, code, year = years, values)
+      ]
 
 
       display_name <- metadata$display$name
@@ -171,7 +172,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
       data_info[[i]]$display <- metadata$display
     }
 
-    out <- purrr::reduce(results, full_join, by = c("entity", "code", "year"))
+    out <- purrr::reduce(results, merge, by = c("entity", "code", "year"), all = TRUE)
   }
 
   if (year_is_day & tidy.date) {
@@ -217,23 +218,14 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 #'
 owid_covid <- function() {
   if (!curl::has_internet()) {
-    message("No internet connection available: returning blank tibble")
-    return(tibble())
+    message("No internet connection available: returning blank data.table")
+    return(data.table())
   } else if (httr::http_error("https://covid.ourworldindata.org/data/owid-covid-data.csv")) {
-    message("Could not connect to https://covid.ourworldindata.org/data/owid-covid-data.csv, returning blank tibble")
-    return(tibble())
+    message("Could not connect to https://covid.ourworldindata.org/data/owid-covid-data.csv, returning blank data.table")
+    return(data.table())
   }
 
-  data <- readr::read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",
-    col_types = readr::cols(
-      .default = readr::col_double(),
-      iso_code = readr::col_character(),
-      continent = readr::col_character(),
-      location = readr::col_character(),
-      date = readr::col_date(format = ""),
-      tests_units = readr::col_character()
-    )
-  )
+  data <- fread("https://covid.ourworldindata.org/data/owid-covid-data.csv")
   class(data) <- c("owid", class(data))
   return(data)
 }

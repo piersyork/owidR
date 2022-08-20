@@ -16,7 +16,7 @@ owid(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...)
 \item{...}{Not to be used.}
 }
 \value{
-A tibble of an owid dataset with the added class 'owid'.
+A data.table of an owid dataset with the added class 'owid'.
 }
 \description{
 Get a dataset used in an OWID chart.
