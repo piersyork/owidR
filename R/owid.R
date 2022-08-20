@@ -25,7 +25,7 @@ get_datasets <- function() {
 
   datasets <- unique(data.table(titles, urls)[
     grepl("grapher", urls),
-    .(chart_id = stringr::word(urls, 3, -1, sep = "/"), title = titles)
+    .(chart_id = gsub("/grapher/", "", urls), title = titles)
   ])
 
 }

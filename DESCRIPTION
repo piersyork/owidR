@@ -6,7 +6,7 @@ Author: Piers York
 Maintainer: Piers York <piersyork@gmail.com>
 Description: Imports data from the Our World in Data website, offering easy to use functions for searching for datasets, downloading them into R and visualising them.
 URL: <https://github.com/piersyork/owidR>, <https://github.com/owid/covid-19-data/>, <https://ourworldindata.org/>
-Imports: data.table, rvest, jsonlite, httr, stringr, xml2, purrr, curl, magrittr
+Imports: data.table, rvest, jsonlite, httr, xml2, purrr, curl, magrittr
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
