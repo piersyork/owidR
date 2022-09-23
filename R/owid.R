@@ -193,17 +193,6 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     }
   }
 
-  # data_info <- vector(mode = "list", length = length(colnames(out)[4:length(colnames(out))]))
-  # names(data_info) <- colnames(out)[4:length(colnames(out))]
-  # for (i in 1:length(metadata)) {
-  #   data_info[[i]]$source <- data$variables[[i]]$source
-  #   data_info[[i]]$dataset_name <- data$variables[[i]]$datasetName
-  #   data_info[[i]]$display <- data$variables[[i]]$display
-  # }
-
-
-
-
   attributes(out)$data_info <- data_info
   attributes(out)$chart_id <- chart_id
   class(out) <- c("owid", class(out))
