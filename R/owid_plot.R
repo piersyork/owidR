@@ -30,6 +30,7 @@
 #'
 owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
                       years = NULL, show.all = FALSE) {
+  .Deprecated()
   if (class(data)[1] == "owid.no.connection") {
     message("owid object had not connected to ourworldindata.org")
     return(ggplot())

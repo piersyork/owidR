@@ -117,6 +117,7 @@ pal_owid <- function(alpha) {
 #' }
 #'
 scale_fill_owid <- function(alpha = 1, ...) {
+  .Deprecated()
   ggplot2::discrete_scale("fill", "owid", pal_owid(alpha), ...)
 }
 
@@ -125,6 +126,7 @@ scale_fill_owid <- function(alpha = 1, ...) {
 #'
 #' @rdname scale_owid
 scale_colour_owid <- function(alpha = 1, ...) {
+  .Deprecated()
   discrete_scale("color", "owid", pal_owid(alpha), ...)
 }
 
@@ -144,6 +146,7 @@ scale_color_owid <- scale_colour_owid
 #' @export
 #'
 theme_owid <- function(import_fonts = TRUE) {
+  .Deprecated()
   thm <- theme_minimal(base_family = "serif") %+replace%
     theme(
       text = element_text(colour = "#373737"),

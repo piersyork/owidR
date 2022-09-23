@@ -24,6 +24,7 @@
 #' owid_map(mental, mode = "view", palette = "Blues")
 #' }
 owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
+  .Deprecated()
   if (class(data)[1] == "owid.no.connection") {
     message("owid object had not connected to ourworldindata.org")
     return(ggplot())
@@ -146,6 +147,7 @@ owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plo
 #' @export
 #'
 world_map_data <- function() {
+
   world <- readRDS(system.file("extdata", "world_map_sf.rds", package = "owidR"))
   return(world)
 }
