@@ -74,6 +74,12 @@ pal_owid <- function(alpha) {
 
 #' Our World in Data Colour Scales
 #'
+#' @description
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' These functions have been deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
+#'
 #' @inheritParams pal_owid
 #' @param ... additional parameters for \code{\link[ggplot2]{discrete_scale}}
 #'
@@ -83,38 +89,6 @@ pal_owid <- function(alpha) {
 #'
 #' @rdname scale_owid
 #'
-#' @examples
-#' \donttest{
-#' library(ggplot2)
-#' library(dplyr)
-#' library(ggrepel)
-#'
-#' # make an Our World in Data style chart
-#'
-#' venom <- owid("incidence-of-venomous-animal-contact")
-#'
-#' colnames(venom) <- c("entity", "code", "year", "venom")
-#'
-#' # venom %>%
-#' #   filter(entity %in% c("India", "Australia", "United States", "Guyana")) %>%
-#' #   group_by(entity) %>%
-#' #   mutate(label = ifelse(year == max(year), entity, NA)) %>%
-#' #   ggplot(aes(x = year,
-#' #              y = venom,
-#' #              colour = entity)) +
-#' #   geom_line() +
-#' #   geom_point(size = 1) +
-#' #   geom_text_repel(aes(label = label),
-#' #                   hjust = 0, xlim = Inf,
-#' #                   na.rm = TRUE, segment.colour = "grey") +
-#' #   coord_cartesian(clip = "off")  +
-#' #   scale_colour_owid() +
-#' #   scale_y_continuous(limits = c(0, 1000)) +
-#' #   labs(title = "Incidence of venomous animal contact, 1990 to 2017") +
-#' #   theme_owid(import_fonts = FALSE) + # set true to use same fonts as owid
-#' #   theme(plot.margin = margin(10, 80, 5, 10), legend.position = "none",
-#' #         panel.grid.major.x = element_blank(), axis.title = element_blank())
-#' }
 #'
 scale_fill_owid <- function(alpha = 1, ...) {
   .Deprecated()
@@ -136,6 +110,12 @@ scale_colour_owid <- function(alpha = 1, ...) {
 scale_color_owid <- scale_colour_owid
 
 #' ggplot2 Theme in the Style of Our World in Data
+#'
+#' @description
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function was deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
 #'
 #' @param import_fonts Import the fonts used by Our World in Data
 #'

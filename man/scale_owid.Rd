@@ -21,39 +21,7 @@ scale_color_owid(alpha = 1, ...)
 A ggproto object to be used in the context of ggplot2.
 }
 \description{
-Our World in Data Colour Scales
-}
-\examples{
-\donttest{
-library(ggplot2)
-library(dplyr)
-library(ggrepel)
+`r lifecycle::badge("deprecated")`
 
-# make an Our World in Data style chart
-
-venom <- owid("incidence-of-venomous-animal-contact")
-
-colnames(venom) <- c("entity", "code", "year", "venom")
-
-# venom \%>\%
-#   filter(entity \%in\% c("India", "Australia", "United States", "Guyana")) \%>\%
-#   group_by(entity) \%>\%
-#   mutate(label = ifelse(year == max(year), entity, NA)) \%>\%
-#   ggplot(aes(x = year,
-#              y = venom,
-#              colour = entity)) +
-#   geom_line() +
-#   geom_point(size = 1) +
-#   geom_text_repel(aes(label = label),
-#                   hjust = 0, xlim = Inf,
-#                   na.rm = TRUE, segment.colour = "grey") +
-#   coord_cartesian(clip = "off")  +
-#   scale_colour_owid() +
-#   scale_y_continuous(limits = c(0, 1000)) +
-#   labs(title = "Incidence of venomous animal contact, 1990 to 2017") +
-#   theme_owid(import_fonts = FALSE) + # set true to use same fonts as owid
-#   theme(plot.margin = margin(10, 80, 5, 10), legend.position = "none",
-#         panel.grid.major.x = element_blank(), axis.title = element_blank())
-}
-
+These functions have been deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
 }

@@ -1,6 +1,10 @@
 #' Plot an owid dataset
 #'
-#' @description A wrapper around ggplot to provide an quick visualisation of owid data.
+#' @description
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function was deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
 #'
 #'
 #' @param data A tibble returned from `owid()`
@@ -13,24 +17,29 @@
 #' @return A ggplot object.
 #' @export
 #'
+#' @keywords internal
 #'
 #' @examples
 #'
 #' human_rights <- owid("human-rights-scores")
 #'
-#' # Plot average score over time
-#' owid_plot(human_rights)
-#' \donttest{
-#' # Plot score for a selection of countries
-#' owid_plot(human_rights,
-#'   summarise = FALSE,
-#'   filter = c("United Kingdom", "Sweden", "North Korea", "South Korea")
-#' )
-#' }
+#' # use ggplot2 instead
+#' library(ggplot2)
+#' library(dplyr)
+#'
+#' human_rights |>
+#'   filter(entity == "United Kingdom") |>
+#'   ggplot(aes(year, `Human rights protection`)) +
+#'   geom_line()
+#'
 #'
 owid_plot <- function(data = NULL, col = 4, summarise = TRUE, filter = NULL,
                       years = NULL, show.all = FALSE) {
-  .Deprecated()
+  lifecycle::deprecate_warn(
+    "1.4.0",
+    "owid_plot()",
+    "ggplot2::ggplot()"
+  )
   if (class(data)[1] == "owid.no.connection") {
     message("owid object had not connected to ourworldindata.org")
     return(ggplot())

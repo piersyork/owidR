@@ -1,6 +1,10 @@
 #' Create a choropleth world map using data from Our World in Data.
 #'
-#' @description A function to easily create a choropleth world map using data from Our World in Data.
+#' @description
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function was deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org/maps.html
 #'
 #' @param data A dataframe returned by owid(). This dataframe must have country names in the entity column, not all data returned by owid() will be like this.
 #' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.
@@ -13,15 +17,11 @@
 #'
 #' @import sf
 #'
+#' @keywords internal
+#'
 #' @examples
 #' \donttest{
 #' mental <- owid("share-with-mental-and-substance-disorders")
-#'
-#' # simple ggplot2 map
-#' owid_map(mental)
-#'
-#' # interavtive map with blue palette
-#' owid_map(mental, mode = "view", palette = "Blues")
 #' }
 owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
   .Deprecated()
