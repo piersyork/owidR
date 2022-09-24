@@ -24,7 +24,11 @@
 #' mental <- owid("share-with-mental-and-substance-disorders")
 #' }
 owid_map <- function(data = data.frame(), col = 4, palette = "Reds", mode = "plot", year = NULL) {
-  .Deprecated()
+  lifecycle::deprecate_warn(
+    "1.4.0",
+    "owid_map()",
+    "ggplot2::ggplot()"
+  )
   if (class(data)[1] == "owid.no.connection") {
     message("owid object had not connected to ourworldindata.org")
     return(ggplot())

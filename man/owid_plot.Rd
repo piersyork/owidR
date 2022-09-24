@@ -32,7 +32,7 @@ A ggplot object.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
+This function was deprecated to simplify the owidR package, you are encouraged to use ggplot2 instead: https://ggplot2-book.org
 }
 \examples{
 
