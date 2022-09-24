@@ -78,10 +78,10 @@ pal_owid <- function(alpha) {
 #'
 #' `r lifecycle::badge("deprecated")`
 #'
-#' These functions have been deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
+#' These functions have been deprecated to simplify the owidR package, you are encouraged to use ggplot2 instead: https://ggplot2-book.org
 #'
 #' @inheritParams pal_owid
-#' @param ... additional parameters for \code{\link[ggplot2]{discrete_scale}}
+#' @param ... additional parameters for [ggplot2::discrete_scale()]
 #'
 #' @return A ggproto object to be used in the context of ggplot2.
 #'

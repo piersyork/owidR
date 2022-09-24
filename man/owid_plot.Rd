@@ -14,7 +14,7 @@ owid_plot(
 )
 }
 \arguments{
-\item{data}{A tibble returned from `owid()`}
+\item{data}{A tibble returned from \code{owid()}}
 
 \item{col}{Either the column number to be treated as the value or a character string specifying the name of the value column. Defaults to 3, which is the first possible value column.}
 
@@ -30,7 +30,7 @@ owid_plot(
 A ggplot object.
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
 }

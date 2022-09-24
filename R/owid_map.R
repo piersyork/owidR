@@ -4,7 +4,7 @@
 #'
 #' `r lifecycle::badge("deprecated")`
 #'
-#' This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org/maps.html
+#' This function was deprecated to simplify the owidR package, you are encouraged to use ggplot2 instead: https://ggplot2-book.org/maps.html
 #'
 #' @param data A dataframe returned by owid(). This dataframe must have country names in the entity column, not all data returned by owid() will be like this.
 #' @param col Either the column number to be treated as the value or a character string specifying the name of the column. Defaults to 3, which is the first possible value column.

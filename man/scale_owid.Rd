@@ -15,13 +15,13 @@ scale_color_owid(alpha = 1, ...)
 \arguments{
 \item{alpha}{Transparency level, a real number in (0, 1).}
 
-\item{...}{additional parameters for \code{\link[ggplot2]{discrete_scale}}}
+\item{...}{additional parameters for \code{\link[ggplot2:discrete_scale]{ggplot2::discrete_scale()}}}
 }
 \value{
 A ggproto object to be used in the context of ggplot2.
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 These functions have been deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
 }

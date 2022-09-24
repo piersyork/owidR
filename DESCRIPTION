@@ -24,3 +24,4 @@ Suggests:
     texreg
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)

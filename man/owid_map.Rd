@@ -27,7 +27,7 @@ owid_map(
 Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org/maps.html
 }

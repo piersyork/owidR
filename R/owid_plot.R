@@ -4,7 +4,7 @@
 #'
 #' `r lifecycle::badge("deprecated")`
 #'
-#' This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
+#' This function was deprecated to simplify the owidR package, you are encouraged to use ggplot2 instead: https://ggplot2-book.org
 #'
 #'
 #' @param data A tibble returned from `owid()`
