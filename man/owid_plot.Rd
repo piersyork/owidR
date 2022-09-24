@@ -24,7 +24,7 @@ owid_plot(
 
 \item{years}{The years to be included in the plot.}
 
-\item{show.all}{A logical value indicating weather all Entities should be included in the plot.}
+\item{show.all}{A logical value indicating weather all entities should be included in the plot.}
 }
 \value{
 A ggplot object.
@@ -32,7 +32,7 @@ A ggplot object.
 \description{
 `r lifecycle::badge("deprecated")`
 
-This function was deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
+This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
 }
 \examples{
 

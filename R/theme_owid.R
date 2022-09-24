@@ -78,7 +78,7 @@ pal_owid <- function(alpha) {
 #'
 #' `r lifecycle::badge("deprecated")`
 #'
-#' These functions have been deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
+#' These functions have been deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
 #'
 #' @inheritParams pal_owid
 #' @param ... additional parameters for \code{\link[ggplot2]{discrete_scale}}
@@ -112,7 +112,6 @@ scale_color_owid <- scale_colour_owid
 #' ggplot2 Theme in the Style of Our World in Data
 #'
 #' @description
-#'
 #' `r lifecycle::badge("deprecated")`
 #'
 #' This function was deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
@@ -126,7 +125,11 @@ scale_color_owid <- scale_colour_owid
 #' @export
 #'
 theme_owid <- function(import_fonts = TRUE) {
-  .Deprecated()
+  lifecycle::deprecate_warn(
+    "1.4.0",
+    "theme_owid()",
+    "ggplot2::theme()"
+  )
   thm <- theme_minimal(base_family = "serif") %+replace%
     theme(
       text = element_text(colour = "#373737"),

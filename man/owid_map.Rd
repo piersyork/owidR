@@ -29,7 +29,7 @@ Either a ggplot2 map (for mode = "plot") or a leaflet map (for mode = "view").
 \description{
 `r lifecycle::badge("deprecated")`
 
-This function was deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org/maps.html
+This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org/maps.html
 }
 \examples{
 \donttest{

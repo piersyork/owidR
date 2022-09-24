@@ -4,7 +4,7 @@
 #'
 #' `r lifecycle::badge("deprecated")`
 #'
-#' This function was deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
+#' This function was deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
 #'
 #'
 #' @param data A tibble returned from `owid()`
@@ -12,7 +12,7 @@
 #' @param summarise A logical value. If TRUE, plot takes the mean value. If FALSE, each entity is plotted, it is recommended to use this in conjunction with the filter argument to avoid too many entity's being plotted.
 #' @param filter The entity's to include in the plot.
 #' @param years The years to be included in the plot.
-#' @param show.all A logical value indicating weather all Entities should be included in the plot.
+#' @param show.all A logical value indicating weather all entities should be included in the plot.
 #'
 #' @return A ggplot object.
 #' @export

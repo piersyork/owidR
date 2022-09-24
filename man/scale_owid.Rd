@@ -23,5 +23,5 @@ A ggproto object to be used in the context of ggplot2.
 \description{
 `r lifecycle::badge("deprecated")`
 
-These functions have been deprecated to simplify the owidR package, you are encouraged to instead learn ggplot2: https://ggplot2-book.org
+These functions have been deprecated to simplify the owidR package, you are encouraged to instead use ggplot2: https://ggplot2-book.org
 }
