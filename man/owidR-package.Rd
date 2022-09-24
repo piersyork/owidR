@@ -11,9 +11,9 @@ Imports data from the Our World in Data website, offering easy to use functions 
 \seealso{
 Useful links:
 \itemize{
-  \item \url{<https://github.com/piersyork/owidR>}
-  \item \url{<https://github.com/owid/covid-19-data/>}
-  \item \url{<https://ourworldindata.org/>}
+  \item \url{https://github.com/piersyork/owidR}
+  \item \url{https://github.com/owid/covid-19-data/}
+  \item \url{https://ourworldindata.org/}
 }
 
 }
