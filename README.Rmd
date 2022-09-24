@@ -100,7 +100,7 @@ covid
 ```
 
 ## To-do
-* [ ] Add function to load multiple country datasets into on dataframe
+* [ ] Add function to load multiple country datasets into one dataframe
 * [ ] Add caching of data (inc. backend)
 * [ ] Remove interactive plotting to reduce dependencies
 * [ ] Create way to import owid explorers
