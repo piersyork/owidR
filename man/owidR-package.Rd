@@ -6,7 +6,7 @@
 \alias{owidR-package}
 \title{owidR: A Package for Importing Data from Our World in Data}
 \description{
-Imports data from the Our World in Data website, offering easy to use functions for searching for datasets, downloading them into R and visualising them.
+owidR imports data from the Our World in Data website, offering easy to use functions for searching for datasets and importing them into R.
 }
 \seealso{
 Useful links:
