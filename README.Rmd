@@ -12,7 +12,27 @@ knitr::opts_chunk$set(
   message = FALSE
 )
 
-library(dplyr)
+library(ggplot2)
+
+ggplot2::theme_set(
+  theme_minimal(base_family = "serif") %+replace%
+    theme(text = element_text(colour = "#373737", size = 18),
+          plot.title = element_text(size = "22", hjust = 0, vjust = 3.2, face = "bold"),
+          plot.subtitle = element_text(hjust = 0, vjust = 3.5),
+          plot.title.position = "plot",
+          plot.caption.position = "plot",
+          plot.caption = element_text(hjust = 0, size = 14, vjust = -1),
+          legend.position = "right",
+          axis.text = element_text(face = "plain"),
+          axis.title.x = element_blank(),
+          legend.title = element_blank(),
+          panel.grid.major = element_line(linetype = "dashed"),
+          panel.grid.minor = element_blank(),
+          plot.margin = margin(11, 15, 8, 0),
+          axis.line.x = element_line(colour = "#8e8e8e"),
+          axis.ticks = element_line(colour = "#8e8e8e"))
+)
+
 ```
 
 <!-- badges: start -->
@@ -20,8 +40,6 @@ library(dplyr)
 [![CRAN status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/package=owidR)
 [![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
 <!-- badges: end -->
-
-**WARNING:** Due to a change in the Our World in Data Website, your version of owidR may not work. A new version has been uploaded to CRAN, please update the package.
 
 This package acts as an interface to [Our World in Data](https://ourworldindata.org/) datasets, allowing for an easy way to search through data used in over 3,000 charts and load them into the R environment.
 
@@ -49,31 +67,28 @@ owid_search("human rights")
 
 ```
 
-Let's use the human rights scores dataset.
+Let's use the human rights protection dataset.
 
 ``` {r example2, eval = TRUE, message = FALSE}
 
-rights <- owid("human-rights-scores")
+rights <- owid("human-rights-protection")
 
 rights
 
 ```
 
 
-`owid_plot()` makes it easy to visualise an owid dataset, plotting the first value column of an owid dataset. By default the mean score across all countries is plotted.
-```{r owid_plot, eval = TRUE, results='hide'}
-owid_plot(rights)
+ggplot2 makes it easy to visualise our data.
+```{r plot}
+library(ggplot2)
+library(dplyr)
+
+rights |> 
+  filter(entity %in% c("United Kingdom", "France", "United States")) |> 
+  ggplot(aes(year, `Human rights protection`, colour = entity)) +
+  geom_line()
 ```
 
-Use `summarise = FALSE` to show individual countries instead of the mean score. Unless a vector of entities is specified using the `filter` argument 9 random entities will be plotted. If the data is not a time-series then a bar chart of the entities values will be plotted.
-```{r owid_plot2, eval = TRUE, results='hide'}
-owid_plot(rights, summarise = FALSE, filter = c("North Korea", "South Korea", "France", "United Kingdom", "United States"))
-```
-
-`owid_map()` makes it easy to create a choropleth world map of datasets that contain country level data. The Entities of the owid data must be country names. By default the most recent year will be plotted, use the `year` argument to plot a different year.
-```{r map, results='hide'}
-owid_map(rights)
-```
 
 ## COVID-19 Data
 You can quickly download world covid-19 data, including vaccination rates, using `owid_covid()`. 
