@@ -6,14 +6,14 @@
 \alias{owidR-package}
 \title{owidR: Import Data from Our World in Data}
 \description{
-Search and download the data used in over 3,000 Our World in Data charts (ourworldindata.org).
+Search and download the data used in over 3,000 Our World in Data charts.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/piersyork/owidR}
-  \item \url{https://github.com/owid/covid-19-data/}
   \item \url{https://ourworldindata.org/}
+  \item \url{https://github.com/owid/covid-19-data/}
 }
 
 }
