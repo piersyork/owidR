@@ -1,10 +1,10 @@
 Package: owidR
 Type: Package
-Title: A Package for Importing Data from Our World in Data
+Title: Import Data from Our World in Data
 Version: 1.4.0
 Author: Piers York
 Maintainer: Piers York <piersyork@gmail.com>
-Description: owidR imports data from the Our World in Data website, offering easy to use functions for searching for datasets and importing them into R.
+Description: Search and download the data used in over 3,000 Our World in Data charts (ourworldindata.org).
 URL: https://github.com/piersyork/owidR, https://github.com/owid/covid-19-data/, https://ourworldindata.org/
 Imports: dplyr, rvest, readr, leaflet, stringr, ggplot2, sf, magrittr, purrr, forcats, jsonlite, htmltools, xml2, curl, ggrepel, scales, rlang, grDevices, httr, lifecycle
 Depends: R (>= 3.5.0)

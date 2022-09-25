@@ -4,9 +4,9 @@
 \name{owidR-package}
 \alias{owidR}
 \alias{owidR-package}
-\title{owidR: A Package for Importing Data from Our World in Data}
+\title{owidR: Import Data from Our World in Data}
 \description{
-owidR imports data from the Our World in Data website, offering easy to use functions for searching for datasets and importing them into R.
+Search and download the data used in over 3,000 Our World in Data charts (ourworldindata.org).
 }
 \seealso{
 Useful links:
