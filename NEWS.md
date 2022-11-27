@@ -29,5 +29,9 @@
 * Change native pipe to magrittr pipe, removing R 4.1 dependency
 * Change code format to tidy style guide
 
+# owidR 1.4.0
+* Add deprecate warning for plotting functions
+* Plotting functions (owid_plot(), owid_map(), theme_owid(), scale_owid) could be removed as soon as the next release
+
 
 
