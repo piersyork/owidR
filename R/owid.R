@@ -44,10 +44,7 @@ get_datasets <- function() {
 #' }
 #'
 owid_search <- function(term) {
-  ds <- get_datasets()
-
-  as.matrix(ds[grepl(term, title, ignore.case = TRUE)])
-
+  as.matrix(get_datasets()[grepl(term, title, ignore.case = TRUE)])
 }
 
 #' Internal function to get the dataset url
