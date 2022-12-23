@@ -1,5 +1,26 @@
 globalVariables(c("name", "code", "years", "values", "entity", "year", ".", "title"))
 
+#' Internal function to check whether there is internet, if there is internet check whether we can connect to owid
+#'
+#' @param url The url to check the connection to
+#'
+#' @noRd
+#'
+#' @return boolean
+#'
+#'
+check_internet <- function(url) {
+  out <- FALSE
+  if (!curl::has_internet()) {
+    message("No internet connection available: returning blank data.table")
+  } else if (httr::http_error(url)) {
+    message(paste0("Could not connect to ", url, ", site may be down. Returning blank data.table"))
+  } else {
+    out <- TRUE
+  }
+  out
+}
+
 #' Internal function to get datasets from our world in data
 #'
 #' @noRd
@@ -7,11 +28,7 @@ globalVariables(c("name", "code", "years", "values", "entity", "year", ".", "tit
 #' @import data.table
 #'
 get_datasets <- function() {
-  if (!curl::has_internet()) {
-    message("No internet connection available: returning blank data.table")
-    return(data.table(titles = NA, urls = NA))
-  } else if (httr::http_error("https://ourworldindata.org/charts")) {
-    message("Could not connect to https://ourworldindata.org/charts, site may be down. Returning blank data.table")
+  if (!check_internet("https://ourworldindata.org/charts")) {
     return(data.table(titles = NA, urls = NA))
   }
 
@@ -95,21 +112,15 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     chart_id <- datasets$chart_id[random_no]
   }
 
-  if (!curl::has_internet()) {
-    message("No internet connection available: returning blank data.table")
-    out <- data.table(entity = NA, year = NA, value = NA)
-    class(out) <- c("owid.no.connection", class(out))
-    return(out)
-  } else if (httr::http_error(paste0("https://ourworldindata.org/grapher/", chart_id))) {
-    message(paste0("Could not connect to https://ourworldindata.org/grapher/", chart_id, ", either the chart ID is invalid or the site may be down. Returning blank data.table."))
+  if (!check_internet(paste0("https://ourworldindata.org/grapher/", chart_id))) {
     out <- data.table(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
   }
 
-  data_urls <- get_data_url(chart_id)
-
   year_is_day <- FALSE
+
+  data_urls <- get_data_url(chart_id)
 
   if (length(data_urls) == 0) {
     message("Unable to get data for this chart_id")
@@ -136,7 +147,6 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
     display_name <- metadata$display$name
     colnames(out)[4] <- if (!is.null(display_name)) display_name else metadata$name
-
 
     data_info <- vector(mode = "list", length = 1)
     data_info[[1]]$source <- metadata$source
@@ -203,11 +213,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 #' @export
 #'
 owid_covid <- function() {
-  if (!curl::has_internet()) {
-    message("No internet connection available: returning blank data.table")
-    return(data.table())
-  } else if (httr::http_error("https://covid.ourworldindata.org/data/owid-covid-data.csv")) {
-    message("Could not connect to https://covid.ourworldindata.org/data/owid-covid-data.csv, returning blank data.table")
+  if (!check_internet("https://covid.ourworldindata.org/data/owid-covid-data.csv")) {
     return(data.table())
   }
 
