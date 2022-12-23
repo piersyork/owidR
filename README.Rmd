@@ -36,31 +36,36 @@ ggplot2::theme_set(
 ```
 
 <!-- badges: start -->
-![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/owidR)
-[![CRAN status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/package=owidR)
-[![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
+
+![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/owidR) [![CRAN status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/package=owidR) [![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
+
 <!-- badges: end -->
 
 This package acts as an interface to [Our World in Data](https://ourworldindata.org/) datasets, allowing for an easy way to search through data used in over 3,000 charts and load them into the R environment.
 
 ## Installation
+
 To install from CRAN:
+
 ```{r eval=FALSE}
 install.packages("owidR")
 ```
 
-To install the development version from GitHub: 
-``` {r eval = FALSE}
+To install the development version from GitHub:
+
+```{r eval = FALSE}
 devtools::install_github("piersyork/owidR")
 ```
 
 ## Using the package
-The main function in owidR is `owid()`, which takes a chart id and returns a tibble (dataframe) of the corresponding OWID dataset. To search for chart ids you can use `owid_search()` to list all the chart ids that match a keyword or regular expression.
+
+The main function in owidR is `owid()`, which takes a chart id and returns a data.table of the corresponding OWID dataset. To search for chart ids you can use `owid_search()` to list all the chart ids that match a keyword or regular expression.
 
 ## Example
+
 Lets use the core functions to get data on how human rights have changed over time. First by searching for charts on human rights.
-  
-``` {r example, eval = TRUE, message = FALSE}
+
+```{r example, eval = TRUE, message = FALSE}
 library(owidR)
 
 owid_search("human rights")
@@ -69,7 +74,7 @@ owid_search("human rights")
 
 Let's use the human rights protection dataset.
 
-``` {r example2, eval = TRUE, message = FALSE}
+```{r example2, eval = TRUE, message = FALSE}
 
 rights <- owid("human-rights-protection")
 
@@ -77,8 +82,8 @@ rights
 
 ```
 
-
 ggplot2 makes it easy to visualise our data.
+
 ```{r plot}
 library(ggplot2)
 library(dplyr)
@@ -89,21 +94,19 @@ rights |>
   geom_line()
 ```
 
-
 ## COVID-19 Data
-You can quickly download world covid-19 data, including vaccination rates, using `owid_covid()`. 
+
+You can quickly download world covid-19 data, including vaccination rates, using `owid_covid()`.
 
 ```{r covid}
 covid <- owid_covid()
 
-covid
+str(covid)
 ```
 
 ## To-do
-* [ ] Add function to load multiple country datasets into one dataframe
-* [ ] Add caching of data (inc. backend)
-* [ ] Remove interactive plotting to reduce dependencies
-* [ ] Create way to import owid explorers
 
-
-
+-   [ ] Add function to load multiple country datasets into one dataframe
+-   [ ] Add caching of data (inc. backend)
+-   [x] Remove interactive plotting to reduce dependencies
+-   [ ] Create way to import owid explorers
