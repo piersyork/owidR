@@ -64,9 +64,11 @@ get_data_url <- function(chart_id) {
 
   preload <- links[rvest::html_attr(links, "rel") == "preload"]
 
-  full_urls <- sprintf("https://ourworldindata.org%s", rvest::html_attr(preload, "href"))
+  all_urls <- sprintf("https://ourworldindata.org%s", rvest::html_attr(preload, "href"))
 
-  return(full_urls)
+  json_urls <- grep("json$", all_urls, value = TRUE)
+
+  return(json_urls)
 }
 
 #' Get data from Our World in Data
