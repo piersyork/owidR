@@ -1,7 +1,7 @@
 Package: owidR
 Type: Package
 Title: Import Data from Our World in Data
-Version: 1.4.0
+Version: 1.4.0.9999
 Author: Piers York
 Maintainer: Piers York <piersyork@gmail.com>
 Description: Search and download the data used in over 3,000 Our World in Data charts.
