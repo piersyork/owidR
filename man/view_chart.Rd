@@ -7,7 +7,7 @@
 view_chart(x)
 }
 \arguments{
-\item{x}{Either a tibble returned by owid(), or a chart_id.}
+\item{x}{Either a dataset returned by owid(), or a chart_id.}
 }
 \value{
 Opens the chart in your browser.

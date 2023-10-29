@@ -7,7 +7,7 @@
 owid_source(data)
 }
 \arguments{
-\item{data}{A tibble returned from owid().}
+\item{data}{A dataset returned from owid().}
 }
 \value{
 Displays the information in an easy to read format in the R console, also returns a list of data information.

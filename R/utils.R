@@ -2,7 +2,7 @@
 #'
 #' @description A function to get source information from an OWID dataset and display it in the R console.
 #'
-#' @param data A tibble returned from owid().
+#' @param data A dataset returned from owid().
 #'
 #' @return Displays the information in an easy to read format in the R console, also returns a list of data information.
 #' @export
@@ -56,7 +56,7 @@ owid_source <- function(data) {
 #'
 #' @description A function that opens the original OWID chart in your browser.
 #'
-#' @param x Either a tibble returned by owid(), or a chart_id.
+#' @param x Either a dataset returned by owid(), or a chart_id.
 #'
 #' @return Opens the chart in your browser.
 #'
