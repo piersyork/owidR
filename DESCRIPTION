@@ -4,7 +4,7 @@ Title: Import Data from Our World in Data
 Version: 1.4.1
 Author: Piers York
 Maintainer: Piers York <piersyork@gmail.com>
-Description: Search for and download the data used in over 3,000 Our World in Data charts.
+Description: Import data from Our World in Data, an organisation which publishes research and data on global economic and social issues.
 URL: https://github.com/piersyork/owidR, https://ourworldindata.org/, https://github.com/owid/covid-19-data/
 Imports: data.table, rvest, jsonlite, httr, xml2, purrr, curl, magrittr
 Depends: R (>= 3.5.0)
