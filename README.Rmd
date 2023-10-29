@@ -45,10 +45,10 @@ This package acts as an interface to [Our World in Data](https://ourworldindata.
 
 ## Installation
 
-To install from CRAN:
+This package is currently unavailable on CRAN.
 
 ```{r eval=FALSE}
-install.packages("owidR")
+# install.packages("owidR")
 ```
 
 To install the development version from GitHub:
@@ -72,11 +72,11 @@ owid_search("human rights")
 
 ```
 
-Let's use the human rights protection dataset.
+Let's use the v-dem human rights index dataset.
 
 ```{r example2, eval = TRUE, message = FALSE}
 
-rights <- owid("human-rights-protection")
+rights <- owid("human-rights-index-vdem")
 
 rights
 
@@ -90,7 +90,7 @@ library(dplyr)
 
 rights |> 
   filter(entity %in% c("United Kingdom", "France", "United States")) |> 
-  ggplot(aes(year, `Human rights protection`, colour = entity)) +
+  ggplot(aes(year, civ_libs_vdem_owid, colour = entity)) +
   geom_line()
 ```
 
