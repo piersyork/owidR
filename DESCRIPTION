@@ -1,7 +1,7 @@
 Package: owidR
 Type: Package
 Title: Import Data from Our World in Data
-Version: 1.4.0.9000
+Version: 1.4.1
 Author: Piers York
 Maintainer: Piers York <piersyork@gmail.com>
 Description: Search for and download the data used in over 3,000 Our World in Data charts.
@@ -12,7 +12,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0),
     utils,

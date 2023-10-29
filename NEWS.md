@@ -33,5 +33,8 @@
 * Add deprecate warning for plotting functions
 * Plotting functions (owid_plot(), owid_map(), theme_owid(), scale_owid) could be removed as soon as the next release
 
+# owidR 1.4.1
+* Fixed bug resulting in incorrect url being queried for data
+
 
 
