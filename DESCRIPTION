@@ -1,7 +1,7 @@
 Package: owidR
 Type: Package
 Title: Import Data from Our World in Data
-Version: 1.4.1
+Version: 1.5.0
 Author: Piers York
 Maintainer: Piers York <piersyork@gmail.com>
 Description: Import data from Our World in Data, an organisation which publishes research and data on global economic and social issues.
@@ -19,5 +19,4 @@ Suggests:
     knitr,
     rmarkdown
 Config/testthat/edition: 3
-VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
