@@ -7,7 +7,7 @@ owidR
 [![CRAN
 status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/package=owidR)
 [![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
-
+[![R-CMD-check](https://github.com/piersyork/owidR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/piersyork/owidR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 This package acts as an interface to [Our World in
