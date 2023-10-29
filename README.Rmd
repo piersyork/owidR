@@ -45,10 +45,10 @@ This package acts as an interface to [Our World in Data](https://ourworldindata.
 
 ## Installation
 
-This package is currently unavailable on CRAN.
+To install from CRAN:
 
 ```{r eval=FALSE}
-# install.packages("owidR")
+install.packages("owidR")
 ```
 
 To install the development version from GitHub:

@@ -36,5 +36,11 @@
 # owidR 1.4.1
 * Fixed bug resulting in incorrect url being queried for data
 
+# owidR 1.4.2
+* Re-uploaded to CRAN after being removed for failing to meet the policy on failing safely without internet access
+* Deprecated plotting functions have now been removed
+* Data structure backend has been switched from dplyr to data.table
+
+
 
 

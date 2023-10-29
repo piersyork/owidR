@@ -16,10 +16,10 @@ environment.
 
 ## Installation
 
-This package is currently unavailable on CRAN.
+To install from CRAN:
 
 ``` r
-# install.packages("owidR")
+install.packages("owidR")
 ```
 
 To install the development version from GitHub:
