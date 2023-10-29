@@ -29,7 +29,7 @@ check_internet <- function(url) {
 #'
 get_datasets <- function() {
   if (!check_internet("https://ourworldindata.org/charts")) {
-    return(data.table(titles = NA, urls = NA))
+    return(data.table(chart_id = NA, title = NA))
   }
 
   all_charts_page <- xml2::read_html("https://ourworldindata.org/charts")
@@ -44,6 +44,8 @@ get_datasets <- function() {
     grepl("grapher", urls),
     .(chart_id = gsub("/grapher/", "", urls), title = titles)
   ])
+
+  return(datasets)
 
 }
 
