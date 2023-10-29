@@ -6,7 +6,6 @@ owidR
 ![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/owidR)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/owidR)](https://CRAN.R-project.org/package=owidR)
-[![R-CMD-check](https://github.com/piersyork/owidR/workflows/R-CMD-check/badge.svg)](https://github.com/piersyork/owidR/actions)
 [![R-CMD-check](https://github.com/piersyork/owidR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/piersyork/owidR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
