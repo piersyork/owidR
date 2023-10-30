@@ -17,4 +17,4 @@ There are currently no downstream dependencies for this package
 
 ## Resubmission note
 
-The package was previously archived due to not meeting the CRAN policy on failing safely without internet access. It has now been updated to meet the policy.
+Description has been updated to meet the requested fixes.
