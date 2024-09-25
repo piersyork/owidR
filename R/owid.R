@@ -11,9 +11,10 @@ globalVariables(c("name", "code", "years", "values", "entity", "year", ".", "tit
 #'
 check_internet <- function(url) {
   out <- FALSE
+  url_status <- httr::GET(url = url)
   if (!curl::has_internet()) {
     message("No internet connection available: returning blank data.table")
-  } else if (httr::http_error(url)) {
+  } else if (httr::http_error(url_status)) {
     message(paste0("Could not connect to ", url, ", site may be down. Returning blank data.table"))
   } else {
     out <- TRUE
