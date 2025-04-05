@@ -43,6 +43,14 @@ ggplot2::theme_set(
 
 This package acts as an interface to [Our World in Data](https://ourworldindata.org/) datasets, allowing for an easy way to search through data used in over 3,000 charts and load them into the R environment.
 
+After some updates to the Our World in Data site, some of the previous parts of the package are no longer working. Please install the development version of the pacakage to maintain core functionality of the `owid()` function. The site also now provides an API, this may offer an easier way to download datasets into R without a dependency on this package. For example using just `data.table` you can easily download a specific dataset. See more information on the API here: [Our World in Data API](https://docs.owid.io/projects/etl/api/chart-api/#chart-data-api)  
+
+```{r}
+library(data.table)
+life_expectancy <- fread("https://ourworldindata.org/grapher/life-expectancy.csv")
+```
+
+
 ## Installation
 
 To install from CRAN:
@@ -68,7 +76,7 @@ Lets use the core functions to get data on how human rights have changed over ti
 ```{r example, eval = TRUE, message = FALSE}
 library(owidR)
 
-owid_search("human rights")
+owid_search("human rights") # this function is no longer working
 
 ```
 
@@ -76,7 +84,7 @@ Let's use the v-dem human rights index dataset.
 
 ```{r example2, eval = TRUE, message = FALSE}
 
-rights <- owid("human-rights-index-vdem")
+rights <- owid("human-rights-index-vdem", rename = "vdem_rights")
 
 rights
 
@@ -90,7 +98,7 @@ library(dplyr)
 
 rights |> 
   filter(entity %in% c("United Kingdom", "France", "United States")) |> 
-  ggplot(aes(year, civ_libs_vdem_owid, colour = entity)) +
+  ggplot(aes(year, vdem_rights, colour = entity)) +
   geom_line()
 ```
 
@@ -98,10 +106,8 @@ rights |>
 
 You can quickly download world covid-19 data, including vaccination rates, using `owid_covid()`.
 
-```{r covid}
+```{r covid, eval=FALSE}
 covid <- owid_covid()
-
-str(covid)
 ```
 
 ## To-do

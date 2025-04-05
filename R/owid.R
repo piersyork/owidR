@@ -116,7 +116,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     chart_id <- datasets$chart_id[random_no]
   }
 
-  if (!check_internet(paste0("https://ourworldindata.org/grapher/", chart_id))) {
+  if (!check_internet(paste0("https://ourworldindata.org/grapher/", chart_id, ".csv"))) {
     out <- data.table(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
@@ -126,69 +126,11 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
   data_urls <- get_data_url(chart_id)
 
-  if (length(data_urls) == 0) {
-    message("Unable to get data for this chart_id")
-    out <- data.table(entity = NA, year = NA, value = NA)
-    class(out) <- c("owid.no.connection", class(out))
-    return(out)
-  } else if (length(data_urls) == 2) {
-    df <- jsonlite::fromJSON(data_urls[1])
-    metadata <- jsonlite::fromJSON(data_urls[2])
+  metadata <- jsonlite::fromJSON(data_urls[2])
 
-    entities <- data.table(metadata$dimensions$entities$values)
-    out <- merge(as.data.table(df), entities, by.x = "entities", by.y = "id", all.x = TRUE)[
-      order(name, years),
-      .(entity = name, code, year = years, values)
-    ]
+  out <- fread(paste0("https://ourworldindata.org/grapher/", chart_id, ".csv?useColumnShortNames=true"))
 
-
-    if (!is.null(metadata$display$yearIsDay)) year_is_day <- metadata$display$yearIsDay
-    if (!is.null(metadata$display$conversionFactor)) out[[4]] <- out[[4]] * metadata$display$conversionFactor
-
-    if (year_is_day & tidy.date) {
-      out[, year := as.Date(metadata$display$zeroDay) + year]
-    }
-
-    display_name <- metadata$display$name
-    colnames(out)[4] <- if (!is.null(display_name)) display_name else metadata$name
-
-    data_info <- vector(mode = "list", length = 1)
-    data_info[[1]]$source <- metadata$source
-    data_info[[1]]$dataset_name <- metadata$name
-    data_info[[1]]$display <- metadata$display
-  } else {
-    tables <- grep(".*\\.data\\.json$", data_urls, value = TRUE) %>%
-      lapply(\(x) jsonlite::fromJSON(x))
-
-    results <- vector("list", length(tables))
-
-    data_info <- vector(mode = "list", length = length(tables))
-
-    for (i in 1:length(tables)) {
-      metadata <- jsonlite::fromJSON(data_urls[i * 2])
-      entities <- as.data.table(metadata$dimensions$entities$values)
-
-      results[[i]] <- merge(as.data.table(tables[[i]]), entities, by.x = "entities", by.y = "id", all.x = TRUE)[
-        order(name, years),
-        .(entity = name, code, year = years, values)
-      ]
-
-
-      display_name <- metadata$display$name
-      colnames(results[[i]])[4] <- if (!is.null(display_name)) display_name else metadata$name
-
-
-      data_info[[i]]$source <- if (is.null(metadata$source)) "" else metadata$source
-      data_info[[i]]$dataset_name <- metadata$name
-      data_info[[i]]$display <- metadata$display
-    }
-
-    out <- purrr::reduce(results, merge, by = c("entity", "code", "year"), all = TRUE)
-  }
-
-  if (year_is_day & tidy.date) {
-    colnames(out)[3] <- "date"
-  }
+  names(out) <- tolower(names(out))
 
   n_rename <- length(rename)
   n_values <- length(colnames(out)) - 3
@@ -204,8 +146,8 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     }
   }
 
-  attributes(out)$data_info <- data_info
-  attributes(out)$chart_id <- chart_id
+  # attributes(out)$data_info <- data_info
+  # attributes(out)$chart_id <- chart_id
   class(out) <- c("owid", class(out))
 
   return(out)
