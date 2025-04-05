@@ -25,30 +25,11 @@ owid_source <- function(data) {
   attrs <- attributes(data)
   data_info <- attributes(data)$data_info
 
-  which_identical <- vector()
-  for (i in 1:length(data_info)) {
-    which_identical[i] <- identical(data_info[[1]], data_info[[i]])
-  }
-  all_identical <- if (FALSE %in% unique(which_identical)) FALSE else TRUE
-
-  if (all_identical) {
-    source <- data_info[[1]]$source
-    c(
-      "Dataset Name: ", source$name, "\n\n", "Published By: ", source$dataPublishedBy, "\n\n",
-      "Link: ", source$link, "\n\n", source$additionalInfo
-    ) %>%
-      cat(sep = "")
-  } else {
-    for (i in 1:length(data_info)) {
-      cat("Value: ", names(data_info)[i], "\n\n")
-      source <- data_info[[i]]$source
-      c(
-        "Dataset Name: ", source$name, "\n\n", "Published By: ", source$dataPublishedBy, "\n\n",
-        "Link: ", source$link, "\n\n", source$additionalInfo
-      ) %>%
-        cat(sep = "")
-    }
-  }
+  c(
+    "Title: ", data_info$title, "\n\n", "Subtitle: ", data_info$subtitle, "\n\n",
+    "Citation: ", data_info$citation, "\n\n", "Link: ", data_info$originalChartUrl, "\n\n", data_info$note
+  ) %>%
+    cat(sep = "")
   invisible(data_info)
 }
 
