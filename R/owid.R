@@ -21,33 +21,6 @@ check_internet <- function(url) {
   out
 }
 
-#' Internal function to get datasets from our world in data
-#'
-#' @noRd
-#'
-#' @import data.table
-#'
-get_datasets <- function() {
-  if (!check_internet("https://ourworldindata.org/charts")) {
-    return(data.table(chart_id = NA, title = NA))
-  }
-
-  all_charts_page <- xml2::read_html("https://ourworldindata.org/charts")
-  links <- all_charts_page %>%
-    rvest::html_nodes("section") %>%
-    rvest::html_nodes("a")
-
-  titles <- rvest::html_text(links)
-  urls <- rvest::html_attr(links, "href")
-
-  datasets <- unique(data.table(titles, urls)[
-    grepl("grapher", urls),
-    .(chart_id = gsub("/grapher/", "", urls), title = titles)
-  ])
-
-  return(datasets)
-
-}
 
 #' Search the data sources used in OWID charts
 #'
@@ -63,30 +36,8 @@ get_datasets <- function() {
 #' }
 #'
 owid_search <- function(term) {
-  as.matrix(get_datasets()[grepl(term, title, ignore.case = TRUE)])
-}
-
-#' Internal function to get the dataset url
-#'
-#' @description thank you to Edouard Mathieu from OWID for this idea
-#' @param chart_id
-#'
-#' @return The url to the page with json data
-#'
-#' @noRd
-#'
-get_data_url <- function(chart_id) {
-  url <- sprintf("https://ourworldindata.org/grapher/%s", chart_id)
-  page <- xml2::read_html(url)
-  links <- rvest::html_nodes(page, "link")
-
-  preload <- links[rvest::html_attr(links, "rel") == "preload"]
-
-  all_urls <- rvest::html_attr(preload, "href")
-
-  json_urls <- grep("json$", all_urls, value = TRUE)
-
-  return(json_urls)
+  message("this function is no longer working please use the ourworldindata.org website to search for datasets")
+  as.matrix(data.table(term = NA, title = NA))
 }
 
 #' Get data from Our World in Data
@@ -126,7 +77,7 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 
   data_urls <- get_data_url(chart_id)
 
-  metadata <- jsonlite::fromJSON(data_urls[2])
+  metadata <- jsonlite::fromJSON(paste0("https://ourworldindata.org/grapher/", chart_id, ".metadata.json"))
 
   out <- fread(paste0("https://ourworldindata.org/grapher/", chart_id, ".csv?useColumnShortNames=true"))
 
@@ -146,8 +97,8 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
     }
   }
 
-  # attributes(out)$data_info <- data_info
-  # attributes(out)$chart_id <- chart_id
+  attributes(out)$data_info <- metadata$chart
+  attributes(out)$chart_id <- chart_id
   class(out) <- c("owid", class(out))
 
   return(out)
