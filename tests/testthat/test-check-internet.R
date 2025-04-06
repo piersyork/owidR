@@ -5,8 +5,8 @@ skip_if(httr::http_error("ourworldindata.org"))
 test_that("test failure on bad url", {
   out <- owid("this-is-definitely-not-right")
   expect_equal(class(out)[1], "owid.no.connection")
-  outDT <- as.data.table(out)
-  expect_equal(outDT, data.table(entity = NA, year = NA, value = NA))
+  outDT <- data.table::as.data.table(out)
+  expect_equal(outDT, data.table::data.table(entity = NA, year = NA, value = NA))
 })
 
 

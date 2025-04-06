@@ -37,7 +37,7 @@ check_internet <- function(url) {
 #'
 owid_search <- function(term) {
   message("this function is no longer working please use the ourworldindata.org website to search for datasets")
-  as.matrix(data.table(term = NA, title = NA))
+  as.matrix(data.table::data.table(term = NA, title = NA))
 }
 
 #' Get data from Our World in Data
@@ -52,7 +52,7 @@ owid_search <- function(term) {
 #' @return A data.table of an owid dataset with the added class 'owid'.
 #' @export
 #'
-#' @import magrittr
+#' @import magrittr data.table
 #'
 #' @examples
 #' \donttest{
@@ -61,25 +61,16 @@ owid_search <- function(term) {
 #' }
 #'
 owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
-  if (is.null(chart_id)) {
-    datasets <- get_datasets()
-    random_no <- sample(nrow(datasets), 1)
-    chart_id <- datasets$chart_id[random_no]
-  }
 
   if (!check_internet(paste0("https://ourworldindata.org/grapher/", chart_id, ".csv"))) {
-    out <- data.table(entity = NA, year = NA, value = NA)
+    out <- data.table::data.table(entity = NA, year = NA, value = NA)
     class(out) <- c("owid.no.connection", class(out))
     return(out)
   }
 
-  year_is_day <- FALSE
-
-  data_urls <- get_data_url(chart_id)
-
   metadata <- jsonlite::fromJSON(paste0("https://ourworldindata.org/grapher/", chart_id, ".metadata.json"))
 
-  out <- fread(paste0("https://ourworldindata.org/grapher/", chart_id, ".csv?useColumnShortNames=true"))
+  out <- data.table::fread(paste0("https://ourworldindata.org/grapher/", chart_id, ".csv?useColumnShortNames=true"))
 
   names(out) <- tolower(names(out))
 
@@ -111,10 +102,10 @@ owid <- function(chart_id = NULL, rename = NULL, tidy.date = TRUE, ...) {
 #'
 owid_covid <- function() {
   if (!check_internet("https://covid.ourworldindata.org/data/owid-covid-data.csv")) {
-    return(data.table())
+    return(data.table::data.table())
   }
 
-  data <- fread("https://covid.ourworldindata.org/data/owid-covid-data.csv")
+  data <- data.table::fread("https://covid.ourworldindata.org/data/owid-covid-data.csv")
   class(data) <- c("owid", class(data))
   return(data)
 }

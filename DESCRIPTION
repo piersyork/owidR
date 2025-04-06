@@ -5,7 +5,7 @@ Version: 1.4.2.9000
 Authors@R: person("Piers", "York", email = "piersyork@gmail.com", role = c("aut", "cre"))
 Description: Import data from 'Our World in Data', an organisation which publishes research and data on global economic and social issues.
 URL: <https://github.com/piersyork/owidR>, <https://ourworldindata.org/>, <https://github.com/owid/covid-19-data/>
-Imports: data.table, rvest, jsonlite, httr, xml2, purrr, curl, magrittr
+Imports: data.table, jsonlite, httr, curl, magrittr
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
